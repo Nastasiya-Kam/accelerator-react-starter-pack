@@ -108,10 +108,12 @@ function CatalogScreen(): JSX.Element {
                           <span className="rate__message"></span>
                         </div>
                         <p className="product-card__title">{name}</p>
-                        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{numberWithSpaces(price)} ₽
-                        </p>
+                        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{numberWithSpaces(price)} ₽</p>
                       </div>
-                      <div className="product-card__buttons"><a className="button button--mini" href="#">Подробнее</a><a className="button button--red button--mini button--add-to-cart" href="#">Купить</a></div>
+                      <div className="product-card__buttons">
+                        <a className="button button--mini" href="#">Подробнее</a>
+                        <a className="button button--red button--mini button--add-to-cart" href="#">Купить</a>
+                      </div>
                     </div>
                   );
                 })
