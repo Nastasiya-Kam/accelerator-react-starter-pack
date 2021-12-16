@@ -1,5 +1,9 @@
+import CatalogScreen from '../screen/catalog-screen/catalog-screen';
+
 function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+  return (
+    <CatalogScreen />
+  );
 }
 
 export default App;
