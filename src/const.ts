@@ -1,6 +1,46 @@
 const RATING: number[] = [ 1, 2, 3, 4, 5 ];
 const STRINGS_COUNT: number[] = [ 4, 6, 7, 12 ];
-const MAIN_MENU: string[] = [ 'Каталог', 'Где купить?', 'О компании' ];
 const TYPE_GUITARS: string[] = [ 'Акустические гитары', 'Электрогитары', 'Укулеле' ];
+const PAGINATIONS: string[] = [ '1', '2', '3' ];
 
-export { RATING, STRINGS_COUNT, MAIN_MENU, TYPE_GUITARS };
+const Menu = {
+  Main: [
+    'Каталог',
+    'Где купить?',
+    'О компании',
+  ],
+  Footer: [
+    'Где купить?',
+    'Блог',
+    'Вопрос - ответ',
+    'Возврат',
+    'Сервис-центры',
+  ],
+};
+
+const socials = [
+  {
+    name: 'facebook',
+    href: 'https://www.facebook.com/',
+    linkHref: '#icon-facebook',
+  },
+  {
+    name: 'instagram',
+    href: 'https://www.instagram.com/',
+    linkHref: '#icon-instagram',
+  },
+  {
+    name: 'twitter',
+    href: 'https://www.twitter.com/',
+    linkHref: '#icon-twitter',
+  },
+];
+
+export {
+  RATING,
+  STRINGS_COUNT,
+  TYPE_GUITARS,
+  PAGINATIONS,
+  Menu,
+  socials
+};

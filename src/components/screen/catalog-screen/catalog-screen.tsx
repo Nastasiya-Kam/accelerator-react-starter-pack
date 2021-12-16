@@ -1,6 +1,7 @@
-import { RATING, STRINGS_COUNT, TYPE_GUITARS } from '../../../const';
+import { PAGINATIONS, RATING, STRINGS_COUNT, TYPE_GUITARS } from '../../../const';
 import { guitars } from '../../../mocks';
 import { numberWithSpaces } from '../../../utils/utils';
+import Footer from '../../footer/footer';
 import Header from '../../header/header';
 
 function CatalogScreen(): JSX.Element {
@@ -11,6 +12,7 @@ function CatalogScreen(): JSX.Element {
         <div className="container">
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
           <ul className="breadcrumbs page-content__breadcrumbs">
+            {/* //TODO: хлебные крошки откуда собираются? */}
             <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a></li>
             <li className="breadcrumbs__item"><a className="link">Каталог</a></li>
           </ul>
@@ -22,10 +24,13 @@ function CatalogScreen(): JSX.Element {
                 <div className="catalog-filter__price-range">
                   <div className="form-input">
                     <label className="visually-hidden">Минимальная цена</label>
+                    {/*// TODO: placeholder зависит от получаемых данных по гитарам (минимальная цена) */}
+                    {/*// TODO: минимальная цена не может быть ниже существующей минимальной. Принудительно проставляется минимальная */}
                     <input type="number" placeholder="1 000" id="priceMin" name="от" />
                   </div>
                   <div className="form-input">
                     <label className="visually-hidden">Максимальная цена</label>
+                    {/*// TODO: максималная цена не может быть выше существующей максималная. Принудительно проставляется максималная */}
                     <input type="number" placeholder="30 000" id="priceMax" name="до" />
                   </div>
                 </div>
@@ -114,76 +119,27 @@ function CatalogScreen(): JSX.Element {
             </div>
             <div className="pagination page-content__pagination">
               <ul className="pagination__list">
-                <li className="pagination__page pagination__page--active"><a className="link pagination__page-link" href="1">1</a></li>
-                <li className="pagination__page"><a className="link pagination__page-link" href="2">2</a></li>
-                <li className="pagination__page"><a className="link pagination__page-link" href="3">3</a></li>
+                {/* //TODO: если первая страница, то кнопка назад - удалить */}
+                {/* <li className="pagination__page pagination__page--prev" id="prev"><a className="link pagination__page-link" href="1">Назад</a></li> */}
+                {
+                  PAGINATIONS.map((pagination, index) => {
+                    const key = `${index}-${pagination}`;
+                    // TODO: настроить  pagination__page--active
+                    return (
+                      <li key={key} className="pagination__page">
+                        <a className="link pagination__page-link" href={pagination}>{pagination}</a>
+                      </li>
+                    );
+                  })
+                }
+                {/* //TODO: если листов больше нет, то кнопку далее - удалить */}
                 <li className="pagination__page pagination__page--next" id="next"><a className="link pagination__page-link" href="2">Далее</a></li>
               </ul>
             </div>
           </div>
         </div>
       </main>
-      <footer className="footer">
-        <div className="footer__container container"><a className="footer__logo logo"><img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" /></a>
-          <div className="socials footer__socials">
-            <ul className="socials__list">
-              <li className="socials-item">
-                <a className="socials__link" href="https://www.facebook.com/" aria-label="facebook">
-                  <svg className="socials__icon" width="24" height="24" aria-hidden="true">
-                    <use xlinkHref="#icon-facebook"></use>
-                  </svg>
-                </a>
-              </li>
-              <li className="socials-item">
-                <a className="socials__link" href="https://www.instagram.com/" aria-label="instagram">
-                  <svg className="socials__icon" width="24" height="24" aria-hidden="true">
-                    <use xlinkHref="#icon-instagram"></use>
-                  </svg>
-                </a>
-              </li>
-              <li className="socials-item">
-                <a className="socials__link" href="https://www.twitter.com/" aria-label="twitter">
-                  <svg className="socials__icon" width="24" height="24" aria-hidden="true">
-                    <use xlinkHref="#icon-twitter"></use>
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <section className="footer__nav-section footer__nav-section--info">
-            <h2 className="footer__nav-title">О нас</h2>
-            <p className="footer__nav-content footer__nav-content--font-secondary">Магазин гитар, музыкальных инструментов и гитарная мастерская <br/> в Санкт-Петербурге.<br/><br/>Все инструменты проверены, отстроены <br/> и доведены до идеала!</p>
-          </section>
-          <section className="footer__nav-section footer__nav-section--links">
-            <h2 className="footer__nav-title">Информация</h2>
-            <ul className="footer__nav-list">
-              <li className="footer__nav-list-item"><a className="link" href="#top">Где купить?</a></li>
-              <li className="footer__nav-list-item"><a className="link" href="#top">Блог</a></li>
-              <li className="footer__nav-list-item"><a className="link" href="#top">Вопрос - ответ</a></li>
-              <li className="footer__nav-list-item"><a className="link" href="#top">Возврат</a></li>
-              <li className="footer__nav-list-item"><a className="link" href="#top">Сервис-центры</a></li>
-            </ul>
-          </section>
-          <section className="footer__nav-section footer__nav-section--contacts">
-            <h2 className="footer__nav-title">Контакты</h2>
-            <p className="footer__nav-content">г. Санкт-Петербург,<br/> м. Невский проспект, <br/>ул. Казанская 6.</p>
-            <div className="footer__nav-content">
-              <svg className="footer__icon" width="8" height="8" aria-hidden="true">
-                <use xlinkHref="#icon-phone"></use>
-              </svg><a className="link" href="tel:88125005050"> 8-812-500-50-50</a>
-            </div>
-            <p className="footer__nav-content">Режим работы:<br/>
-              <span className="footer__span">
-                <svg className="footer__icon" width="13" height="13" aria-hidden="true">
-                  <use xlinkHref="#icon-clock"></use>
-                </svg>
-                <span> с 11:00 до 20:00</span>
-                <span>без выходных</span>
-              </span>
-            </p>
-          </section>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

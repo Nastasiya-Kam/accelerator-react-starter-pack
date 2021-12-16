@@ -1,4 +1,4 @@
-import { MAIN_MENU } from '../../const';
+import { Menu } from '../../const';
 
 function Header():JSX.Element {
   return (
@@ -7,7 +7,7 @@ function Header():JSX.Element {
         <nav className="main-nav">
           <ul className="main-nav__list">
             {
-              MAIN_MENU.map((item, index) => {
+              Menu.Main.map((item, index) => {
                 const key = `${index}-${item}`;
                 // TODO: активное меню выделять
                 return (
