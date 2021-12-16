@@ -87,7 +87,7 @@ function CatalogScreen(): JSX.Element {
                   const { name, previewImg, rating, price } = guitar;
 
                   return (
-                    <div key={keyGuitar} className="product-card"><img src={previewImg.replace('img', 'img/content')} width="75" height="190" alt="СURT Z30 Plus" />
+                    <div key={keyGuitar} className="product-card"><img src={previewImg.replace('img', 'img/content')} width="75" height="190" alt={name} />
                       <div className="product-card__info">
                         <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
                           {
