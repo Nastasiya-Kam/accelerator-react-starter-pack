@@ -36,11 +36,21 @@ const socials = [
   },
 ];
 
+enum APIRoute {
+  Guitars = '/guitars',
+  Guitar = '/guitars/:id',
+  Comments = '/guitars/:id/comments',
+  NewComment = '/comments',
+  Coupon = '/coupons',
+  Order = '/orders',
+}
+
 export {
   RATING,
   STRINGS_COUNT,
   TYPE_GUITARS,
   PAGINATIONS,
   Menu,
-  socials
+  socials,
+  APIRoute
 };

@@ -1,10 +1,13 @@
+import { useSelector } from 'react-redux';
 import { PAGINATIONS, RATING, STRINGS_COUNT, TYPE_GUITARS } from '../../../const';
-import { guitars } from '../../../mocks';
+import { getGuitars } from '../../../store/guitars-data/selectors';
 import { numberWithSpaces } from '../../../utils/utils';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 
 function CatalogScreen(): JSX.Element {
+  const guitars = useSelector(getGuitars);
+
   return (
     <div className="wrapper">
       <Header />
