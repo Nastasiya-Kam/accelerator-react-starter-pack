@@ -4,6 +4,7 @@ import { Guitars } from './guitars';
 type GuitarsData = {
   guitars: Guitars,
   isDataLoaded: boolean,
+  errorMessage: boolean,
 };
 
 type State = RootState;

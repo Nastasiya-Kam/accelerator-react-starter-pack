@@ -5,9 +5,14 @@ import { loadGuitarsData } from './action';
 
 const fetchGuitarsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Guitars>(APIRoute.Guitars);
-
-    dispatch(loadGuitarsData(data));
+    try {
+      const {data} = await api.get<Guitars>(APIRoute.Guitars);
+      dispatch(loadGuitarsData(data));
+    } catch {
+      // TODO: в случае недоступности сервера отображается информационное сообщение
+      // eslint-disable-next-line no-console
+      console.log('не удалось загрузить данные');
+    }
   };
 
 export {

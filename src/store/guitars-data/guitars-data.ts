@@ -5,6 +5,7 @@ import { loadGuitarsData } from '../action';
 const initialState: GuitarsData = {
   guitars: [],
   isDataLoaded: false,
+  errorMessage: false,
 };
 
 const guitarsData = createReducer(initialState, (builder) => {

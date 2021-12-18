@@ -55,7 +55,14 @@ function Header():JSX.Element {
                   const key = `${index}-${guitar.name}`;
 
                   return (
-                    <li key={key} className="form-search__select-item" tabIndex={0}>{guitar.name}</li>
+                    <li
+                      key={key}
+                      className="form-search__select-item"
+                      tabIndex={0}
+                      onClick={() => {/* //TODO переход на страницу с гитарой */}}
+                    >
+                      {guitar.name}
+                    </li>
                   );
                 })
             }
