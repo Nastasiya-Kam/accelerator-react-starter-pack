@@ -36,6 +36,10 @@ const socials = [
   },
 ];
 
+enum AppRoute {
+  Root = '/',
+}
+
 enum APIRoute {
   Guitars = '/guitars',
   Guitar = '/guitars/:id',
@@ -52,5 +56,6 @@ export {
   PAGINATIONS,
   Menu,
   socials,
+  AppRoute,
   APIRoute
 };
