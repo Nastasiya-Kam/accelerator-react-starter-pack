@@ -4,6 +4,8 @@ import { getGuitars } from '../../../store/guitars-data/selectors';
 import { numberWithSpaces } from '../../../utils/utils';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
+import Sorting from '../../sorting/sorting';
+
 
 function CatalogScreen(): JSX.Element {
   const guitars = useSelector(getGuitars);
@@ -72,17 +74,7 @@ function CatalogScreen(): JSX.Element {
                 }
               </fieldset>
             </form>
-            <div className="catalog-sort">
-              <h2 className="catalog-sort__title">Сортировать:</h2>
-              <div className="catalog-sort__type">
-                <button className="catalog-sort__type-button catalog-sort__type-button--active" aria-label="по цене" tabIndex={-1}>по цене</button>
-                <button className="catalog-sort__type-button" aria-label="по популярности">по популярности</button>
-              </div>
-              <div className="catalog-sort__order">
-                <button className="catalog-sort__order-button catalog-sort__order-button--up catalog-sort__order-button--active" aria-label="По возрастанию" tabIndex={-1}></button>
-                <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
-              </div>
-            </div>
+            <Sorting />
             <div className="cards catalog__cards">
               {
                 guitars.map((guitar, index) => {
