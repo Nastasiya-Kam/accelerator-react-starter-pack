@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
-import { PAGINATIONS, RATING, STRINGS_COUNT, TYPE_GUITARS } from '../../../const';
+import { PAGINATIONS, RATING } from '../../../const';
 import { getGuitars } from '../../../store/guitars-data/selectors';
 import { numberWithSpaces } from '../../../utils/utils';
+import Filter from '../../filter/filter';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 import Sorting from '../../sorting/sorting';
@@ -22,58 +23,7 @@ function CatalogScreen(): JSX.Element {
             <li className="breadcrumbs__item"><a className="link">Каталог</a></li>
           </ul>
           <div className="catalog">
-            <form className="catalog-filter">
-              <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
-              <fieldset className="catalog-filter__block">
-                <legend className="catalog-filter__block-title">Цена, ₽</legend>
-                <div className="catalog-filter__price-range">
-                  <div className="form-input">
-                    <label className="visually-hidden">Минимальная цена</label>
-                    {/*// TODO: placeholder зависит от получаемых данных по гитарам (минимальная цена) */}
-                    {/*// TODO: минимальная цена не может быть ниже существующей минимальной. Принудительно проставляется минимальная */}
-                    <input type="number" placeholder="1 000" id="priceMin" name="от" />
-                  </div>
-                  <div className="form-input">
-                    <label className="visually-hidden">Максимальная цена</label>
-                    {/*// TODO: максималная цена не может быть выше существующей максималная. Принудительно проставляется максималная */}
-                    <input type="number" placeholder="30 000" id="priceMax" name="до" />
-                  </div>
-                </div>
-              </fieldset>
-              <fieldset className="catalog-filter__block">
-                <legend className="catalog-filter__block-title">Тип гитар</legend>
-
-                {
-                  TYPE_GUITARS.map((guitar, index) => {
-                    const key = `${index}-${guitar}`;
-                    // TODO: продумать checked. По умолчанию не расставлены.
-                    // TODO: при обновлении сбрасывается?
-                    return (
-                      <div key={key} className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="acoustic" name="acoustic" />
-                        <label htmlFor="acoustic">{guitar}</label>
-                      </div>
-                    );
-                  })
-                }
-              </fieldset>
-              <fieldset className="catalog-filter__block">
-                <legend className="catalog-filter__block-title">Количество струн</legend>
-                {
-                  STRINGS_COUNT.map((stringCount, index) => {
-                    const key = `${index}-${stringCount}`;
-
-                    // TODO: каждый тип гитары отличается по количеству струн
-                    return (
-                      <div key={key} className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id={`${stringCount}-strings`} name={`${stringCount}-strings`} />
-                        <label htmlFor={`${stringCount}-strings`}>{stringCount}</label>
-                      </div>
-                    );
-                  })
-                }
-              </fieldset>
-            </form>
+            <Filter />
             <Sorting />
             <div className="cards catalog__cards">
               {

@@ -8,8 +8,12 @@ const getSearchingGuitars = (text:string) => (state: State) => {
 
   return state[NameSpace.Guitars].guitars.filter((guitar) => guitar.name.match(regExpSearching));
 };
+const getMinGuitarPrice = (state: State): number => Math.min(...state[NameSpace.Guitars].guitars.map((guitar) => guitar.price));
+const getMaxGuitarPrice = (state: State): number => Math.max(...state[NameSpace.Guitars].guitars.map((guitar) => guitar.price));
 
 export {
   getGuitars,
-  getSearchingGuitars
+  getSearchingGuitars,
+  getMinGuitarPrice,
+  getMaxGuitarPrice
 };

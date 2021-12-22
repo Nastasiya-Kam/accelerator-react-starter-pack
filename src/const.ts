@@ -36,6 +36,8 @@ const socials = [
   },
 ];
 
+//* НАВИГАЦИЯ *//
+
 enum AppRoute {
   Root = '/',
 }
@@ -49,6 +51,13 @@ enum APIRoute {
   Order = '/orders',
 }
 
+//* ФИЛЬТР *//
+
+enum PriceFilter {
+  From = 'от',
+  To = 'до',
+}
+
 export {
   RATING,
   STRINGS_COUNT,
@@ -57,5 +66,6 @@ export {
   Menu,
   socials,
   AppRoute,
-  APIRoute
+  APIRoute,
+  PriceFilter
 };
