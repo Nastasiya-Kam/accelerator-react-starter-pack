@@ -1,6 +1,4 @@
 const RATING: number[] = [ 1, 2, 3, 4, 5 ];
-const STRINGS_COUNT: number[] = [ 4, 6, 7, 12 ];
-const TYPE_GUITARS: string[] = [ 'Акустические гитары', 'Электрогитары', 'Укулеле' ];
 const PAGINATIONS: string[] = [ '1', '2', '3' ];
 
 const Menu = {
@@ -53,19 +51,45 @@ enum APIRoute {
 
 //* ФИЛЬТР *//
 
+const STRINGS: number[] = [ 4, 6, 7, 12 ];
+const TYPES_COUNT = 3;
+const STRINGS_COUNT = 4;
+
 enum PriceFilter {
   From = 'от',
   To = 'до',
 }
 
+const TypeOfGuitar = {
+  ACOUSTIC: {
+    name: 'acoustic',
+    type: 'Акустические гитары',
+    stringsCount: [ 6, 7, 12 ],
+  },
+  ELECTRIC: {
+    name: 'electric',
+    type: 'Электрогитары',
+    stringsCount: [ 4, 6, 7 ],
+  },
+  UKULELE: {
+    name: 'ukulele',
+    type: 'Укулеле',
+    stringsCount: [ 4 ],
+  },
+};
+
+const TYPE_GUITARS = [ TypeOfGuitar.ACOUSTIC, TypeOfGuitar.ELECTRIC, TypeOfGuitar.UKULELE ];
+
 export {
   RATING,
-  STRINGS_COUNT,
-  TYPE_GUITARS,
   PAGINATIONS,
   Menu,
   socials,
   AppRoute,
   APIRoute,
-  PriceFilter
+  STRINGS,
+  TYPES_COUNT,
+  STRINGS_COUNT,
+  PriceFilter,
+  TYPE_GUITARS
 };
