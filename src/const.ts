@@ -1,5 +1,4 @@
 const RATING: number[] = [ 1, 2, 3, 4, 5 ];
-const PAGINATIONS: string[] = [ '1', '2', '3' ];
 
 const Menu = {
   Main: [
@@ -38,6 +37,7 @@ const socials = [
 
 enum AppRoute {
   Root = '/',
+  CatalogPage = 'catalog/:page',
 }
 
 enum APIRoute {
@@ -47,6 +47,10 @@ enum APIRoute {
   NewComment = '/comments',
   Coupon = '/coupons',
   Order = '/orders',
+}
+
+enum ReplacedPart {
+  Page = ':page',
 }
 
 //* ФИЛЬТР *//
@@ -80,16 +84,29 @@ const TypeOfGuitar = {
 
 const TYPE_GUITARS = [ TypeOfGuitar.ACOUSTIC, TypeOfGuitar.ELECTRIC, TypeOfGuitar.UKULELE ];
 
+//* ПАГИНАЦИЯ *//
+
+const DEFAULT_PAGE = 1;
+const PAGINATION_STEP = 3;
+
+enum PaginationPage {
+  First = 0,
+  Last = 3,
+}
+
 export {
   RATING,
-  PAGINATIONS,
   Menu,
   socials,
   AppRoute,
   APIRoute,
+  ReplacedPart,
   STRINGS,
   TYPES_COUNT,
   STRINGS_COUNT,
   PriceFilter,
-  TYPE_GUITARS
+  TYPE_GUITARS,
+  DEFAULT_PAGE,
+  PAGINATION_STEP,
+  PaginationPage
 };
