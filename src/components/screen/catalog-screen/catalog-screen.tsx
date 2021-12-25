@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
-import { PAGINATIONS, RATING } from '../../../const';
+import { RATING } from '../../../const';
 import { getGuitars } from '../../../store/guitars-data/selectors';
 import { numberWithSpaces } from '../../../utils/utils';
 import Filter from '../../filter/filter';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
+import Pagination from '../../pagination/pagination';
 import Sorting from '../../sorting/sorting';
 
 
@@ -64,25 +65,7 @@ function CatalogScreen(): JSX.Element {
                 })
               }
             </div>
-            <div className="pagination page-content__pagination">
-              <ul className="pagination__list">
-                {/* //TODO: если первая страница, то кнопка назад - удалить */}
-                {/* <li className="pagination__page pagination__page--prev" id="prev"><a className="link pagination__page-link" href="1">Назад</a></li> */}
-                {
-                  PAGINATIONS.map((pagination, index) => {
-                    const key = `${index}-${pagination}`;
-                    // TODO: настроить  pagination__page--active
-                    return (
-                      <li key={key} className="pagination__page">
-                        <a className="link pagination__page-link" href={pagination}>{pagination}</a>
-                      </li>
-                    );
-                  })
-                }
-                {/* //TODO: если листов больше нет, то кнопку далее - удалить */}
-                <li className="pagination__page pagination__page--next" id="next"><a className="link pagination__page-link" href="2">Далее</a></li>
-              </ul>
-            </div>
+            <Pagination />
           </div>
         </div>
       </main>
