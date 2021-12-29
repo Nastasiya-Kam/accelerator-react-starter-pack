@@ -2,7 +2,7 @@ import { Guitars } from '../../types/guitars';
 import { State } from '../../types/state';
 import { NameSpace } from '../root-reducer';
 
-const ELEMENT_ON_PAGE_COUNT = 10;
+const ELEMENT_ON_PAGE_COUNT = 9;
 
 const getGuitars = (state: State): Guitars => state[NameSpace.Guitars].guitars;
 const getSearchingGuitars = (text:string) => (state: State) => {

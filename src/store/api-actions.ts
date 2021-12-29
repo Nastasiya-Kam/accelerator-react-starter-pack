@@ -27,18 +27,10 @@ const fetchSortOrderAction = (type: string): ThunkActionResult =>
     }
   };
 
-const fetchFilterAction = (type: string): ThunkActionResult =>
+const fetchFilterAction = (filter: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?price_gte=10000&price_lte=30000&_start=0&_end=5`);
-
-      // GET /guitars?_start=10&_end=20
-      // GET /guitars?_start=20&_end=30
-      // GET /guitars?_start=20&_limit=10
-
-      // Операторы
-      // _gte или _lte для получения в диапазоне
-      // GET /guitars?price_gte=20000&price_lte=30000
+      const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?${filter}`);
 
       dispatch(loadGuitarsData(data));
     } catch {

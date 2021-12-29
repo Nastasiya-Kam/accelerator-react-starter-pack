@@ -5,6 +5,9 @@ import { State } from './state';
 
 enum ActionType {
   LoadGuitarsData = 'data/loadGuitarsData',
+  SetMinPrice ='user/setMinPrice',
+  SetMaxPrice ='user/setMaxPrice',
+  SetFilterTypes = 'user/setFilterTypes'
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

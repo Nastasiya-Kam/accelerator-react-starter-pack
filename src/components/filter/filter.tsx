@@ -1,11 +1,33 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS } from '../../const';
+import { setFilterTypes } from '../../store/action';
+import { fetchFilterAction } from '../../store/api-actions';
+import { getMaxPrice, getMinPrice, getFilterTypes } from '../../store/user-data/selectors';
+import { getUserFilter } from '../../utils/filter';
 import FilterPrice from '../filter-price/filter-price';
 
+const collectTypes = (currentTypes: string[], type: string): string[] => {
+  if (currentTypes.includes(type)) {
+    return currentTypes.filter((currentType) => currentType !== type);
+  }
+
+  return [...currentTypes, type];
+};
+
 function Filter():JSX.Element {
+  const userMinPrice = useSelector(getMinPrice);
+  const userMaxPrice = useSelector(getMaxPrice);
+  const userTypes = useSelector(getFilterTypes);
   const [types, setTypes] = useState<boolean[]>(new Array(TYPES_COUNT).fill(false));
   const [strings, setStrings] = useState<boolean[]>(new Array(STRINGS_COUNT).fill(false));
   const [availiableStrings, setAvailableStrings] = useState<number[]>(STRINGS);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes)));
+  }, [strings, dispatch, userMinPrice, userMaxPrice, userTypes]);
 
   useEffect(() => {
     if (!types.some((type) => type)) {
@@ -46,6 +68,7 @@ function Filter():JSX.Element {
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
                     setTypes([...types.slice(0, index), value, ...types.slice(index + 1)]);
+                    dispatch(setFilterTypes(collectTypes(userTypes, name)));
                   }}
                 />
                 <label htmlFor={name}>{type}</label>

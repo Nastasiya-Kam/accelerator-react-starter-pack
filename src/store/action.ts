@@ -9,6 +9,30 @@ const loadGuitarsData = createAction(
   }),
 );
 
+const setMinPrice = createAction(
+  ActionType.SetMinPrice,
+  (minPrice: string) => ({
+    payload: minPrice,
+  }),
+);
+
+const setMaxPrice = createAction(
+  ActionType.SetMaxPrice,
+  (maxPrice: string) => ({
+    payload: maxPrice,
+  }),
+);
+
+const setFilterTypes = createAction(
+  ActionType.SetFilterTypes,
+  (types: string[]) => ({
+    payload: types,
+  }),
+);
+
 export {
-  loadGuitarsData
+  loadGuitarsData,
+  setMinPrice,
+  setMaxPrice,
+  setFilterTypes
 };

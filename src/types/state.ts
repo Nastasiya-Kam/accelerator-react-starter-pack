@@ -7,6 +7,12 @@ type GuitarsData = {
   errorMessage: boolean,
 };
 
+type UserData = {
+  minPrice: string,
+  maxPrice: string,
+  types: string[],
+};
+
 type State = RootState;
 
-export type { GuitarsData, State };
+export type { GuitarsData, UserData, State };
