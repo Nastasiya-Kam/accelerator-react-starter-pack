@@ -1,4 +1,4 @@
-const getUserFilter = (min: string, max: string, types: string[]): string => {
+const getUserFilter = (min: string, max: string, types: string[], strings: string[]): string => {
   let filter = '';
 
   if (min !== '') {
@@ -14,6 +14,10 @@ const getUserFilter = (min: string, max: string, types: string[]): string => {
     filter += `&type=${types.join('&type=')}`;
   }
 
+  if (strings.length !== 0) {
+    // TODO как это отразится на сортировке списка?
+    filter += `&stringCount=${strings.join('&stringCount=')}`;
+  }
 
   return filter;
 };

@@ -7,7 +7,8 @@ enum ActionType {
   LoadGuitarsData = 'data/loadGuitarsData',
   SetMinPrice ='user/setMinPrice',
   SetMaxPrice ='user/setMaxPrice',
-  SetFilterTypes = 'user/setFilterTypes'
+  SetFilterTypes = 'user/setFilterTypes',
+  SetFilterStrings = 'user/setFilterStrings',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

@@ -2,7 +2,7 @@ import { PriceFilter } from '../../const';
 import { getMaxGuitarPrice, getMinGuitarPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useEffect, useRef } from 'react';
-import { getMaxPrice, getMinPrice, getFilterTypes } from '../../store/user-data/selectors';
+import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
 import { setMaxPrice, setMinPrice } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
 import { getUserFilter } from '../../utils/filter';
@@ -13,6 +13,7 @@ function FilterPrice():JSX.Element {
   const userMinPrice = useSelector(getMinPrice);
   const userMaxPrice = useSelector(getMaxPrice);
   const userTypes = useSelector(getFilterTypes);
+  const userStrings = useSelector(getFilterStrings);
 
   const dispatch = useDispatch();
 
@@ -20,8 +21,8 @@ function FilterPrice():JSX.Element {
   const maxPriceRef = useRef(null);
 
   useEffect(() => {
-    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes)));
-  }, [userMinPrice, userMaxPrice, userTypes, dispatch]);
+    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings)));
+  }, [userMinPrice, userMaxPrice, userTypes, userStrings, dispatch]);
 
   const minPriceHandler = (evt: FormEvent<HTMLInputElement>) => {
     const price = evt.currentTarget.value;

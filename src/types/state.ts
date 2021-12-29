@@ -11,6 +11,7 @@ type UserData = {
   minPrice: string,
   maxPrice: string,
   types: string[],
+  strings: string[],
 };
 
 type State = RootState;

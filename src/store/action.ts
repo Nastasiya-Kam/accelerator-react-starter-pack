@@ -30,9 +30,17 @@ const setFilterTypes = createAction(
   }),
 );
 
+const setFilterStrings = createAction(
+  ActionType.SetFilterStrings,
+  (types: string[]) => ({
+    payload: types,
+  }),
+);
+
 export {
   loadGuitarsData,
   setMinPrice,
   setMaxPrice,
-  setFilterTypes
+  setFilterTypes,
+  setFilterStrings
 };

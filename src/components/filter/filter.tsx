@@ -1,24 +1,26 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS } from '../../const';
-import { setFilterTypes } from '../../store/action';
+import { setFilterStrings, setFilterTypes } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
-import { getMaxPrice, getMinPrice, getFilterTypes } from '../../store/user-data/selectors';
+import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
 import { getUserFilter } from '../../utils/filter';
 import FilterPrice from '../filter-price/filter-price';
 
-const collectTypes = (currentTypes: string[], type: string): string[] => {
-  if (currentTypes.includes(type)) {
-    return currentTypes.filter((currentType) => currentType !== type);
+const collectItems = (currentItems: string[], item: string): string[] => {
+  if (currentItems.includes(item)) {
+    return currentItems.filter((currentType) => currentType !== item);
   }
 
-  return [...currentTypes, type];
+  return [...currentItems, item];
 };
 
 function Filter():JSX.Element {
   const userMinPrice = useSelector(getMinPrice);
   const userMaxPrice = useSelector(getMaxPrice);
   const userTypes = useSelector(getFilterTypes);
+  const userStrings = useSelector(getFilterStrings);
+
   const [types, setTypes] = useState<boolean[]>(new Array(TYPES_COUNT).fill(false));
   const [strings, setStrings] = useState<boolean[]>(new Array(STRINGS_COUNT).fill(false));
   const [availiableStrings, setAvailableStrings] = useState<number[]>(STRINGS);
@@ -26,8 +28,16 @@ function Filter():JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes)));
-  }, [strings, dispatch, userMinPrice, userMaxPrice, userTypes]);
+    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings)));
+  }, [strings, dispatch, userMinPrice, userMaxPrice, userTypes, userStrings]);
+
+  // TODO цена для фильтрации с сервера?
+
+  // ?price_gte=10000&price_lte=30000&_start=0&_end=5
+  // GET /guitars?_start=10&_end=20
+  // GET /guitars?_start=20&_end=30
+  // GET /guitars?_start=20&_limit=10
+
 
   useEffect(() => {
     if (!types.some((type) => type)) {
@@ -68,7 +78,7 @@ function Filter():JSX.Element {
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
                     setTypes([...types.slice(0, index), value, ...types.slice(index + 1)]);
-                    dispatch(setFilterTypes(collectTypes(userTypes, name)));
+                    dispatch(setFilterTypes(collectItems(userTypes, name)));
                   }}
                 />
                 <label htmlFor={name}>{type}</label>
@@ -93,6 +103,7 @@ function Filter():JSX.Element {
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
                     setStrings([...strings.slice(0, index), value, ...strings.slice(index + 1)]);
+                    dispatch(setFilterStrings(collectItems(userStrings, String(stringCount))));
                   }}
                   disabled={!availiableStrings.includes(stringCount)}
                 />

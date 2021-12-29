@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { UserData } from '../../types/state';
-import { setMinPrice, setMaxPrice, setFilterTypes } from '../action';
+import { setMinPrice, setMaxPrice, setFilterTypes, setFilterStrings } from '../action';
 
 const initialState: UserData = {
   minPrice: '',
   maxPrice: '',
   types: [],
+  strings: [],
 };
 
 const userData = createReducer(initialState, (builder) => {
@@ -18,6 +19,9 @@ const userData = createReducer(initialState, (builder) => {
     })
     .addCase(setFilterTypes, (state, action) => {
       state.types = action.payload;
+    })
+    .addCase(setFilterStrings, (state, action) => {
+      state.strings = action.payload;
     });
 });
 
