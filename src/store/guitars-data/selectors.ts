@@ -5,6 +5,8 @@ import { NameSpace } from '../root-reducer';
 const ELEMENT_ON_PAGE_COUNT = 9;
 
 const getGuitars = (state: State): Guitars => state[NameSpace.Guitars].guitars;
+const getFirstMinPrice = (state: State): number => state[NameSpace.Guitars].firstMinPrice;
+const getFirstMaxPrice = (state: State): number => state[NameSpace.Guitars].firstMaxPrice;
 const getSearchingGuitars = (text:string) => (state: State) => {
   const regExpSearching = new RegExp(text, 'i');
 
@@ -16,6 +18,8 @@ const getCatalogPageCount = (state: State): number => Math.ceil(state[NameSpace.
 
 export {
   getGuitars,
+  getFirstMinPrice,
+  getFirstMaxPrice,
   getSearchingGuitars,
   getMinGuitarPrice,
   getMaxGuitarPrice,

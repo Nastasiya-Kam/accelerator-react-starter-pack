@@ -58,11 +58,18 @@ enum ReplacedPart {
 const STRINGS: number[] = [ 4, 6, 7, 12 ];
 const TYPES_COUNT = 3;
 const STRINGS_COUNT = 4;
+const NOT_VALID_PRICE = 0;
 
-enum PriceFilter {
-  From = 'от',
-  To = 'до',
-}
+const PriceFilter = {
+  PRICE_MIN: {
+    id: 'priceMin',
+    name: 'от',
+  },
+  PRICE_MAX: {
+    id: 'priceMax',
+    name: 'от',
+  },
+};
 
 const TypeOfGuitar = {
   ACOUSTIC: {
@@ -104,6 +111,7 @@ export {
   STRINGS,
   TYPES_COUNT,
   STRINGS_COUNT,
+  NOT_VALID_PRICE,
   PriceFilter,
   TYPE_GUITARS,
   DEFAULT_PAGE,

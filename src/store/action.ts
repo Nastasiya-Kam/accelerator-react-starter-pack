@@ -9,15 +9,29 @@ const loadGuitarsData = createAction(
   }),
 );
 
-const setMinPrice = createAction(
-  ActionType.SetMinPrice,
+const setFirstMinPrice = createAction(
+  ActionType.SetFirstMinPrice,
+  (min: number) => ({
+    payload: min,
+  }),
+);
+
+const setFirstMaxPrice = createAction(
+  ActionType.SetFirstMaxPrice,
+  (max: number) => ({
+    payload: max,
+  }),
+);
+
+const setFilterMinPrice = createAction(
+  ActionType.SetFilterMinPrice,
   (minPrice: string) => ({
     payload: minPrice,
   }),
 );
 
-const setMaxPrice = createAction(
-  ActionType.SetMaxPrice,
+const setFilterMaxPrice = createAction(
+  ActionType.SetFilterMaxPrice,
   (maxPrice: string) => ({
     payload: maxPrice,
   }),
@@ -39,8 +53,10 @@ const setFilterStrings = createAction(
 
 export {
   loadGuitarsData,
-  setMinPrice,
-  setMaxPrice,
+  setFirstMinPrice,
+  setFirstMaxPrice,
+  setFilterMinPrice,
+  setFilterMaxPrice,
   setFilterTypes,
   setFilterStrings
 };

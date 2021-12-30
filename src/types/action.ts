@@ -5,8 +5,10 @@ import { State } from './state';
 
 enum ActionType {
   LoadGuitarsData = 'data/loadGuitarsData',
-  SetMinPrice ='user/setMinPrice',
-  SetMaxPrice ='user/setMaxPrice',
+  SetFirstMinPrice = 'data/setFirstMinPrice',
+  SetFirstMaxPrice = 'data/setFirstMaxPrice',
+  SetFilterMinPrice ='user/setMinPrice',
+  SetFilterMaxPrice ='user/setMaxPrice',
   SetFilterTypes = 'user/setFilterTypes',
   SetFilterStrings = 'user/setFilterStrings',
 }

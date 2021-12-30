@@ -3,6 +3,8 @@ import { Guitars } from './guitars';
 
 type GuitarsData = {
   guitars: Guitars,
+  firstMinPrice: number,
+  firstMaxPrice: number,
   isDataLoaded: boolean,
   errorMessage: boolean,
 };
