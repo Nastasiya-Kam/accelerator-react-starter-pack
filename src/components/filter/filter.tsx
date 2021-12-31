@@ -2,9 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS } from '../../const';
 import { setFilterStrings, setFilterTypes } from '../../store/action';
-import { fetchFilterAction } from '../../store/api-actions';
-import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings, getSorting, getOrder } from '../../store/user-data/selectors';
-import { getSortingTemplate, getUserFilter } from '../../utils/filter';
+import { getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
 import FilterPrice from '../filter-price/filter-price';
 
 const collectItems = (currentItems: string[], item: string): string[] => {
@@ -16,22 +14,14 @@ const collectItems = (currentItems: string[], item: string): string[] => {
 };
 
 function Filter():JSX.Element {
-  const userMinPrice = useSelector(getMinPrice);
-  const userMaxPrice = useSelector(getMaxPrice);
   const userTypes = useSelector(getFilterTypes);
   const userStrings = useSelector(getFilterStrings);
-  const userSorting = useSelector(getSorting);
-  const userOrder = useSelector(getOrder);
 
   const [types, setTypes] = useState<boolean[]>(new Array(TYPES_COUNT).fill(false));
   const [strings, setStrings] = useState<boolean[]>(new Array(STRINGS_COUNT).fill(false));
   const [availiableStrings, setAvailableStrings] = useState<number[]>(STRINGS);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(userSorting, userOrder))));
-  }, [strings, dispatch, userMinPrice, userMaxPrice, userTypes, userStrings, userSorting, userOrder]);
 
   useEffect(() => {
     if (!types.some((type) => type)) {

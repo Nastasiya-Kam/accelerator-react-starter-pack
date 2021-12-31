@@ -1,24 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Order, Sort } from '../../const';
 import { setOrder, setSorting } from '../../store/action';
-import { fetchFilterAction } from '../../store/api-actions';
-import { getFilterStrings, getFilterTypes, getMaxPrice, getMinPrice } from '../../store/user-data/selectors';
-import { getSortingTemplate, getUserFilter } from '../../utils/filter';
 
 function Sorting():JSX.Element {
   const dispatch = useDispatch();
-  const userMinPrice = useSelector(getMinPrice);
-  const userMaxPrice = useSelector(getMaxPrice);
-  const userTypes = useSelector(getFilterTypes);
-  const userStrings = useSelector(getFilterStrings);
 
   const [currentSorting, setCurrentSorting] = useState<string>('');
   const [currentOrder, setCurrentOrder] = useState<string>('');
-
-  useEffect(() => {
-    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(currentSorting, currentOrder))));
-  }, [userMinPrice, userMaxPrice, userTypes, userStrings, currentSorting, currentOrder, dispatch]);
 
   const typeHandler = (type: string): void => {
     if (currentOrder === '') {
