@@ -11,6 +11,8 @@ enum ActionType {
   SetFilterMaxPrice ='user/setMaxPrice',
   SetFilterTypes = 'user/setFilterTypes',
   SetFilterStrings = 'user/setFilterStrings',
+  SetSorting = 'user/setSorting',
+  SetOrder = 'user/setOrder',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

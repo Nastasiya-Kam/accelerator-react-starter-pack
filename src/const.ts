@@ -35,12 +35,12 @@ const socials = [
 
 //* НАВИГАЦИЯ *//
 
-enum AppRoute {
+const enum AppRoute {
   Root = '/',
   CatalogPage = 'catalog/:page',
 }
 
-enum APIRoute {
+const enum APIRoute {
   Guitars = '/guitars',
   Guitar = '/guitars/:id',
   Comments = '/guitars/:id/comments',
@@ -49,7 +49,7 @@ enum APIRoute {
   Order = '/orders',
 }
 
-enum ReplacedPart {
+const enum ReplacedPart {
   Page = ':page',
 }
 
@@ -91,12 +91,27 @@ const TypeOfGuitar = {
 
 const TYPE_GUITARS = [ TypeOfGuitar.ACOUSTIC, TypeOfGuitar.ELECTRIC, TypeOfGuitar.UKULELE ];
 
+const enum Params {
+  Sort = 'sort',
+  Order = 'order',
+}
+
+const enum Sort {
+  Price = 'price',
+  Rating = 'rating',
+}
+
+const enum Order {
+  Desc = 'desc',
+  Asc = 'asc'
+}
+
 //* ПАГИНАЦИЯ *//
 
 const DEFAULT_PAGE = 1;
 const PAGINATION_STEP = 3;
 
-enum PaginationPage {
+const enum PaginationPage {
   First = 0,
   Last = 3,
 }
@@ -116,5 +131,8 @@ export {
   TYPE_GUITARS,
   DEFAULT_PAGE,
   PAGINATION_STEP,
-  PaginationPage
+  PaginationPage,
+  Params,
+  Sort,
+  Order
 };

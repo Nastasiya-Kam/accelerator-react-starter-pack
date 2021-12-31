@@ -2,10 +2,10 @@ import { NOT_VALID_PRICE, PriceFilter } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
+import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings, getSorting, getOrder } from '../../store/user-data/selectors';
 import { setFilterMaxPrice, setFilterMinPrice } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
-import { getUserFilter } from '../../utils/filter';
+import { getSortingTemplate, getUserFilter } from '../../utils/filter';
 
 function FilterPrice():JSX.Element {
   const [priceMin, setPriceMin] = useState<string>('');
@@ -17,6 +17,8 @@ function FilterPrice():JSX.Element {
   const userMaxPrice = useSelector(getMaxPrice);
   const userTypes = useSelector(getFilterTypes);
   const userStrings = useSelector(getFilterStrings);
+  const userSorting = useSelector(getSorting);
+  const userOrder = useSelector(getOrder);
 
   const dispatch = useDispatch();
 
@@ -24,14 +26,15 @@ function FilterPrice():JSX.Element {
   const maxPriceRef = useRef(null);
 
   useEffect(() => {
-    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings)));
-  }, [userMinPrice, userMaxPrice, userTypes, userStrings, dispatch]);
+    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(userSorting, userOrder))));
+  }, [userMinPrice, userMaxPrice, userTypes, userStrings, userSorting, userOrder, dispatch]);
 
   const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
     if (evt.currentTarget.value === '') {
       return;
     }
 
+    // TODO вынести в отдельные функции по обработке максимальной и минимальной цены?
     switch (evt.currentTarget.id) {
       case PriceFilter.PRICE_MIN.id: {
         let userPrice = Number(evt.currentTarget.value);

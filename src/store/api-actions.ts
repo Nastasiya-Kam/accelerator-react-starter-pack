@@ -21,18 +21,6 @@ const fetchGuitarsAction = (): ThunkActionResult =>
     }
   };
 
-const fetchSortOrderAction = (type: string): ThunkActionResult =>
-  async (dispatch, _getState, api): Promise<void> => {
-    try {
-      const {data} = await api.get<Guitars>(`${APIRoute.Guitars}${type}`);
-      dispatch(loadGuitarsData(data));
-    } catch {
-      // TODO: в случае недоступности сервера отображается информационное сообщение
-      // eslint-disable-next-line no-console
-      console.log('не удалось загрузить отсортированные данные');
-    }
-  };
-
 const fetchFilterAction = (filter: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
@@ -47,6 +35,5 @@ const fetchFilterAction = (filter: string): ThunkActionResult =>
 
 export {
   fetchGuitarsAction,
-  fetchSortOrderAction,
   fetchFilterAction
 };

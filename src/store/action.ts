@@ -51,6 +51,20 @@ const setFilterStrings = createAction(
   }),
 );
 
+const setSorting = createAction(
+  ActionType.SetSorting,
+  (sorting: string) => ({
+    payload: sorting,
+  }),
+);
+
+const setOrder = createAction(
+  ActionType.SetOrder,
+  (order: string) => ({
+    payload: order,
+  }),
+);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
@@ -58,5 +72,7 @@ export {
   setFilterMinPrice,
   setFilterMaxPrice,
   setFilterTypes,
-  setFilterStrings
+  setFilterStrings,
+  setSorting,
+  setOrder
 };

@@ -5,10 +5,14 @@ const getMinPrice = (state: State): string => state[NameSpace.User].minPrice;
 const getMaxPrice = (state: State): string => state[NameSpace.User].maxPrice;
 const getFilterTypes = (state: State): string[] => state[NameSpace.User].types;
 const getFilterStrings = (state: State): string[] => state[NameSpace.User].strings;
+const getSorting = (state: State): string => state[NameSpace.User].sorting;
+const getOrder = (state: State): string => state[NameSpace.User].order;
 
 export {
   getMinPrice,
   getMaxPrice,
   getFilterTypes,
-  getFilterStrings
+  getFilterStrings,
+  getSorting,
+  getOrder
 };

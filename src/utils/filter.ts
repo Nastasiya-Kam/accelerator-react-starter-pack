@@ -1,4 +1,6 @@
-const getUserFilter = (min: string, max: string, types: string[], strings: string[]): string => {
+import { Params } from '../const';
+
+const getUserFilter = (min: string, max: string, types: string[], strings: string[], sorting: string): string => {
   let filter = '';
 
   if (min !== '') {
@@ -19,9 +21,16 @@ const getUserFilter = (min: string, max: string, types: string[], strings: strin
     filter += `&stringCount=${strings.join('&stringCount=')}`;
   }
 
+  if (sorting !== '') {
+    filter += sorting;
+  }
+
   return filter;
 };
 
+const getSortingTemplate = (sort: string, order: string): string => `${sort && `&_${Params.Sort}=${sort}`}${order && `&_${Params.Order}=${order}`}`;
+
 export {
-  getUserFilter
+  getUserFilter,
+  getSortingTemplate
 };
