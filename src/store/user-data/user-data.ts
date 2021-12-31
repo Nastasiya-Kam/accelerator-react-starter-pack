@@ -1,6 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { UserData } from '../../types/state';
-import { setFilterMinPrice, setFilterMaxPrice, setFilterTypes, setFilterStrings, setSorting, setOrder } from '../action';
+import {
+  setFilterMinPrice,
+  setFilterMaxPrice,
+  setFilterTypes,
+  setFilterStrings,
+  setSorting,
+  setOrder,
+  setCurrentPage
+} from '../action';
 
 const initialState: UserData = {
   minPrice: '',
@@ -9,6 +17,7 @@ const initialState: UserData = {
   strings: [],
   sorting: '',
   order: '',
+  currentPage: 1,
 };
 
 const userData = createReducer(initialState, (builder) => {
@@ -30,6 +39,9 @@ const userData = createReducer(initialState, (builder) => {
     })
     .addCase(setOrder, (state, action) => {
       state.order = action.payload;
+    })
+    .addCase(setCurrentPage, (state, action) => {
+      state.currentPage = action.payload;
     });
 });
 

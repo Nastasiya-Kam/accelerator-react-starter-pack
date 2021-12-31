@@ -23,6 +23,13 @@ const setFirstMaxPrice = createAction(
   }),
 );
 
+const setPageCount = createAction(
+  ActionType.SetPageCount,
+  (count: number) => ({
+    payload: count,
+  }),
+);
+
 const setFilterMinPrice = createAction(
   ActionType.SetFilterMinPrice,
   (minPrice: string) => ({
@@ -65,14 +72,23 @@ const setOrder = createAction(
   }),
 );
 
+const setCurrentPage = createAction(
+  ActionType.SetCurrentPage,
+  (currentPage: number) => ({
+    payload: currentPage,
+  }),
+);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
   setFirstMaxPrice,
+  setPageCount,
   setFilterMinPrice,
   setFilterMaxPrice,
   setFilterTypes,
   setFilterStrings,
   setSorting,
-  setOrder
+  setOrder,
+  setCurrentPage
 };

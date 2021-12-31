@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { GuitarsData } from '../../types/state';
-import { loadGuitarsData, setFirstMaxPrice, setFirstMinPrice } from '../action';
+import { loadGuitarsData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from '../action';
 
 const initialState: GuitarsData = {
   guitars: [],
   firstMinPrice: 0,
   firstMaxPrice: 0,
+  pageCount: 0,
   isDataLoaded: false,
   errorMessage: false,
 };
@@ -21,6 +22,9 @@ const guitarsData = createReducer(initialState, (builder) => {
     })
     .addCase(setFirstMaxPrice, (state, action) => {
       state.firstMaxPrice = action.payload;
+    })
+    .addCase(setPageCount, (state, action) => {
+      state.pageCount = action.payload;
     });
 });
 

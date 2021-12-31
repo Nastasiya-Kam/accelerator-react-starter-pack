@@ -1,8 +1,16 @@
-import { Filter, Params } from '../const';
+import { ELEMENT_ON_PAGE_COUNT, Filter, Params } from '../const';
 
+const getCurrentItemsRange = (page: number): string => {
+  const firstItem = (page - 1) * ELEMENT_ON_PAGE_COUNT;
+  const lastItem = (page) * ELEMENT_ON_PAGE_COUNT;
 
-const getUserFilter = (min: string, max: string, types: string[], strings: string[], sorting: string): string => {
+  return `_${Filter.Start}=${firstItem}&_${Filter.End}=${lastItem}`;
+};
+
+const getUserFilter = (currentPage: number, min: string, max: string, types: string[], strings: string[], sorting: string): string => {
   let filter = '';
+
+  filter = getCurrentItemsRange(currentPage);
 
   if (min !== '') {
     filter += `${Filter.PriceGte}=${min}`;

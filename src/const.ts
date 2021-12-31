@@ -107,6 +107,8 @@ const enum Order {
 }
 
 const enum Filter {
+  Start = 'start',
+  End = 'end',
   PriceGte = 'price_gte',
   PriceLte = 'price_lte',
   Type = 'type',
@@ -117,6 +119,7 @@ const enum Filter {
 
 const DEFAULT_PAGE = 1;
 const PAGINATION_STEP = 3;
+const ELEMENT_ON_PAGE_COUNT = 9;
 
 const enum PaginationPage {
   First = 0,
@@ -142,5 +145,6 @@ export {
   Filter,
   DEFAULT_PAGE,
   PAGINATION_STEP,
+  ELEMENT_ON_PAGE_COUNT,
   PaginationPage
 };

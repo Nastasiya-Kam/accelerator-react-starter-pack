@@ -2,7 +2,7 @@ import { NOT_VALID_PRICE, PriceFilter } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings, getSorting, getOrder } from '../../store/user-data/selectors';
+import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings, getSorting, getOrder, getCurrentPage } from '../../store/user-data/selectors';
 import { setFilterMaxPrice, setFilterMinPrice } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
 import { getSortingTemplate, getUserFilter } from '../../utils/filter';
@@ -19,6 +19,7 @@ function FilterPrice():JSX.Element {
   const userStrings = useSelector(getFilterStrings);
   const userSorting = useSelector(getSorting);
   const userOrder = useSelector(getOrder);
+  const currentPage = useSelector(getCurrentPage);
 
   const dispatch = useDispatch();
 
@@ -26,8 +27,8 @@ function FilterPrice():JSX.Element {
   const maxPriceRef = useRef(null);
 
   useEffect(() => {
-    dispatch(fetchFilterAction(getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(userSorting, userOrder))));
-  }, [userMinPrice, userMaxPrice, userTypes, userStrings, userSorting, userOrder, dispatch]);
+    dispatch(fetchFilterAction(getUserFilter(currentPage, userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(userSorting, userOrder))));
+  }, [currentPage, userMinPrice, userMaxPrice, userTypes, userStrings, userSorting, userOrder, dispatch]);
 
   const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
     if (evt.currentTarget.value === '') {

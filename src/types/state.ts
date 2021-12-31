@@ -5,6 +5,7 @@ type GuitarsData = {
   guitars: Guitars,
   firstMinPrice: number,
   firstMaxPrice: number,
+  pageCount: number,
   isDataLoaded: boolean,
   errorMessage: boolean,
 };
@@ -16,6 +17,7 @@ type UserData = {
   strings: string[],
   sorting: string,
   order: string,
+  currentPage: number,
 };
 
 type State = RootState;

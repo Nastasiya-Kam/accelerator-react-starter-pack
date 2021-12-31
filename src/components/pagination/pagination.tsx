@@ -1,15 +1,19 @@
 import { useState } from 'react';
-import { DEFAULT_PAGE, PaginationPage, PAGINATION_STEP } from '../../const';
-import { useSelector } from 'react-redux';
-import { getCatalogPageCount } from '../../store/guitars-data/selectors';
+import { PaginationPage, PAGINATION_STEP } from '../../const';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentPage } from '../../store/user-data/selectors';
+import { setCurrentPage } from '../../store/action';
+import { getPageCount } from '../../store/guitars-data/selectors';
 
 function Pagination():JSX.Element {
+  const currentPage = useSelector(getCurrentPage);
+  const dispatch = useDispatch();
+
   const [firstPage, setFirstPage] = useState<number>(PaginationPage.First);
   const [lastPage, setLastPage] = useState<number>(PaginationPage.Last);
-  const [currentPage, setCurrentPage] = useState<number>(DEFAULT_PAGE);
 
-  const catalogPageCount = useSelector(getCatalogPageCount);
-  const pagination = Array(catalogPageCount).fill(true).map((_, i) => i + 1);
+  const pageCount = useSelector(getPageCount);
+  const pagination = Array(pageCount).fill(true).map((_, i) => i + 1);
 
   return (
     <div className="pagination page-content__pagination">
@@ -41,9 +45,7 @@ function Pagination():JSX.Element {
                   className={`link pagination__page-link${(page === currentPage) ? ' pagination__page--active' : ''}`}
                   href="##"
                   // //TODO путь на страницу каталога {AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}`)}
-                  onClick={() => {
-                    setCurrentPage(page);
-                  }}
+                  onClick={() => dispatch(setCurrentPage(page))}
                 >
                   {page}
                 </a>
@@ -52,7 +54,7 @@ function Pagination():JSX.Element {
           })
         }
         {
-          (lastPage < catalogPageCount) &&
+          (lastPage < pageCount) &&
           <li className="pagination__page pagination__page--next" id="next">
             {/* TODO//?: что означает href=2 */}
             <a

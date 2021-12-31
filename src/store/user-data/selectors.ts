@@ -7,6 +7,7 @@ const getFilterTypes = (state: State): string[] => state[NameSpace.User].types;
 const getFilterStrings = (state: State): string[] => state[NameSpace.User].strings;
 const getSorting = (state: State): string => state[NameSpace.User].sorting;
 const getOrder = (state: State): string => state[NameSpace.User].order;
+const getCurrentPage = (state: State): number => state[NameSpace.User].currentPage;
 
 export {
   getMinPrice,
@@ -14,5 +15,6 @@ export {
   getFilterTypes,
   getFilterStrings,
   getSorting,
-  getOrder
+  getOrder,
+  getCurrentPage
 };
