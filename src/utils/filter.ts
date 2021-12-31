@@ -1,24 +1,23 @@
-import { Params } from '../const';
+import { Filter, Params } from '../const';
+
 
 const getUserFilter = (min: string, max: string, types: string[], strings: string[], sorting: string): string => {
   let filter = '';
 
   if (min !== '') {
-    filter += `price_gte=${min}`;
+    filter += `${Filter.PriceGte}=${min}`;
   }
 
   if (max !== '') {
-    filter += `&price_lte=${max}`;
+    filter += `&${Filter.PriceLte}=${max}`;
   }
 
   if (types.length !== 0) {
-    // TODO как это отразится на сортировке списка?
-    filter += `&type=${types.join('&type=')}`;
+    filter += `&${Filter.Type}=${types.join(`&${Filter.Type}=`)}`;
   }
 
   if (strings.length !== 0) {
-    // TODO как это отразится на сортировке списка?
-    filter += `&stringCount=${strings.join('&stringCount=')}`;
+    filter += `&${Filter.StringCount}=${strings.join(`&${Filter.StringCount}=`)}`;
   }
 
   if (sorting !== '') {

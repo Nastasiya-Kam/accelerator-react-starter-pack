@@ -50,7 +50,6 @@ function Filter():JSX.Element {
           TYPE_GUITARS.map((guitar, index) => {
             const key = `${index}-${guitar.name}`;
             const{name, type} = guitar;
-            // TODO: при обновлении сбрасывается?
             return (
               <div key={key} className="form-checkbox catalog-filter__block-item">
                 <input

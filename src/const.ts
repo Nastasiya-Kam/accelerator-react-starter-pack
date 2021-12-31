@@ -106,6 +106,13 @@ const enum Order {
   Asc = 'asc'
 }
 
+const enum Filter {
+  PriceGte = 'price_gte',
+  PriceLte = 'price_lte',
+  Type = 'type',
+  StringCount = 'stringCount',
+}
+
 //* ПАГИНАЦИЯ *//
 
 const DEFAULT_PAGE = 1;
@@ -129,10 +136,11 @@ export {
   NOT_VALID_PRICE,
   PriceFilter,
   TYPE_GUITARS,
-  DEFAULT_PAGE,
-  PAGINATION_STEP,
-  PaginationPage,
   Params,
   Sort,
-  Order
+  Order,
+  Filter,
+  DEFAULT_PAGE,
+  PAGINATION_STEP,
+  PaginationPage
 };
