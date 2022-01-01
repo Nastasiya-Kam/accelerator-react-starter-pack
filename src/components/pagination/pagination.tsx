@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import { PaginationPage, PAGINATION_STEP } from '../../const';
+import { PaginationPage } from '../../const';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentPage } from '../../store/user-data/selectors';
-import { setCurrentPage } from '../../store/action';
+import { checkIsFilter, getCurrentPage, getCurrentPageCount, getFirstPage, getLastPage } from '../../store/user-data/selectors';
+import { nextFirstPage, nextLastPage, prevFirstPage, prevLastPage, setCurrentPage } from '../../store/action';
 import { getPageCount } from '../../store/guitars-data/selectors';
 
 function Pagination():JSX.Element {
-  const currentPage = useSelector(getCurrentPage);
+  const isFilter = useSelector(checkIsFilter);
+  const mainPageCount = useSelector(getPageCount);
+  const currentPageCount = useSelector(getCurrentPageCount);
   const dispatch = useDispatch();
+  const firstPage = useSelector(getFirstPage);
+  const lastPage = useSelector(getLastPage);
+  const currentPage = useSelector(getCurrentPage);
 
-  const [firstPage, setFirstPage] = useState<number>(PaginationPage.First);
-  const [lastPage, setLastPage] = useState<number>(PaginationPage.Last);
-
-  const pageCount = useSelector(getPageCount);
+  const pageCount = isFilter ? currentPageCount : mainPageCount;
   const pagination = Array(pageCount).fill(true).map((_, i) => i + 1);
 
   return (
@@ -27,8 +28,8 @@ function Pagination():JSX.Element {
               onClick={(evt) => {
                 evt.preventDefault();
 
-                setFirstPage((prevFirstPage) => prevFirstPage - PAGINATION_STEP);
-                setLastPage((prevLastPage) => prevLastPage - PAGINATION_STEP);
+                dispatch(prevFirstPage());
+                dispatch(prevLastPage());
               }}
             >
               Назад
@@ -45,7 +46,9 @@ function Pagination():JSX.Element {
                   className={`link pagination__page-link${(page === currentPage) ? ' pagination__page--active' : ''}`}
                   href="##"
                   // //TODO путь на страницу каталога {AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}`)}
-                  onClick={() => dispatch(setCurrentPage(page))}
+                  onClick={() => {
+                    dispatch(setCurrentPage(page));
+                  }}
                 >
                   {page}
                 </a>
@@ -63,8 +66,8 @@ function Pagination():JSX.Element {
               onClick={(evt) => {
                 evt.preventDefault();
 
-                setFirstPage((prevFirstPage) => prevFirstPage + PAGINATION_STEP);
-                setLastPage((prevLastPage) => prevLastPage + PAGINATION_STEP);
+                dispatch(nextFirstPage());
+                dispatch(nextLastPage());
               }}
             >
               Далее

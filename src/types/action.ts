@@ -15,6 +15,13 @@ enum ActionType {
   SetSorting = 'user/setSorting',
   SetOrder = 'user/setOrder',
   SetCurrentPage = 'user/setCurrentPage',
+  SetCurrentPageCount = 'user/setCurrentPageCount',
+  SetFirstPage = 'user/setFirstPage',
+  SetLastPage = 'user/setLastPage',
+  PrevFirstPage = 'user/prevFirstPage',
+  PrevLastPage = 'user/prevLastPage',
+  NextFirstPage = 'user/nextFirstPage',
+  NextLastPage = 'user/nextLastPage',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

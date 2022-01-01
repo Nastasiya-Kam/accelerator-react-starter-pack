@@ -79,6 +79,32 @@ const setCurrentPage = createAction(
   }),
 );
 
+const setCurrentPageCount = createAction(
+  ActionType.SetCurrentPageCount,
+  (currentPageCount: number) => ({
+    payload: currentPageCount,
+  }),
+);
+
+const setFirstPage = createAction(
+  ActionType.SetFirstPage,
+  (firstPage: number) => ({
+    payload: firstPage,
+  }),
+);
+
+const setLastPage = createAction(
+  ActionType.SetLastPage,
+  (lastPage: number) => ({
+    payload: lastPage,
+  }),
+);
+
+const prevFirstPage = createAction(ActionType.PrevFirstPage);
+const prevLastPage = createAction(ActionType.PrevLastPage);
+const nextFirstPage = createAction(ActionType.NextFirstPage);
+const nextLastPage = createAction(ActionType.NextLastPage);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
@@ -90,5 +116,12 @@ export {
   setFilterStrings,
   setSorting,
   setOrder,
-  setCurrentPage
+  setCurrentPage,
+  setCurrentPageCount,
+  setFirstPage,
+  setLastPage,
+  prevFirstPage,
+  prevLastPage,
+  nextFirstPage,
+  nextLastPage
 };

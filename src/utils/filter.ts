@@ -7,10 +7,8 @@ const getCurrentItemsRange = (page: number): string => {
   return `_${Filter.Start}=${firstItem}&_${Filter.End}=${lastItem}`;
 };
 
-const getUserFilter = (currentPage: number, min: string, max: string, types: string[], strings: string[], sorting: string): string => {
+const getUserFilter = (min: string, max: string, types: string[], strings: string[], sorting: string): string => {
   let filter = '';
-
-  filter = getCurrentItemsRange(currentPage);
 
   if (min !== '') {
     filter += `${Filter.PriceGte}=${min}`;
@@ -38,6 +36,7 @@ const getUserFilter = (currentPage: number, min: string, max: string, types: str
 const getSortingTemplate = (sort: string, order: string): string => `${sort && `&_${Params.Sort}=${sort}`}${order && `&_${Params.Order}=${order}`}`;
 
 export {
+  getCurrentItemsRange,
   getUserFilter,
   getSortingTemplate
 };

@@ -18,6 +18,9 @@ type UserData = {
   sorting: string,
   order: string,
   currentPage: number,
+  currentPageCount: number,
+  firstPage: number,
+  lastPage: number,
 };
 
 type State = RootState;

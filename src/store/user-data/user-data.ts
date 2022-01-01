@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { PaginationPage, PAGINATION_STEP } from '../../const';
 import { UserData } from '../../types/state';
 import {
   setFilterMinPrice,
@@ -7,7 +8,14 @@ import {
   setFilterStrings,
   setSorting,
   setOrder,
-  setCurrentPage
+  setCurrentPage,
+  setCurrentPageCount,
+  setFirstPage,
+  setLastPage,
+  prevFirstPage,
+  prevLastPage,
+  nextFirstPage,
+  nextLastPage
 } from '../action';
 
 const initialState: UserData = {
@@ -18,6 +26,9 @@ const initialState: UserData = {
   sorting: '',
   order: '',
   currentPage: 1,
+  currentPageCount: 0,
+  firstPage: PaginationPage.First,
+  lastPage: PaginationPage.Last,
 };
 
 const userData = createReducer(initialState, (builder) => {
@@ -42,6 +53,27 @@ const userData = createReducer(initialState, (builder) => {
     })
     .addCase(setCurrentPage, (state, action) => {
       state.currentPage = action.payload;
+    })
+    .addCase(setCurrentPageCount, (state, action) => {
+      state.currentPageCount = action.payload;
+    })
+    .addCase(setFirstPage, (state, action) => {
+      state.firstPage = action.payload;
+    })
+    .addCase(setLastPage, (state, action) => {
+      state.lastPage = action.payload;
+    })
+    .addCase(prevFirstPage, (state) => {
+      state.firstPage = state.firstPage - PAGINATION_STEP;
+    })
+    .addCase(prevLastPage, (state) => {
+      state.lastPage = state.lastPage - PAGINATION_STEP;
+    })
+    .addCase(nextFirstPage, (state) => {
+      state.firstPage = state.firstPage + PAGINATION_STEP;
+    })
+    .addCase(nextLastPage, (state) => {
+      state.lastPage = state.lastPage + PAGINATION_STEP;
     });
 });
 

@@ -1,11 +1,11 @@
-import { NOT_VALID_PRICE, PriceFilter } from '../../const';
+import { DEFAULT_PAGE, NOT_VALID_PRICE, PaginationPage, PriceFilter } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings, getSorting, getOrder, getCurrentPage } from '../../store/user-data/selectors';
-import { setFilterMaxPrice, setFilterMinPrice } from '../../store/action';
+import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
-import { getSortingTemplate, getUserFilter } from '../../utils/filter';
+import { getCurrentItemsRange, getSortingTemplate, getUserFilter } from '../../utils/filter';
 
 function FilterPrice():JSX.Element {
   const [priceMin, setPriceMin] = useState<string>('');
@@ -26,15 +26,18 @@ function FilterPrice():JSX.Element {
   const minPriceRef = useRef(null);
   const maxPriceRef = useRef(null);
 
+  // TODO перенести в основной фильтр filter.tsx
   useEffect(() => {
-    dispatch(fetchFilterAction(getUserFilter(currentPage, userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(userSorting, userOrder))));
+    dispatch(fetchFilterAction(getCurrentItemsRange(currentPage), getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(userSorting, userOrder))));
   }, [currentPage, userMinPrice, userMaxPrice, userTypes, userStrings, userSorting, userOrder, dispatch]);
 
   const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
     if (evt.currentTarget.value === '') {
+      dispatch(setFilterMinPrice(evt.currentTarget.value));
+      dispatch(setFilterMaxPrice(evt.currentTarget.value));
       return;
     }
-
+    // TODO добавить оповещение, что цена не может быть нулевой
     // TODO вынести в отдельные функции по обработке максимальной и минимальной цены?
     switch (evt.currentTarget.id) {
       case PriceFilter.PRICE_MIN.id: {
@@ -86,6 +89,10 @@ function FilterPrice():JSX.Element {
       default:
         break;
     }
+
+    dispatch(setFirstPage(PaginationPage.First));
+    dispatch(setLastPage(PaginationPage.Last));
+    dispatch(setCurrentPage(DEFAULT_PAGE));
   };
 
   return (
