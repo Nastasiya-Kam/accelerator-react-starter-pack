@@ -1,8 +1,7 @@
 import { Route, Router as BrowserRouter, Switch } from 'react-router';
 import { AppRoute } from '../../const';
 import CatalogScreen from '../screen/catalog-screen/catalog-screen';
-import NotFoundScreen from '../screen/not-found/not-found';
-import browserHistory from '../../browser-history';
+import NotFoundScreen from '../screen/not-found-screen/not-found-screen';
 
 function App(): JSX.Element {
   return (
