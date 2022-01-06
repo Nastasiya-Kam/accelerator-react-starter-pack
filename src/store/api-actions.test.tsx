@@ -6,7 +6,7 @@ import { createAPI } from '../services/api';
 import { State } from '../types/state';
 import { APIRoute } from '../const';
 import { fetchGuitarsAction } from './api-actions';
-import { loadGuitarsData } from './action';
+import { loadGuitarsData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from './action';
 import { HttpCode, makeFakeGuitars } from '../utils/mocks';
 
 describe('Async actions', () => {
@@ -31,6 +31,9 @@ describe('Async actions', () => {
 
     expect(store.getActions()).toEqual([
       loadGuitarsData(mockGuitar),
+      setFirstMinPrice(17500),
+      setFirstMaxPrice(17500),
+      setPageCount(1),
     ]);
   });
 });
