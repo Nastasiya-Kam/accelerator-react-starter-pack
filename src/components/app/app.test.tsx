@@ -3,12 +3,17 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
+import { makeFakeGuitars } from '../../utils/mocks';
 import App from './app';
 
+const mockGuitars = makeFakeGuitars();
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  GUITARS: {isDataLoaded: true},
+  GUITARS: {
+    guitars: mockGuitars,
+    isDataLoaded: true,
+  },
   USER: {},
 });
 
