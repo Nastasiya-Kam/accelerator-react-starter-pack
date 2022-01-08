@@ -2,10 +2,10 @@ import { DEFAULT_PAGE, NOT_VALID_PRICE, PaginationPage, PriceFilter } from '../.
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import { getMaxPrice, getMinPrice, getFilterTypes, getFilterStrings, getSorting, getOrder, getCurrentPage } from '../../store/user-data/selectors';
+import { getCurrentPage, getFilter, getMaxPrice, getMinPrice } from '../../store/user-data/selectors';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
-import { getCurrentItemsRange, getSortingTemplate, getUserFilter } from '../../utils/filter';
+import { getCurrentItemsRange } from '../../utils/filter';
 
 function FilterPrice():JSX.Element {
   const [priceMin, setPriceMin] = useState<string>('');
@@ -13,13 +13,10 @@ function FilterPrice():JSX.Element {
 
   const minPrice = useSelector(getFirstMinPrice);
   const maxPrice = useSelector(getFirstMaxPrice);
+  const filter = useSelector(getFilter);
+  const page = getCurrentItemsRange(useSelector(getCurrentPage));
   const userMinPrice = useSelector(getMinPrice);
   const userMaxPrice = useSelector(getMaxPrice);
-  const userTypes = useSelector(getFilterTypes);
-  const userStrings = useSelector(getFilterStrings);
-  const userSorting = useSelector(getSorting);
-  const userOrder = useSelector(getOrder);
-  const currentPage = useSelector(getCurrentPage);
 
   const dispatch = useDispatch();
 
@@ -28,8 +25,8 @@ function FilterPrice():JSX.Element {
 
   // TODO перенести в основной фильтр filter.tsx
   useEffect(() => {
-    dispatch(fetchFilterAction(getCurrentItemsRange(currentPage), getUserFilter(userMinPrice, userMaxPrice, userTypes, userStrings, getSortingTemplate(userSorting, userOrder))));
-  }, [currentPage, userMinPrice, userMaxPrice, userTypes, userStrings, userSorting, userOrder, dispatch]);
+    dispatch(fetchFilterAction(page, filter));
+  }, [page, filter, dispatch]);
 
   const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
     if (evt.currentTarget.value === '') {
@@ -110,6 +107,7 @@ function FilterPrice():JSX.Element {
             onChange={(evt) => setPriceMin(evt.currentTarget.value)}
             onBlur={blurHandler}
             value={priceMin}
+            data-testid="min-price"
           />
         </div>
         <div className="form-input">
@@ -123,6 +121,7 @@ function FilterPrice():JSX.Element {
             onChange={(evt) => setPriceMax(evt.currentTarget.value)}
             onBlur={blurHandler}
             value={priceMax}
+            data-testid="max-price"
           />
         </div>
       </div>
