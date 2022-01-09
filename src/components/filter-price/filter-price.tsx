@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE, ErrorMessages, NOT_VALID_PRICE, PaginationPage, PriceFilter } from '../../const';
+import { DEFAULT_PAGE, PaginationPage, PriceFilter } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useEffect, useRef, useState } from 'react';
@@ -6,7 +6,7 @@ import { getCurrentPage, getFilter, getMaxPrice, getMinPrice } from '../../store
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
 import { getCurrentItemsRange } from '../../utils/filter';
-import { toast } from 'react-toastify';
+import { checkMaxPrice, checkMinPrice } from '../../utils/utils';
 
 function FilterPrice():JSX.Element {
   const [priceMin, setPriceMin] = useState<string>('');
@@ -34,58 +34,21 @@ function FilterPrice():JSX.Element {
       return;
     }
 
-    // TODO вынести в отдельные функции по обработке максимальной и минимальной цены?
     switch (evt.currentTarget.id) {
       case PriceFilter.PRICE_MIN.id: {
-        let userPrice = Number(evt.currentTarget.value);
+        const userPrice = Number(evt.currentTarget.value);
+        const checkedMinPrice = checkMinPrice(userPrice, minPrice, maxPrice, userMaxPrice);
 
-        if (userPrice < minPrice || userPrice === NOT_VALID_PRICE) {
-          userPrice = minPrice;
-          toast.info(ErrorMessages.MinPrice);
-        }
-
-        if (userPrice > maxPrice) {
-          userPrice = maxPrice;
-          toast.info(ErrorMessages.MaxPrice);
-        }
-
-        if (userMaxPrice !== '') {
-          const max = Number(userMaxPrice);
-
-          if (userPrice > max) {
-            userPrice = max;
-            toast.info(ErrorMessages.MaxPrice);
-          }
-        }
-
-        setPriceMin(String(userPrice));
-        dispatch(setFilterMinPrice(String(userPrice)));
+        setPriceMin(checkedMinPrice);
+        dispatch(setFilterMinPrice(checkedMinPrice));
         break;
       }
       case PriceFilter.PRICE_MAX.id: {
-        let userPrice = Number(evt.currentTarget.value);
+        const userPrice = Number(evt.currentTarget.value);
+        const checkedMaxPrice = checkMaxPrice(userPrice, minPrice, maxPrice, userMinPrice);
 
-        if (userPrice > maxPrice) {
-          userPrice = maxPrice;
-          toast.info(ErrorMessages.MaxPrice);
-        }
-
-        if (userPrice < minPrice || userPrice === NOT_VALID_PRICE) {
-          userPrice = minPrice;
-          toast.info(ErrorMessages.MinPrice);
-        }
-
-        if (userMinPrice !== '') {
-          const min = Number(userMinPrice);
-
-          if (userPrice < min) {
-            userPrice = min;
-            toast.info(ErrorMessages.MaxPrice);
-          }
-        }
-
-        setPriceMax(String(userPrice));
-        dispatch(setFilterMaxPrice(String(userPrice)));
+        setPriceMax(checkedMaxPrice);
+        dispatch(setFilterMaxPrice(checkedMaxPrice));
         break;
       }
       default:
