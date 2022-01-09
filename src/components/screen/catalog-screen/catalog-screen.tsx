@@ -1,16 +1,41 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RATING } from '../../../const';
+import { setCurrentPage } from '../../../store/action';
+import { fetchFilterAction } from '../../../store/api-actions';
 import { getGuitars } from '../../../store/guitars-data/selectors';
+import { getCurrentPage, getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
+import { getCurrentItemsRange } from '../../../utils/filter';
 import { numberWithSpaces } from '../../../utils/utils';
 import Filter from '../../filter/filter';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 import Pagination from '../../pagination/pagination';
 import Sorting from '../../sorting/sorting';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
+type Props = {
+  currentPage: number,
+}
 
-function CatalogScreen(): JSX.Element {
+function CatalogScreen({currentPage}: Props): JSX.Element {
   const guitars = useSelector(getGuitars);
+  const filter = useSelector(getFilter);
+  const page = useSelector(getCurrentPage);
+  const pageCount = useSelector(getCurrentPageCount);
+
+  const dispatch = useDispatch();
+
+  const range = getCurrentItemsRange(page);
+
+  useEffect(() => {
+    dispatch(setCurrentPage(currentPage));
+    dispatch(fetchFilterAction(range, filter));
+  }, [currentPage, range, filter, dispatch]);
+
+  if (page > pageCount) {
+    return <NotFoundScreen />;
+  }
 
   return (
     <div className="wrapper">

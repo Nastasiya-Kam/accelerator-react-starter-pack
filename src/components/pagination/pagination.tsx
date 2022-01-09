@@ -1,8 +1,9 @@
-import { PaginationPage } from '../../const';
+import { AppRoute, PaginationPage, ReplacedPart } from '../../const';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIsFilter, getCurrentPage, getCurrentPageCount, getFirstPage, getLastPage } from '../../store/user-data/selectors';
 import { nextFirstPage, nextLastPage, prevFirstPage, prevLastPage, setCurrentPage } from '../../store/action';
 import { getPageCount } from '../../store/guitars-data/selectors';
+import browserHistory from '../../browser-history';
 
 function Pagination():JSX.Element {
   const isFilter = useSelector(checkIsFilter);
@@ -44,9 +45,8 @@ function Pagination():JSX.Element {
               <li key={key} className="pagination__page">
                 <a
                   className={`link pagination__page-link${(page === currentPage) ? ' pagination__page--active' : ''}`}
-                  href="##"
-                  // //TODO путь на страницу каталога {AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}`)}
                   onClick={() => {
+                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}`));
                     dispatch(setCurrentPage(page));
                   }}
                 >

@@ -5,7 +5,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { makeFakeGuitars } from '../../../utils/mocks';
 import CatalogScreen from './catalog-screen';
-import { Sort } from '../../../const';
+import { DEFAULT_PAGE, Sort } from '../../../const';
 import thunk from 'redux-thunk';
 
 const mockGuitars = makeFakeGuitars();
@@ -40,7 +40,7 @@ describe('Component: CatalogScreen', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <CatalogScreen />
+          <CatalogScreen currentPage={DEFAULT_PAGE} />
         </Router>
       </Provider>,
     );

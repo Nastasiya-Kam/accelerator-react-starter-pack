@@ -43,7 +43,7 @@ const enum ErrorMessages {
 
 const enum AppRoute {
   Root = '/',
-  CatalogPage = 'catalog/:page',
+  CatalogPage = '/catalog/:page',
 }
 
 const enum APIRoute {
@@ -57,6 +57,7 @@ const enum APIRoute {
 
 const enum ReplacedPart {
   Page = ':page',
+  PartPage = 'page_',
 }
 
 //* ФИЛЬТР *//

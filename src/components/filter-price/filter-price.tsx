@@ -1,11 +1,9 @@
 import { DEFAULT_PAGE, PaginationPage, PriceFilter } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import { getCurrentPage, getFilter, getMaxPrice, getMinPrice } from '../../store/user-data/selectors';
+import { FormEvent, useRef, useState } from 'react';
+import { getMaxPrice, getMinPrice } from '../../store/user-data/selectors';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
-import { fetchFilterAction } from '../../store/api-actions';
-import { getCurrentItemsRange } from '../../utils/filter';
 import { checkMaxPrice, checkMinPrice } from '../../utils/utils';
 
 function FilterPrice():JSX.Element {
@@ -14,18 +12,12 @@ function FilterPrice():JSX.Element {
 
   const minPrice = useSelector(getFirstMinPrice);
   const maxPrice = useSelector(getFirstMaxPrice);
-  const filter = useSelector(getFilter);
-  const range = getCurrentItemsRange(useSelector(getCurrentPage));
   const userMinPrice = useSelector(getMinPrice);
   const userMaxPrice = useSelector(getMaxPrice);
   const dispatch = useDispatch();
 
   const minPriceRef = useRef(null);
   const maxPriceRef = useRef(null);
-
-  useEffect(() => {
-    dispatch(fetchFilterAction(range, filter));
-  }, [range, filter, dispatch]);
 
   const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
     if (evt.currentTarget.value === '') {
