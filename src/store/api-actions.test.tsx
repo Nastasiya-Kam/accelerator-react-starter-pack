@@ -19,7 +19,7 @@ describe('Async actions', () => {
       ThunkDispatch<State, typeof api, Action>
     >(middlewares);
 
-  it('should dispatch LoadGuitarsData when GET /guitars', async () => {
+  it('should dispatch LoadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount when GET /guitars', async () => {
     const mockGuitar = makeFakeGuitars();
 
     mockAPI
