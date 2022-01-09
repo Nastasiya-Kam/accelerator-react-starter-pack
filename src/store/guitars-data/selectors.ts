@@ -6,6 +6,7 @@ const getGuitars = (state: State): Guitars => state[NameSpace.Guitars].guitars;
 const getFirstMinPrice = (state: State): number => state[NameSpace.Guitars].firstMinPrice;
 const getFirstMaxPrice = (state: State): number => state[NameSpace.Guitars].firstMaxPrice;
 const getPageCount = (state: State): number => state[NameSpace.Guitars].pageCount;
+const getLoadingStatus = (state: State): boolean => state[NameSpace.Guitars].isLoading;
 const getSearchingGuitars = (text:string) => (state: State) => {
   const regExpSearching = new RegExp(text, 'i');
 
@@ -17,5 +18,6 @@ export {
   getFirstMinPrice,
   getFirstMaxPrice,
   getPageCount,
+  getLoadingStatus,
   getSearchingGuitars
 };

@@ -30,6 +30,13 @@ const setPageCount = createAction(
   }),
 );
 
+const isLoading = createAction(
+  ActionType.IsLoading,
+  (flag: boolean) => ({
+    payload: flag,
+  }),
+);
+
 const setFilterMinPrice = createAction(
   ActionType.SetFilterMinPrice,
   (minPrice: string) => ({
@@ -110,6 +117,7 @@ export {
   setFirstMinPrice,
   setFirstMaxPrice,
   setPageCount,
+  isLoading,
   setFilterMinPrice,
   setFilterMaxPrice,
   setFilterTypes,

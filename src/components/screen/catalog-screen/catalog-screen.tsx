@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DEFAULT_PAGE, RATING } from '../../../const';
 import { setCurrentPage } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
-import { getGuitars } from '../../../store/guitars-data/selectors';
+import { getGuitars, getLoadingStatus } from '../../../store/guitars-data/selectors';
 import { getCurrentPage, getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
 import { getCurrentItemsRange } from '../../../utils/filter';
 import { numberWithSpaces } from '../../../utils/utils';
@@ -12,6 +12,7 @@ import Footer from '../../footer/footer';
 import Header from '../../header/header';
 import Pagination from '../../pagination/pagination';
 import Sorting from '../../sorting/sorting';
+import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type Props = {
@@ -23,6 +24,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const filter = useSelector(getFilter);
   const page = useSelector(getCurrentPage);
   const pageCount = useSelector(getCurrentPageCount);
+  const isLoading = useSelector(getLoadingStatus);
 
   const dispatch = useDispatch();
 
@@ -38,6 +40,10 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
     dispatch(setCurrentPage(usingPage));
     dispatch(fetchFilterAction(range, filter));
   }, [currentPage, pageCount, range, filter, dispatch]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   if (page > pageCount) {
     return <NotFoundScreen />;

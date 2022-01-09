@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { GuitarsData } from '../../types/state';
-import { loadGuitarsData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from '../action';
+import { loadGuitarsData, setFirstMaxPrice, setFirstMinPrice, setPageCount, isLoading } from '../action';
 
 const initialState: GuitarsData = {
   guitars: [],
@@ -8,6 +8,7 @@ const initialState: GuitarsData = {
   firstMaxPrice: 0,
   pageCount: 0,
   isDataLoaded: false,
+  isLoading: false,
 };
 
 const guitarsData = createReducer(initialState, (builder) => {
@@ -24,6 +25,9 @@ const guitarsData = createReducer(initialState, (builder) => {
     })
     .addCase(setPageCount, (state, action) => {
       state.pageCount = action.payload;
+    })
+    .addCase(isLoading, (state, action) => {
+      state.isLoading = action.payload;
     });
 });
 
