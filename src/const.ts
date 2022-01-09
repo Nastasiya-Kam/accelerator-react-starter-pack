@@ -33,6 +33,12 @@ const socials = [
   },
 ];
 
+const enum ErrorMessages {
+  MinPrice = 'Цена не может быть нулевой или меньше минимального значения',
+  MaxPrice = 'Цена не может быть больше максимального значения',
+  LoadData = 'Загрузить данные не удалось',
+}
+
 //* НАВИГАЦИЯ *//
 
 const enum AppRoute {
@@ -130,6 +136,7 @@ export {
   RATING,
   Menu,
   socials,
+  ErrorMessages,
   AppRoute,
   APIRoute,
   ReplacedPart,

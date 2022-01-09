@@ -1,6 +1,7 @@
-import { APIRoute, ELEMENT_ON_PAGE_COUNT } from '../const';
+import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessages } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Guitars } from '../types/guitars';
+import { toast } from 'react-toastify';
 import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount } from './action';
 
 const fetchGuitarsAction = (): ThunkActionResult =>
@@ -17,9 +18,7 @@ const fetchGuitarsAction = (): ThunkActionResult =>
       dispatch(setFirstMaxPrice(max));
       dispatch(setPageCount(pageCount));
     } catch {
-      // TODO: в случае недоступности сервера отображается информационное сообщение
-      // eslint-disable-next-line no-console
-      console.log('не удалось загрузить данные');
+      toast.info(ErrorMessages.LoadData);
     }
   };
 
@@ -34,9 +33,7 @@ const fetchFilterAction = (range: string, filter: string): ThunkActionResult =>
       dispatch(loadGuitarsData(data));
       dispatch(setCurrentPageCount(currentPageCount));
     } catch {
-      // TODO: в случае недоступности сервера отображается информационное сообщение
-      // eslint-disable-next-line no-console
-      console.log('не удалось загрузить отфильтрованные данные');
+      toast.info(ErrorMessages.LoadData);
     }
   };
 

@@ -6,6 +6,8 @@ import { createAPI } from './services/api';
 import { fetchGuitarsAction } from './store/api-actions';
 import { rootReducer } from './store/root-reducer';
 import App from './components/app/app';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import browserHistory from './browser-history';
 
 const api = createAPI();
@@ -25,6 +27,7 @@ store.dispatch(fetchGuitarsAction());
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter history={browserHistory}>
+      <ToastContainer />
       <App />
     </BrowserRouter>
   </Provider>,

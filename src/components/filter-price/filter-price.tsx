@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE, NOT_VALID_PRICE, PaginationPage, PriceFilter } from '../../const';
+import { DEFAULT_PAGE, ErrorMessages, NOT_VALID_PRICE, PaginationPage, PriceFilter } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useEffect, useRef, useState } from 'react';
@@ -6,6 +6,7 @@ import { getCurrentPage, getFilter, getMaxPrice, getMinPrice } from '../../store
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
 import { fetchFilterAction } from '../../store/api-actions';
 import { getCurrentItemsRange } from '../../utils/filter';
+import { toast } from 'react-toastify';
 
 function FilterPrice():JSX.Element {
   const [priceMin, setPriceMin] = useState<string>('');
@@ -22,7 +23,6 @@ function FilterPrice():JSX.Element {
   const minPriceRef = useRef(null);
   const maxPriceRef = useRef(null);
 
-  // TODO перенести в основной фильтр filter.tsx
   useEffect(() => {
     dispatch(fetchFilterAction(range, filter));
   }, [range, filter, dispatch]);
@@ -33,7 +33,7 @@ function FilterPrice():JSX.Element {
       dispatch(setFilterMaxPrice(evt.currentTarget.value));
       return;
     }
-    // TODO добавить оповещение, что цена не может быть нулевой
+
     // TODO вынести в отдельные функции по обработке максимальной и минимальной цены?
     switch (evt.currentTarget.id) {
       case PriceFilter.PRICE_MIN.id: {
@@ -41,10 +41,12 @@ function FilterPrice():JSX.Element {
 
         if (userPrice < minPrice || userPrice === NOT_VALID_PRICE) {
           userPrice = minPrice;
+          toast.info(ErrorMessages.MinPrice);
         }
 
         if (userPrice > maxPrice) {
           userPrice = maxPrice;
+          toast.info(ErrorMessages.MaxPrice);
         }
 
         if (userMaxPrice !== '') {
@@ -52,6 +54,7 @@ function FilterPrice():JSX.Element {
 
           if (userPrice > max) {
             userPrice = max;
+            toast.info(ErrorMessages.MaxPrice);
           }
         }
 
@@ -64,10 +67,12 @@ function FilterPrice():JSX.Element {
 
         if (userPrice > maxPrice) {
           userPrice = maxPrice;
+          toast.info(ErrorMessages.MaxPrice);
         }
 
         if (userPrice < minPrice || userPrice === NOT_VALID_PRICE) {
           userPrice = minPrice;
+          toast.info(ErrorMessages.MinPrice);
         }
 
         if (userMinPrice !== '') {
@@ -75,6 +80,7 @@ function FilterPrice():JSX.Element {
 
           if (userPrice < min) {
             userPrice = min;
+            toast.info(ErrorMessages.MaxPrice);
           }
         }
 
