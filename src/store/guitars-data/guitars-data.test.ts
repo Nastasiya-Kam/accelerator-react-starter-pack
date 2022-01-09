@@ -11,12 +11,12 @@ describe('Reducer: guitars-data', () => {
     firstMaxPrice: 0,
     pageCount: 0,
     isDataLoaded: false,
-    errorMessage: false,
+    isLoading: false,
   };
 
   it('should loaded guitars', () => {
     expect(guitarsData(state, loadGuitarsData(mockGuitars)))
-      .toEqual({...state, guitars: mockGuitars, isDataLoaded: true});
+      .toEqual({...state, guitars: mockGuitars, isDataLoaded: true, isLoading: false});
   });
 
   it('should set min price all guitars', () => {
