@@ -24,7 +24,7 @@ function Pagination():JSX.Element {
           <li className="pagination__page pagination__page--prev" id="prev">
             <a
               className="link pagination__page-link"
-              href="1"
+              href="##"
               onClick={(evt) => {
                 evt.preventDefault();
 
@@ -59,10 +59,9 @@ function Pagination():JSX.Element {
         {
           (lastPage < pageCount) &&
           <li className="pagination__page pagination__page--next" id="next">
-            {/* TODO//?: что означает href=2 */}
             <a
               className="link pagination__page-link"
-              href="2"
+              href="##"
               onClick={(evt) => {
                 evt.preventDefault();
 

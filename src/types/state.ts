@@ -7,7 +7,6 @@ type GuitarsData = {
   firstMaxPrice: number,
   pageCount: number,
   isDataLoaded: boolean,
-  errorMessage: boolean,
 };
 
 type UserData = {

@@ -8,7 +8,6 @@ const initialState: GuitarsData = {
   firstMaxPrice: 0,
   pageCount: 0,
   isDataLoaded: false,
-  errorMessage: false,
 };
 
 const guitarsData = createReducer(initialState, (builder) => {
