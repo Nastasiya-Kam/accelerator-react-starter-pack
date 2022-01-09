@@ -1,10 +1,11 @@
-import { DEFAULT_PAGE, PaginationPage, PriceFilter } from '../../const';
+import { AppRoute, DEFAULT_PAGE, PaginationPage, PriceFilter, ReplacedPart } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useRef, useState } from 'react';
 import { getMaxPrice, getMinPrice } from '../../store/user-data/selectors';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
 import { checkMaxPrice, checkMinPrice } from '../../utils/utils';
+import browserHistory from '../../browser-history';
 
 function FilterPrice():JSX.Element {
   const [priceMin, setPriceMin] = useState<string>('');
@@ -50,6 +51,7 @@ function FilterPrice():JSX.Element {
     dispatch(setFirstPage(PaginationPage.First));
     dispatch(setLastPage(PaginationPage.Last));
     dispatch(setCurrentPage(DEFAULT_PAGE));
+    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
   };
 
   return (

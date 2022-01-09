@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DEFAULT_PAGE, PaginationPage, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS } from '../../const';
+import browserHistory from '../../browser-history';
+import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS } from '../../const';
 import { setCurrentPage, setFilterStrings, setFilterTypes, setFirstPage, setLastPage } from '../../store/action';
 import { getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
 import FilterPrice from '../filter-price/filter-price';
@@ -56,6 +57,7 @@ function Filter():JSX.Element {
           TYPE_GUITARS.map((guitar, index) => {
             const key = `${index}-${guitar.name}`;
             const{name, type} = guitar;
+
             return (
               <div key={key} className="form-checkbox catalog-filter__block-item">
                 <input
@@ -64,12 +66,13 @@ function Filter():JSX.Element {
                   id={name}
                   name={name}
                   data-testid={name}
-                  checked={types[index]}
+                  checked={userTypes.includes(name)}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
                     changeHandler();
                     setTypes([...types.slice(0, index), value, ...types.slice(index + 1)]);
                     dispatch(setFilterTypes(collectItems(userTypes, name)));
+                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
                   }}
                 />
                 <label htmlFor={name}>{type}</label>
@@ -92,11 +95,13 @@ function Filter():JSX.Element {
                   id={`${stringCount}-strings`}
                   name={`${stringCount}-strings`}
                   data-testid={stringCount}
+                  checked={userStrings.includes(String(stringCount))}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
                     changeHandler();
                     setStrings([...strings.slice(0, index), value, ...strings.slice(index + 1)]);
                     dispatch(setFilterStrings(collectItems(userStrings, String(stringCount))));
+                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
                   }}
                   disabled={!availiableStrings.includes(stringCount)}
                 />

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RATING } from '../../../const';
+import { DEFAULT_PAGE, RATING } from '../../../const';
 import { setCurrentPage } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
 import { getGuitars } from '../../../store/guitars-data/selectors';
@@ -29,9 +29,15 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const range = getCurrentItemsRange(page);
 
   useEffect(() => {
-    dispatch(setCurrentPage(currentPage));
+    let usingPage = currentPage;
+
+    if (usingPage > pageCount) {
+      usingPage = DEFAULT_PAGE;
+    }
+
+    dispatch(setCurrentPage(usingPage));
     dispatch(fetchFilterAction(range, filter));
-  }, [currentPage, range, filter, dispatch]);
+  }, [currentPage, pageCount, range, filter, dispatch]);
 
   if (page > pageCount) {
     return <NotFoundScreen />;
