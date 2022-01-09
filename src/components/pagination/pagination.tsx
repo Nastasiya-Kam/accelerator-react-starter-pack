@@ -45,6 +45,7 @@ function Pagination():JSX.Element {
               <li key={key} className="pagination__page">
                 <a
                   className={`link pagination__page-link${(page === currentPage) ? ' pagination__page--active' : ''}`}
+                  href="##"
                   onClick={() => {
                     browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}`));
                     dispatch(setCurrentPage(page));

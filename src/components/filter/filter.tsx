@@ -57,6 +57,7 @@ function Filter():JSX.Element {
           TYPE_GUITARS.map((guitar, index) => {
             const key = `${index}-${guitar.name}`;
             const{name, type} = guitar;
+            const isChecked = userTypes.includes(name);
 
             return (
               <div key={key} className="form-checkbox catalog-filter__block-item">
@@ -66,7 +67,6 @@ function Filter():JSX.Element {
                   id={name}
                   name={name}
                   data-testid={name}
-                  checked={userTypes.includes(name)}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
                     changeHandler();
@@ -74,6 +74,7 @@ function Filter():JSX.Element {
                     dispatch(setFilterTypes(collectItems(userTypes, name)));
                     browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
                   }}
+                  checked={isChecked}
                 />
                 <label htmlFor={name}>{type}</label>
               </div>

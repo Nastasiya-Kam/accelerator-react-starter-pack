@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DEFAULT_PAGE, RATING } from '../../../const';
 import { setCurrentPage } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
-import { getGuitars, getLoadingStatus } from '../../../store/guitars-data/selectors';
+import { getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
 import { getCurrentPage, getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
 import { getCurrentItemsRange } from '../../../utils/filter';
 import { numberWithSpaces } from '../../../utils/utils';
@@ -24,6 +24,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const page = useSelector(getCurrentPage);
   const pageCount = useSelector(getCurrentPageCount);
   const isLoading = useSelector(getLoadingStatus);
+  const isDataLoaded = useSelector(getLoadingDataStatus);
 
   const dispatch = useDispatch();
 
@@ -40,7 +41,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
     dispatch(fetchFilterAction(range, filter));
   }, [currentPage, pageCount, range, filter, dispatch]);
 
-  if (currentPage > pageCount) {
+  if (isDataLoaded && (currentPage > pageCount) && (pageCount !== 0)) {
     return <NotFoundScreen />;
   }
 
