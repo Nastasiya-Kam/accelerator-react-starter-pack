@@ -14,10 +14,9 @@ function FilterPrice():JSX.Element {
   const minPrice = useSelector(getFirstMinPrice);
   const maxPrice = useSelector(getFirstMaxPrice);
   const filter = useSelector(getFilter);
-  const page = getCurrentItemsRange(useSelector(getCurrentPage));
+  const range = getCurrentItemsRange(useSelector(getCurrentPage));
   const userMinPrice = useSelector(getMinPrice);
   const userMaxPrice = useSelector(getMaxPrice);
-
   const dispatch = useDispatch();
 
   const minPriceRef = useRef(null);
@@ -25,8 +24,8 @@ function FilterPrice():JSX.Element {
 
   // TODO перенести в основной фильтр filter.tsx
   useEffect(() => {
-    dispatch(fetchFilterAction(page, filter));
-  }, [page, filter, dispatch]);
+    dispatch(fetchFilterAction(range, filter));
+  }, [range, filter, dispatch]);
 
   const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
     if (evt.currentTarget.value === '') {
