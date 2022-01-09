@@ -63,6 +63,7 @@ function Filter():JSX.Element {
                   type="checkbox"
                   id={name}
                   name={name}
+                  data-testid={name}
                   checked={types[index]}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
@@ -90,6 +91,7 @@ function Filter():JSX.Element {
                   type="checkbox"
                   id={`${stringCount}-strings`}
                   name={`${stringCount}-strings`}
+                  data-testid={stringCount}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
                     changeHandler();
