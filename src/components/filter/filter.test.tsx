@@ -13,14 +13,6 @@ const mockGuitars = makeFakeGuitars();
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
 
-const createFakeApp = (store: any) => (
-  <Provider store={store}>
-    <Router history={history}>
-      <Filter />
-    </Router>
-  </Provider>
-);
-
 describe('Component: Filter', () => {
   const store = mockStore({
     GUITARS: {
@@ -44,7 +36,13 @@ describe('Component: Filter', () => {
     },
   });
 
-  const fakeApp = createFakeApp(store);
+  const fakeApp = (
+    <Provider store={store}>
+      <Router history={history}>
+        <Filter />
+      </Router>
+    </Provider>
+  );
 
   it('should render correctly', () => {
     render(fakeApp);
