@@ -18,7 +18,8 @@ const store = mockStore({
     firstMinPrice: 1000,
     firstMaxPrice: 50000,
     pageCount: 3,
-    isDataLoaded: true,
+    isDataLoaded: false,
+    isLoading: false,
   },
   USER: {
     minPrice: '5000',
@@ -28,7 +29,7 @@ const store = mockStore({
     sorting: '',
     order: '',
     currentPage: 1,
-    currentPageCount: 0,
+    currentPageCount: 3,
     firstPage: 1,
     lastPage: 3,
   },
