@@ -12,7 +12,6 @@ import Footer from '../../footer/footer';
 import Header from '../../header/header';
 import Pagination from '../../pagination/pagination';
 import Sorting from '../../sorting/sorting';
-import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type Props = {
@@ -41,11 +40,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
     dispatch(fetchFilterAction(range, filter));
   }, [currentPage, pageCount, range, filter, dispatch]);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (page > pageCount) {
+  if (currentPage > pageCount) {
     return <NotFoundScreen />;
   }
 
@@ -64,8 +59,9 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
             <Filter />
             <Sorting />
             <div className="cards catalog__cards">
-              {
-                guitars.map((guitar, index) => {
+              {(isLoading)
+                ? <p>Идёт загрузка данных...</p>
+                : guitars.map((guitar, index) => {
                   const keyGuitar = `${index}-${guitar.name}`;
                   const { name, previewImg, rating, price } = guitar;
 
@@ -99,8 +95,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                       </div>
                     </div>
                   );
-                })
-              }
+                })}
             </div>
             <Pagination />
           </div>
