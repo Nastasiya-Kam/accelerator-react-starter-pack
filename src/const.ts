@@ -33,7 +33,7 @@ const socials = [
   },
 ];
 
-const enum ErrorMessages {
+const enum ErrorMessage {
   MinPrice = 'Цена не может быть нулевой или меньше минимального значения',
   MaxPrice = 'Цена не может быть больше максимального значения',
   LoadData = 'Загрузить данные не удалось',
@@ -98,7 +98,7 @@ const TypeOfGuitar = {
 
 const TYPE_GUITARS = [ TypeOfGuitar.ACOUSTIC, TypeOfGuitar.ELECTRIC, TypeOfGuitar.UKULELE ];
 
-const enum Params {
+const enum Param {
   Sort = 'sort',
   Order = 'order',
 }
@@ -137,7 +137,7 @@ export {
   RATING,
   Menu,
   socials,
-  ErrorMessages,
+  ErrorMessage,
   AppRoute,
   APIRoute,
   ReplacedPart,
@@ -147,7 +147,7 @@ export {
   NOT_VALID_PRICE,
   PriceFilter,
   TYPE_GUITARS,
-  Params,
+  Param,
   Sort,
   Order,
   Filter,

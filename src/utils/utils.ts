@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { ErrorMessages, NOT_VALID_PRICE } from '../const';
+import { ErrorMessage, NOT_VALID_PRICE } from '../const';
 
 const numberWithSpaces = (integerNumber: number): string => integerNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -8,12 +8,12 @@ const checkMinPrice = (userPrice: number, minPrice: number, maxPrice: number, us
 
   if (price < minPrice || price === NOT_VALID_PRICE) {
     price = minPrice;
-    toast.info(ErrorMessages.MinPrice);
+    toast.info(ErrorMessage.MinPrice);
   }
 
   if (price > maxPrice) {
     price = maxPrice;
-    toast.info(ErrorMessages.MaxPrice);
+    toast.info(ErrorMessage.MaxPrice);
   }
 
   if (userMaxPrice !== '') {
@@ -21,7 +21,7 @@ const checkMinPrice = (userPrice: number, minPrice: number, maxPrice: number, us
 
     if (price > max) {
       price = max;
-      toast.info(ErrorMessages.MaxPrice);
+      toast.info(ErrorMessage.MaxPrice);
     }
   }
 
@@ -33,12 +33,12 @@ const checkMaxPrice = (userPrice: number, minPrice: number, maxPrice: number, us
 
   if (price > maxPrice) {
     price = maxPrice;
-    toast.info(ErrorMessages.MaxPrice);
+    toast.info(ErrorMessage.MaxPrice);
   }
 
   if (price < minPrice || price === NOT_VALID_PRICE) {
     price = minPrice;
-    toast.info(ErrorMessages.MinPrice);
+    toast.info(ErrorMessage.MinPrice);
   }
 
   if (userMinPrice !== '') {
@@ -46,7 +46,7 @@ const checkMaxPrice = (userPrice: number, minPrice: number, maxPrice: number, us
 
     if (price < min) {
       userPrice = min;
-      toast.info(ErrorMessages.MaxPrice);
+      toast.info(ErrorMessage.MaxPrice);
     }
   }
 

@@ -1,4 +1,4 @@
-import { ELEMENT_ON_PAGE_COUNT, Filter, Params } from '../const';
+import { ELEMENT_ON_PAGE_COUNT, Filter, Param } from '../const';
 
 const getCurrentItemsRange = (page: number): string => {
   const firstItem = (page - 1) * ELEMENT_ON_PAGE_COUNT;
@@ -33,7 +33,7 @@ const getUserFilter = (min: string, max: string, types: string[], strings: strin
   return filter;
 };
 
-const getSortingTemplate = (sort: string, order: string): string => `${sort && `&_${Params.Sort}=${sort}`}${order && `&_${Params.Order}=${order}`}`;
+const getSortingTemplate = (sort: string, order: string): string => `${sort && `&_${Param.Sort}=${sort}`}${order && `&_${Param.Order}=${order}`}`;
 
 export {
   getCurrentItemsRange,

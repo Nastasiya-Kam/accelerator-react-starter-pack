@@ -1,4 +1,4 @@
-import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessages } from '../const';
+import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Guitars } from '../types/guitars';
 import { toast } from 'react-toastify';
@@ -19,7 +19,7 @@ const fetchGuitarsAction = (): ThunkActionResult =>
       dispatch(setFirstMaxPrice(max));
       dispatch(setPageCount(pageCount));
     } catch {
-      toast.info(ErrorMessages.LoadData);
+      toast.info(ErrorMessage.LoadData);
     }
     dispatch(isLoading(false));
   };
@@ -36,7 +36,7 @@ const fetchFilterAction = (range: string, filter: string): ThunkActionResult =>
       dispatch(loadGuitarsData(data));
       dispatch(setCurrentPageCount(currentPageCount));
     } catch {
-      toast.info(ErrorMessages.LoadData);
+      toast.info(ErrorMessage.LoadData);
     }
     dispatch(isLoading(false));
   };
