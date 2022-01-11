@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Menu } from '../../const';
+import { HEADER_MENUS } from '../../const';
 import { getSearchingGuitars } from '../../store/guitars-data/selectors';
 
 function Header():JSX.Element {
@@ -18,7 +18,7 @@ function Header():JSX.Element {
         <nav className="main-nav">
           <ul className="main-nav__list">
             {
-              Menu.Main.map((item, index) => {
+              HEADER_MENUS.map((item, index) => {
                 const key = `${index}-${item}`;
                 // TODO: активное меню выделять
                 return (

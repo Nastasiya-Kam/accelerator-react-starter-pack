@@ -1,4 +1,4 @@
-import { AppRoute, DEFAULT_PAGE, PaginationPage, PriceFilter, ReplacedPart } from '../../const';
+import { AppRoute, DEFAULT_PAGE, PaginationPage, priceFilter, ReplacedPart } from '../../const';
 import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormEvent, useRef, useState } from 'react';
@@ -27,17 +27,17 @@ function FilterPrice():JSX.Element {
       return;
     }
 
+    const userPrice = Number(evt.currentTarget.value);
+
     switch (evt.currentTarget.id) {
-      case PriceFilter.PRICE_MIN.id: {
-        const userPrice = Number(evt.currentTarget.value);
+      case priceFilter.priceMin.id: {
         const checkedMinPrice = checkMinPrice(userPrice, minPrice, maxPrice, userMaxPrice);
 
         setPriceMin(checkedMinPrice);
         dispatch(setFilterMinPrice(checkedMinPrice));
         break;
       }
-      case PriceFilter.PRICE_MAX.id: {
-        const userPrice = Number(evt.currentTarget.value);
+      case priceFilter.priceMax.id: {
         const checkedMaxPrice = checkMaxPrice(userPrice, minPrice, maxPrice, userMinPrice);
 
         setPriceMax(checkedMaxPrice);
@@ -63,8 +63,8 @@ function FilterPrice():JSX.Element {
           <input
             type="number"
             placeholder={minPrice.toString()}
-            id={PriceFilter.PRICE_MIN.id}
-            name={PriceFilter.PRICE_MIN.name}
+            id={priceFilter.priceMin.id}
+            name={priceFilter.priceMin.name}
             ref={minPriceRef}
             onChange={(evt) => setPriceMin(evt.currentTarget.value)}
             onBlur={handleInputBlur}
@@ -77,8 +77,8 @@ function FilterPrice():JSX.Element {
           <input
             type="number"
             placeholder={maxPrice.toString()}
-            id={PriceFilter.PRICE_MAX.id}
-            name={PriceFilter.PRICE_MAX.name}
+            id={priceFilter.priceMax.id}
+            name={priceFilter.priceMax.name}
             ref={maxPriceRef}
             onChange={(evt) => setPriceMax(evt.currentTarget.value)}
             onBlur={handleInputBlur}

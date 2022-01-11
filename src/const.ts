@@ -1,19 +1,6 @@
-const RATING: number[] = [ 1, 2, 3, 4, 5 ];
-
-const Menu = {
-  Main: [
-    'Каталог',
-    'Где купить?',
-    'О компании',
-  ],
-  Footer: [
-    'Где купить?',
-    'Блог',
-    'Вопрос - ответ',
-    'Возврат',
-    'Сервис-центры',
-  ],
-};
+const RATING = [ 1, 2, 3, 4, 5 ];
+const HEADER_MENUS = [ 'Каталог', 'Где купить?', 'О компании' ];
+const FOOTER_MENUS = [ 'Где купить?', 'Блог', 'Вопрос - ответ', 'Возврат', 'Сервис-центры' ];
 
 const socials = [
   {
@@ -62,41 +49,39 @@ const enum ReplacedPart {
 
 //* ФИЛЬТР *//
 
-const STRINGS: number[] = [ 4, 6, 7, 12 ];
+const STRINGS = [ 4, 6, 7, 12 ];
 const TYPES_COUNT = 3;
 const STRINGS_COUNT = 4;
 const NOT_VALID_PRICE = 0;
 
-const PriceFilter = {
-  PRICE_MIN: {
+const priceFilter = {
+  priceMin: {
     id: 'priceMin',
     name: 'от',
   },
-  PRICE_MAX: {
+  priceMax: {
     id: 'priceMax',
-    name: 'от',
+    name: 'до',
   },
 };
 
-const TypeOfGuitar = {
-  ACOUSTIC: {
+const TYPE_GUITARS = [
+  {
     name: 'acoustic',
     type: 'Акустические гитары',
     stringsCount: [ 6, 7, 12 ],
   },
-  ELECTRIC: {
+  {
     name: 'electric',
     type: 'Электрогитары',
     stringsCount: [ 4, 6, 7 ],
   },
-  UKULELE: {
+  {
     name: 'ukulele',
     type: 'Укулеле',
     stringsCount: [ 4 ],
   },
-};
-
-const TYPE_GUITARS = [ TypeOfGuitar.ACOUSTIC, TypeOfGuitar.ELECTRIC, TypeOfGuitar.UKULELE ];
+];
 
 const enum Param {
   Sort = 'sort',
@@ -135,7 +120,8 @@ const enum PaginationPage {
 
 export {
   RATING,
-  Menu,
+  HEADER_MENUS,
+  FOOTER_MENUS,
   socials,
   ErrorMessage,
   AppRoute,
@@ -145,7 +131,7 @@ export {
   TYPES_COUNT,
   STRINGS_COUNT,
   NOT_VALID_PRICE,
-  PriceFilter,
+  priceFilter,
   TYPE_GUITARS,
   Param,
   Sort,

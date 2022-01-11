@@ -1,4 +1,4 @@
-import { Menu, socials } from '../../const';
+import { FOOTER_MENUS, socials } from '../../const';
 
 function Footer():JSX.Element {
   return (
@@ -31,7 +31,7 @@ function Footer():JSX.Element {
           <h2 className="footer__nav-title">Информация</h2>
           <ul className="footer__nav-list">
             {
-              Menu.Footer.map((item, index)=> {
+              FOOTER_MENUS.map((item, index)=> {
                 const key = `${index}-${item}`;
                 return (
                   <li key={key} className="footer__nav-list-item"><a className="link" href="#top">{item}</a></li>

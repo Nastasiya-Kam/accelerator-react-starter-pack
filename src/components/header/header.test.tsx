@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import Header from './header';
-import { Menu } from '../../const';
+import { HEADER_MENUS } from '../../const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { makeFakeGuitars } from '../../utils/mocks';
@@ -32,7 +32,7 @@ describe('Component: Header', () => {
 
     expect(screen.getByAltText(/Логотип/i)).toBeInTheDocument();
     expect(screen.getByRole('img')).toBeInTheDocument();
-    Menu.Main.map((item) => expect(screen.getByRole('link', { name: item })).toBeInTheDocument());
+    HEADER_MENUS.map((item) => expect(screen.getByRole('link', { name: item })).toBeInTheDocument());
     expect(screen.getByRole('button', { name: 'Начать поиск' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Корзина' })).toBeInTheDocument();
     expect(screen.getByLabelText(/Поиск/i)).toBeInTheDocument();
