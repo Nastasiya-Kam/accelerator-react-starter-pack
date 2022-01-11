@@ -50,14 +50,14 @@ function Sorting():JSX.Element {
       </div>
       <div className="catalog-sort__order">
         <button
-          className={`catalog-sort__order-button catalog-sort__order-button--up${(currentOrder === Order.Asc) ? ' catalog-sort__order-button--active' : ''}`}
+          className={`catalog-sort__order-button catalog-sort__order-button--up${(currentOrder === Order.Asc) ? ' catalog-sort__order-button--up-active' : ''}`}
           aria-label="По возрастанию"
           tabIndex={(currentOrder === Order.Asc) ? -1 : 0}
           onClick={()=> handleOrderClick(Order.Asc)}
         >
         </button>
         <button
-          className={`catalog-sort__order-button catalog-sort__order-button--down${(currentOrder === Order.Desc) ? ' catalog-sort__order-button--active' : ''}`}
+          className={`catalog-sort__order-button catalog-sort__order-button--down${(currentOrder === Order.Desc) ? ' catalog-sort__order-button--down-active' : ''}`}
           aria-label="По убыванию"
           tabIndex={(currentOrder === Order.Desc) ? -1 : 0}
           onClick={()=> handleOrderClick(Order.Desc)}

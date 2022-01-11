@@ -1777,6 +1777,7 @@ button,
   border-color: transparent;
   border-top-color: #585757;
   background-color: transparent;
+  border-style: solid;
 
   cursor: pointer;
   -webkit-transition: border-top-color 0.3s ease, outline-color 0.3s ease;
@@ -1816,8 +1817,14 @@ button,
           transform: translate(-50%, -75%);
 }
 
-.catalog-sort__order-button--active {
+.catalog-sort__order-button--down-active {
   border-top-color: #131212;
+
+  pointer-events: none;
+}
+
+.catalog-sort__order-button--up-active {
+  border-bottom-color: #131212;
 
   pointer-events: none;
 }
