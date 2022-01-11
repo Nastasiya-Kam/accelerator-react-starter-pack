@@ -20,7 +20,7 @@ function FilterPrice():JSX.Element {
   const minPriceRef = useRef(null);
   const maxPriceRef = useRef(null);
 
-  const blurHandler = (evt: FormEvent<HTMLInputElement>) => {
+  const handleInputBlur = (evt: FormEvent<HTMLInputElement>) => {
     if (evt.currentTarget.value === '') {
       dispatch(setFilterMinPrice(evt.currentTarget.value));
       dispatch(setFilterMaxPrice(evt.currentTarget.value));
@@ -67,7 +67,7 @@ function FilterPrice():JSX.Element {
             name={PriceFilter.PRICE_MIN.name}
             ref={minPriceRef}
             onChange={(evt) => setPriceMin(evt.currentTarget.value)}
-            onBlur={blurHandler}
+            onBlur={handleInputBlur}
             value={priceMin}
             data-testid="min-price"
           />
@@ -81,7 +81,7 @@ function FilterPrice():JSX.Element {
             name={PriceFilter.PRICE_MAX.name}
             ref={maxPriceRef}
             onChange={(evt) => setPriceMax(evt.currentTarget.value)}
-            onBlur={blurHandler}
+            onBlur={handleInputBlur}
             value={priceMax}
             data-testid="max-price"
           />

@@ -8,7 +8,7 @@ function Header():JSX.Element {
   const searchRef = useRef<HTMLInputElement | null>(null);
   const searchingGuitars = useSelector(getSearchingGuitars(search));
 
-  const searchHandler = (evt: FormEvent<HTMLInputElement>) => {
+  const handleSearchChange = (evt: FormEvent<HTMLInputElement>) => {
     setSearch(evt.currentTarget.value);
   };
 
@@ -37,7 +37,7 @@ function Header():JSX.Element {
             </button>
             <input
               ref={searchRef}
-              onChange={searchHandler}
+              onChange={handleSearchChange}
               value={search}
               className="form-search__input"
               id="search"

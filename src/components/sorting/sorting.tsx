@@ -9,7 +9,7 @@ function Sorting():JSX.Element {
   const [currentSorting, setCurrentSorting] = useState<string>('');
   const [currentOrder, setCurrentOrder] = useState<string>('');
 
-  const typeHandler = (type: string): void => {
+  const handleTypeClick = (type: string): void => {
     if (currentOrder === '') {
       setCurrentOrder(Order.Asc);
       dispatch(setOrder(Order.Asc));
@@ -18,7 +18,7 @@ function Sorting():JSX.Element {
     dispatch(setSorting(type));
   };
 
-  const orderHandler = (order: string): void => {
+  const handleOrderClick = (order: string): void => {
     if (currentSorting === '') {
       setCurrentSorting(Sort.Price);
       dispatch(setSorting(Sort.Price));
@@ -35,7 +35,7 @@ function Sorting():JSX.Element {
           className={`catalog-sort__type-button${(currentSorting === Sort.Price) ? ' catalog-sort__type-button--active' : ''}`}
           aria-label="по цене"
           tabIndex={(currentSorting === Sort.Price) ? -1 : 0}
-          onClick={() => typeHandler(Sort.Price)}
+          onClick={() => handleTypeClick(Sort.Price)}
         >
           по цене
         </button>
@@ -43,7 +43,7 @@ function Sorting():JSX.Element {
           className={`catalog-sort__type-button${(currentSorting === Sort.Rating) ? ' catalog-sort__type-button--active' : ''}`}
           aria-label="по популярности"
           tabIndex={(currentSorting === Sort.Rating) ? -1 : 0}
-          onClick={()=> typeHandler(Sort.Rating)}
+          onClick={()=> handleTypeClick(Sort.Rating)}
         >
           по популярности
         </button>
@@ -53,14 +53,14 @@ function Sorting():JSX.Element {
           className={`catalog-sort__order-button catalog-sort__order-button--up${(currentOrder === Order.Asc) ? ' catalog-sort__order-button--active' : ''}`}
           aria-label="По возрастанию"
           tabIndex={(currentOrder === Order.Asc) ? -1 : 0}
-          onClick={()=> orderHandler(Order.Asc)}
+          onClick={()=> handleOrderClick(Order.Asc)}
         >
         </button>
         <button
           className={`catalog-sort__order-button catalog-sort__order-button--down${(currentOrder === Order.Desc) ? ' catalog-sort__order-button--active' : ''}`}
           aria-label="По убыванию"
           tabIndex={(currentOrder === Order.Desc) ? -1 : 0}
-          onClick={()=> orderHandler(Order.Desc)}
+          onClick={()=> handleOrderClick(Order.Desc)}
         >
         </button>
       </div>

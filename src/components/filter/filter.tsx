@@ -41,7 +41,7 @@ function Filter():JSX.Element {
     setAvailableStrings(includingStrings);
   }, [types]);
 
-  const changeHandler = () => {
+  const handleInputChange = () => {
     dispatch(setFirstPage(PaginationPage.First));
     dispatch(setLastPage(PaginationPage.Last));
     dispatch(setCurrentPage(DEFAULT_PAGE));
@@ -69,7 +69,7 @@ function Filter():JSX.Element {
                   data-testid={name}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
-                    changeHandler();
+                    handleInputChange();
                     setTypes([...types.slice(0, index), value, ...types.slice(index + 1)]);
                     dispatch(setFilterTypes(collectItems(userTypes, name)));
                     browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
@@ -99,7 +99,7 @@ function Filter():JSX.Element {
                   checked={userStrings.includes(String(stringCount))}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
-                    changeHandler();
+                    handleInputChange();
                     setStrings([...strings.slice(0, index), value, ...strings.slice(index + 1)]);
                     dispatch(setFilterStrings(collectItems(userStrings, String(stringCount))));
                     browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
