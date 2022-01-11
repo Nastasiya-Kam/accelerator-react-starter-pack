@@ -62,8 +62,8 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
             <div className="cards catalog__cards">
               {(isLoading)
                 ? <p>Идёт загрузка данных...</p>
-                : guitars.map((guitar, index) => {
-                  const keyGuitar = `${index}-${guitar.name}`;
+                : guitars.map((guitar) => {
+                  const keyGuitar = `${guitar.id}-${guitar.name}`;
                   const { name, previewImg, rating, price } = guitar;
 
                   return (
