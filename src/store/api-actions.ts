@@ -2,14 +2,13 @@ import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Guitars } from '../types/guitars';
 import { toast } from 'react-toastify';
-import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading } from './action';
+import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading, loadSearchingGuitars } from './action';
 
 const fetchGuitarsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(isLoading(true));
     try {
       const {data} = await api.get<Guitars>(APIRoute.Guitars);
-      dispatch(loadGuitarsData(data));
 
       const min = Math.min(...data.map((guitar) => guitar.price));
       const max = Math.max(...data.map((guitar) => guitar.price));
@@ -41,7 +40,18 @@ const fetchFilterAction = (range: string, filter: string): ThunkActionResult =>
     dispatch(isLoading(false));
   };
 
+const fetchSearchingAction = (text: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?name_like=${text}`);
+      dispatch(loadSearchingGuitars(data));
+    } catch {
+      toast.info(ErrorMessage.LoadData);
+    }
+  };
+
 export {
   fetchGuitarsAction,
-  fetchFilterAction
+  fetchFilterAction,
+  fetchSearchingAction
 };

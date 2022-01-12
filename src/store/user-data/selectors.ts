@@ -29,6 +29,7 @@ const getCurrentPage = (state: State): number => state[NameSpace.User].currentPa
 const getCurrentPageCount = (state: State): number => state[NameSpace.User].currentPageCount;
 const getFirstPage = (state: State): number => state[NameSpace.User].firstPage;
 const getLastPage = (state: State): number => state[NameSpace.User].lastPage;
+const getSearchingGuitars = (state: State) => state[NameSpace.User].searchingGuitars;
 
 export {
   getFilter,
@@ -40,5 +41,6 @@ export {
   checkIsFilter,
   getCurrentPageCount,
   getFirstPage,
-  getLastPage
+  getLastPage,
+  getSearchingGuitars
 };

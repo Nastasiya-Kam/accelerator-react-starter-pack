@@ -21,6 +21,7 @@ type UserData = {
   currentPageCount: number,
   firstPage: number,
   lastPage: number,
+  searchingGuitars: Guitars,
 };
 
 type State = RootState;

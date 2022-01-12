@@ -23,6 +23,7 @@ enum ActionType {
   PrevLastPage = 'user/prevLastPage',
   NextFirstPage = 'user/nextFirstPage',
   NextLastPage = 'user/nextLastPage',
+  LoadSearchingGuitars = 'user/loadSearchingGuitars',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

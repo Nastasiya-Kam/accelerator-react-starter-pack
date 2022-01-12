@@ -1,15 +1,20 @@
 import { FormEvent, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { HEADER_MENUS } from '../../const';
-import { getSearchingGuitars } from '../../store/guitars-data/selectors';
+import { fetchSearchingAction } from '../../store/api-actions';
+import { getSearchingGuitars } from '../../store/user-data/selectors';
 
 function Header():JSX.Element {
   const [search, setSearch] = useState<string>('');
   const searchRef = useRef<HTMLInputElement | null>(null);
-  const searchingGuitars = useSelector(getSearchingGuitars(search));
+  const searchingGuitars = useSelector(getSearchingGuitars);
+
+  const dispatch = useDispatch();
 
   const handleSearchChange = (evt: FormEvent<HTMLInputElement>) => {
     setSearch(evt.currentTarget.value);
+    dispatch(fetchSearchingAction(evt.currentTarget.value));
   };
 
   return (
@@ -51,8 +56,8 @@ function Header():JSX.Element {
             {
               (search === '' && searchingGuitars.length !== 0)
                 ? ''
-                : searchingGuitars.map((guitar, index) => {
-                  const key = `${index}-${guitar.name}`;
+                : searchingGuitars.map((guitar) => {
+                  const key = `${guitar.id}-${guitar.name}`;
 
                   return (
                     <li

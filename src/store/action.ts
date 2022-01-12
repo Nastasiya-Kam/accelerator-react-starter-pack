@@ -112,6 +112,13 @@ const prevLastPage = createAction(ActionType.PrevLastPage);
 const nextFirstPage = createAction(ActionType.NextFirstPage);
 const nextLastPage = createAction(ActionType.NextLastPage);
 
+const loadSearchingGuitars = createAction(
+  ActionType.LoadSearchingGuitars,
+  (guitars: Guitars) => ({
+    payload: guitars,
+  }),
+);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
@@ -131,5 +138,6 @@ export {
   prevFirstPage,
   prevLastPage,
   nextFirstPage,
-  nextLastPage
+  nextLastPage,
+  loadSearchingGuitars
 };

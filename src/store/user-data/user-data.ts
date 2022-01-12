@@ -15,7 +15,8 @@ import {
   prevFirstPage,
   prevLastPage,
   nextFirstPage,
-  nextLastPage
+  nextLastPage,
+  loadSearchingGuitars
 } from '../action';
 
 const initialState: UserData = {
@@ -29,6 +30,7 @@ const initialState: UserData = {
   currentPageCount: 0,
   firstPage: PaginationPage.First,
   lastPage: PaginationPage.Last,
+  searchingGuitars: [],
 };
 
 const userData = createReducer(initialState, (builder) => {
@@ -74,6 +76,9 @@ const userData = createReducer(initialState, (builder) => {
     })
     .addCase(nextLastPage, (state) => {
       state.lastPage = state.lastPage + PAGINATION_STEP;
+    })
+    .addCase(loadSearchingGuitars, (state, action) => {
+      state.searchingGuitars = action.payload;
     });
 });
 
