@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkIsFilter, getCurrentPage, getCurrentPageCount, getFirstPage, getLastPage } from '../../store/user-data/selectors';
 import { nextFirstPage, nextLastPage, prevFirstPage, prevLastPage, setCurrentPage } from '../../store/action';
 import { getPageCount } from '../../store/guitars-data/selectors';
-import browserHistory from '../../browser-history';
+import { Link } from 'react-router-dom';
 
 function Pagination():JSX.Element {
   const isFilter = useSelector(checkIsFilter);
@@ -43,16 +43,13 @@ function Pagination():JSX.Element {
 
             return (
               <li key={key} className="pagination__page">
-                <a
+                <Link
+                  to={AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}`)}
                   className={`link pagination__page-link${(page === currentPage) ? ' pagination__page--active' : ''}`}
-                  href="##"
-                  onClick={() => {
-                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}`));
-                    dispatch(setCurrentPage(page));
-                  }}
+                  onClick={() => dispatch(setCurrentPage(page))}
                 >
                   {page}
-                </a>
+                </Link>
               </li>
             );
           })
