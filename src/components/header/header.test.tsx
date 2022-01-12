@@ -6,19 +6,21 @@ import Header from './header';
 import { HEADER_MENUS } from '../../const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import { makeFakeGuitars } from '../../utils/mocks';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 const mockGuitars = makeFakeGuitars();
 
 describe('Component: Header', () => {
   it('should render correctly', () => {
     const store = mockStore({
       GUITARS: {
-        guitars: mockGuitars,
         isDataLoaded: true,
       },
-      USER: {},
+      USER: {
+        searchingGuitars: mockGuitars,
+      },
     });
     const history = createMemoryHistory();
 

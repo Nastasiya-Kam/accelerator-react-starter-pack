@@ -3,20 +3,22 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import NotFoundScreen from './not-found-screen';
 import { makeFakeGuitars } from '../../../utils/mocks';
 
 const mockGuitars = makeFakeGuitars();
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 describe('Component: NotFoundScreen', () => {
   it('should render correctly', () => {
     const store = mockStore({
       GUITARS: {
-        guitars: mockGuitars,
         isDataLoaded: true,
       },
-      USER: {},
+      USER: {
+        searchingGuitars: mockGuitars,
+      },
     });
 
     const history = createMemoryHistory();

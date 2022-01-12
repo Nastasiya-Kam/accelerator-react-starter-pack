@@ -32,6 +32,7 @@ const store = mockStore({
     currentPageCount: 3,
     firstPage: 1,
     lastPage: 3,
+    searchingGuitars: mockGuitars,
   },
 });
 const fakeApp = (

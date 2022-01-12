@@ -32,6 +32,7 @@ describe('Component: CatalogScreen', () => {
         currentPageCount: 0,
         firstPage: 1,
         lastPage: 3,
+        searchingGuitars: mockGuitars,
       },
     });
 

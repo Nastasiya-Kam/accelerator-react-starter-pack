@@ -6,7 +6,7 @@ import { createAPI } from '../services/api';
 import { State } from '../types/state';
 import { APIRoute } from '../const';
 import { fetchGuitarsAction } from './api-actions';
-import { isLoading, loadGuitarsData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from './action';
+import { isLoading, setFirstMaxPrice, setFirstMinPrice, setPageCount } from './action';
 import { HttpCode, makeFakeGuitars } from '../utils/mocks';
 
 describe('Async actions', () => {
@@ -19,7 +19,7 @@ describe('Async actions', () => {
       ThunkDispatch<State, typeof api, Action>
     >(middlewares);
 
-  it('should dispatch LoadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount when GET /guitars', async () => {
+  it('should dispatch setFirstMinPrice, setFirstMaxPrice, setPageCount when GET /guitars', async () => {
     const mockGuitar = makeFakeGuitars();
 
     mockAPI
@@ -31,7 +31,6 @@ describe('Async actions', () => {
 
     expect(store.getActions()).toEqual([
       isLoading(true),
-      loadGuitarsData(mockGuitar),
       setFirstMinPrice(17500),
       setFirstMaxPrice(17500),
       setPageCount(1),

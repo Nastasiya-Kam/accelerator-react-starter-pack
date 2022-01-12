@@ -28,6 +28,7 @@ describe('Reducer: user-data', () => {
     currentPageCount: 0,
     firstPage: 10,
     lastPage: 12,
+    searchingGuitars: [],
   };
 
   it('should set filter min price', () => {
