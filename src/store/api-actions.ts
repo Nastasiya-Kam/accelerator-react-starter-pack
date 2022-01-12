@@ -1,8 +1,8 @@
-import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage } from '../const';
+import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage, Filter } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Guitars } from '../types/guitars';
 import { toast } from 'react-toastify';
-import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading, loadSearchingGuitars } from './action';
+import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading, loadSearchingGuitars, isLoadingError } from './action';
 
 const fetchGuitarsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -34,8 +34,10 @@ const fetchFilterAction = (range: string, filter: string): ThunkActionResult =>
 
       dispatch(loadGuitarsData(data));
       dispatch(setCurrentPageCount(currentPageCount));
+      dispatch(isLoadingError(false));
     } catch {
       toast.info(ErrorMessage.LoadData);
+      dispatch(isLoadingError(true));
     }
     dispatch(isLoading(false));
   };
@@ -43,7 +45,7 @@ const fetchFilterAction = (range: string, filter: string): ThunkActionResult =>
 const fetchSearchingAction = (text: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?name_like=${text}`);
+      const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?${Filter.NameLike}=${text}`);
       dispatch(loadSearchingGuitars(data));
     } catch {
       toast.info(ErrorMessage.LoadData);

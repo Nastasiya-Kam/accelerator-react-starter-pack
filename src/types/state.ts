@@ -8,6 +8,7 @@ type GuitarsData = {
   pageCount: number,
   isDataLoaded: boolean,
   isLoading: boolean,
+  isLoadingError: boolean,
 };
 
 type UserData = {

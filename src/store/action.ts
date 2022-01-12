@@ -37,6 +37,13 @@ const isLoading = createAction(
   }),
 );
 
+const isLoadingError = createAction(
+  ActionType.IsLoadingError,
+  (flag: boolean) => ({
+    payload: flag,
+  }),
+);
+
 const setFilterMinPrice = createAction(
   ActionType.SetFilterMinPrice,
   (minPrice: string) => ({
@@ -125,6 +132,7 @@ export {
   setFirstMaxPrice,
   setPageCount,
   isLoading,
+  isLoadingError,
   setFilterMinPrice,
   setFilterMaxPrice,
   setFilterTypes,

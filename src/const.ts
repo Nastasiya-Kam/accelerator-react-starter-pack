@@ -105,6 +105,7 @@ const enum Filter {
   PriceLte = 'price_lte',
   Type = 'type',
   StringCount = 'stringCount',
+  NameLike = 'name_like',
 }
 
 //* ПАГИНАЦИЯ *//

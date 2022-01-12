@@ -9,6 +9,7 @@ enum ActionType {
   SetFirstMaxPrice = 'data/setFirstMaxPrice',
   SetPageCount = 'data/setPageCount',
   IsLoading = 'data/isLoading',
+  IsLoadingError = 'data/isLoadingError',
   SetFilterMinPrice ='user/setMinPrice',
   SetFilterMaxPrice ='user/setMaxPrice',
   SetFilterTypes = 'user/setFilterTypes',

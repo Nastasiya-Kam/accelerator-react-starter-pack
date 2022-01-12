@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DEFAULT_PAGE, RATING } from '../../../const';
 import { setCurrentPage } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
-import { getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
+import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
 import { getCurrentPage, getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
 import { getCurrentItemsRange } from '../../../utils/filter';
 import { numberWithSpaces } from '../../../utils/utils';
@@ -25,6 +25,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const pageCount = useSelector(getCurrentPageCount);
   const isLoading = useSelector(getLoadingStatus);
   const isDataLoaded = useSelector(getLoadingDataStatus);
+  const isLoadingError = useSelector(getStatusLoadingError);
 
   const dispatch = useDispatch();
 
@@ -60,9 +61,10 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
             <Filter />
             <Sorting />
             <div className="cards catalog__cards">
-              {(isLoading)
-                ? <p>Идёт загрузка данных...</p>
-                : guitars.map((guitar) => {
+              {(isLoading) && <p>Идёт загрузка данных...</p>}
+              {(isLoadingError) && <p>Не удалось загрузить данные с сервера. Попробуйте позже</p>}
+              {
+                (!isLoading && !isLoadingError) && guitars.map((guitar) => {
                   const keyGuitar = `${guitar.id}-${guitar.name}`;
                   const { name, previewImg, rating, price } = guitar;
 
@@ -96,7 +98,8 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                       </div>
                     </div>
                   );
-                })}
+                })
+              }
             </div>
             <Pagination />
           </div>

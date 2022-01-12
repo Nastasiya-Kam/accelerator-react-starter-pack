@@ -12,6 +12,7 @@ describe('Reducer: guitars-data', () => {
     pageCount: 0,
     isDataLoaded: false,
     isLoading: false,
+    isLoadingError: false,
   };
 
   it('should loaded guitars', () => {
