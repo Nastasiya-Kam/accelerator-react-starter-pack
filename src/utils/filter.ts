@@ -11,7 +11,7 @@ const getUserFilter = (min: string, max: string, types: string[], strings: strin
   let filter = '';
 
   if (min !== '') {
-    filter += `${Filter.PriceGte}=${min}`;
+    filter += `&${Filter.PriceGte}=${min}`;
   }
 
   if (max !== '') {
