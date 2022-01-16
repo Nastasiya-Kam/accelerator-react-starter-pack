@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { ErrorMessage, NOT_VALID_PRICE } from '../const';
+import { ELEMENT_ON_PAGE_COUNT, ErrorMessage, NOT_VALID_PRICE } from '../const';
 
 const numberWithSpaces = (integerNumber: number): string => integerNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -53,8 +53,14 @@ const checkMaxPrice = (userPrice: number, minPrice: number, maxPrice: number, us
   return String(price);
 };
 
+const getIndex = (page: number) => ({
+  lastIndex: page * ELEMENT_ON_PAGE_COUNT,
+  startIndex: page * ELEMENT_ON_PAGE_COUNT - ELEMENT_ON_PAGE_COUNT,
+});
+
 export {
   numberWithSpaces,
   checkMinPrice,
-  checkMaxPrice
+  checkMaxPrice,
+  getIndex
 };

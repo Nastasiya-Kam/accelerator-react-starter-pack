@@ -1,10 +1,10 @@
-import { ELEMENT_ON_PAGE_COUNT, Filter, Param } from '../const';
+import { Filter, Param } from '../const';
+import { getIndex } from './utils';
 
 const getCurrentItemsRange = (page: number): string => {
-  const firstItem = (page - 1) * ELEMENT_ON_PAGE_COUNT;
-  const lastItem = (page) * ELEMENT_ON_PAGE_COUNT;
+  const indexPerPage = getIndex(page);
 
-  return `_${Filter.Start}=${firstItem}&_${Filter.End}=${lastItem}`;
+  return `_${Filter.Start}=${indexPerPage.startIndex}&_${Filter.End}=${indexPerPage.lastIndex}`;
 };
 
 const getUserFilter = (min: string, max: string, types: string[], strings: string[], sorting: string): string => {

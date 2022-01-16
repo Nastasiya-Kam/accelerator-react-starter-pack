@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import browserHistory from '../../browser-history';
 import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS } from '../../const';
 import { setCurrentPage, setFilterStrings, setFilterTypes, setFirstPage, setLastPage } from '../../store/action';
-import { getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
+import { getFilterTypes, getFilterStrings, getFilter } from '../../store/user-data/selectors';
+import { getCurrentItemsRange } from '../../utils/filter';
 import FilterPrice from '../filter-price/filter-price';
 
 const collectItems = (currentItems: string[], item: string): string[] => {
@@ -17,6 +18,7 @@ const collectItems = (currentItems: string[], item: string): string[] => {
 function Filter():JSX.Element {
   const userTypes = useSelector(getFilterTypes);
   const userStrings = useSelector(getFilterStrings);
+  const filter = useSelector(getFilter);
 
   const [types, setTypes] = useState<boolean[]>(new Array(TYPES_COUNT).fill(false));
   const [strings, setStrings] = useState<boolean[]>(new Array(STRINGS_COUNT).fill(false));
@@ -72,7 +74,7 @@ function Filter():JSX.Element {
                     handleInputChange();
                     setTypes([...types.slice(0, index), value, ...types.slice(index + 1)]);
                     dispatch(setFilterTypes(collectItems(userTypes, name)));
-                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
+                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${getCurrentItemsRange(DEFAULT_PAGE)}${filter}`));
                   }}
                   checked={isChecked}
                 />
@@ -102,7 +104,7 @@ function Filter():JSX.Element {
                     handleInputChange();
                     setStrings([...strings.slice(0, index), value, ...strings.slice(index + 1)]);
                     dispatch(setFilterStrings(collectItems(userStrings, String(stringCount))));
-                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
+                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${getCurrentItemsRange(DEFAULT_PAGE)}${filter}`));
                   }}
                   disabled={!availiableStrings.includes(stringCount)}
                 />
