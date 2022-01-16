@@ -13,6 +13,7 @@ import Header from '../../header/header';
 import Pagination from '../../pagination/pagination';
 import Sorting from '../../sorting/sorting';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+// import { Filter as FilterParams } from '../../../const';
 
 type Props = {
   currentPage: number,
@@ -23,6 +24,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const filter = useSelector(getFilter);
   const page = useSelector(getCurrentPage);
   const pageCount = useSelector(getCurrentPageCount);
+
   const isLoading = useSelector(getLoadingStatus);
   const isDataLoaded = useSelector(getLoadingDataStatus);
   const isLoadingError = useSelector(getStatusLoadingError);
@@ -30,6 +32,8 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const dispatch = useDispatch();
 
   const range = getCurrentItemsRange(page);
+  // const currentFilter = `?${range}${filter}`;
+  // const searchParams = new URLSearchParams(currentFilter);
 
   useEffect(() => {
     // let usingPage = currentPage;
