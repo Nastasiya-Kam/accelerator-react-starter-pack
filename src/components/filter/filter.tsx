@@ -55,7 +55,7 @@ function Filter():JSX.Element {
         <legend className="catalog-filter__block-title">Тип гитар</legend>
         {
           TYPE_GUITARS.map((guitar, index) => {
-            const key = `${index}-${guitar.name}`;
+            const key = `type-${guitar.name}`;
             const{name, type} = guitar;
             const isChecked = userTypes.includes(name);
 
@@ -86,7 +86,7 @@ function Filter():JSX.Element {
         <legend className="catalog-filter__block-title">Количество струн</legend>
         {
           STRINGS.map((stringCount, index) => {
-            const key = `${index}-${stringCount}`;
+            const key = `string-${stringCount}`;
 
             return (
               <div key={key} className="form-checkbox catalog-filter__block-item">

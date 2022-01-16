@@ -45,7 +45,7 @@ const checkMaxPrice = (userPrice: number, minPrice: number, maxPrice: number, us
     const min = Number(userMinPrice);
 
     if (price < min) {
-      userPrice = min;
+      price = min;
       toast.info(ErrorMessage.MaxPrice);
     }
   }
