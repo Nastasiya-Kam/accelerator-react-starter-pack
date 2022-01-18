@@ -99,13 +99,15 @@ const enum Order {
 }
 
 const enum Filter {
-  Start = 'start',
-  End = 'end',
+  Start = '_start',
+  End = '_end',
   PriceGte = 'price_gte',
   PriceLte = 'price_lte',
   Type = 'type',
   StringCount = 'stringCount',
   NameLike = 'name_like',
+  SortingType = 'sort',
+  OrderingType = 'order',
 }
 
 //* ПАГИНАЦИЯ *//

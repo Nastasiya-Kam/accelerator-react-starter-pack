@@ -4,7 +4,7 @@ import { getIndex } from './utils';
 const getCurrentItemsRange = (page: number): string => {
   const indexPerPage = getIndex(page);
 
-  return `_${Filter.Start}=${indexPerPage.startIndex}&_${Filter.End}=${indexPerPage.lastIndex}`;
+  return `${Filter.Start}=${indexPerPage.startIndex}&${Filter.End}=${indexPerPage.lastIndex}`;
 };
 
 const getUserFilter = (min: string, max: string, types: string[], strings: string[], sorting: string): string => {

@@ -1,64 +1,57 @@
-/* eslint-disable no-console */
 import { AppRoute, DEFAULT_PAGE, Filter, PaginationPage, priceFilter, ReplacedPart } from '../../const';
-import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import { getFilter, getMaxPrice, getMinPrice } from '../../store/user-data/selectors';
-import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
-import { checkMaxPrice, checkMinPrice } from '../../utils/utils';
-import browserHistory from '../../browser-history';
-import { getCurrentItemsRange } from '../../utils/filter';
 import { useLocation } from 'react-router-dom';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { getFirstMaxPrice, getFirstMinPrice } from '../../store/guitars-data/selectors';
+import { getMaxPrice, getMinPrice } from '../../store/user-data/selectors';
+import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFirstPage, setLastPage } from '../../store/action';
+import { checkMaxPrice, checkMinPrice, getIndex } from '../../utils/utils';
+import browserHistory from '../../browser-history';
 
 function FilterPrice():JSX.Element {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const min = (searchParams.get(Filter.PriceGte) === null) ? '' : searchParams.get(Filter.PriceGte);
-  const max = (searchParams.get(Filter.PriceLte) === null) ? '' : searchParams.get(Filter.PriceLte);
-
-  const [priceMin, setPriceMin] = useState<string>(String(min));
-  const [priceMax, setPriceMax] = useState<string>(String(max));
 
   const minPrice = useSelector(getFirstMinPrice);
   const maxPrice = useSelector(getFirstMaxPrice);
   const userMinPrice = useSelector(getMinPrice);
   const userMaxPrice = useSelector(getMaxPrice);
-  const filter = useSelector(getFilter);
+
+  const [priceMin, setPriceMin] = useState<string>(userMinPrice);
+  const [priceMax, setPriceMax] = useState<string>(userMaxPrice);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setFilterMinPrice(String(min)));
-    dispatch(setFilterMaxPrice(String(max)));
-  });
 
   const minPriceRef = useRef(null);
   const maxPriceRef = useRef(null);
 
-  const handleInputBlur = (evt: FormEvent<HTMLInputElement>) => {
-    if (evt.currentTarget.value === '') {
-      dispatch(setFilterMinPrice(evt.currentTarget.value));
-      dispatch(setFilterMaxPrice(evt.currentTarget.value));
-      return;
-    }
+  useEffect(() => {
+    setPriceMin(userMinPrice);
+    setPriceMax(userMaxPrice);
+  }, [userMinPrice, userMaxPrice]);
 
+  const handleInputBlur = (evt: FormEvent<HTMLInputElement>) => {
     const userPrice = Number(evt.currentTarget.value);
 
     switch (evt.currentTarget.id) {
       case priceFilter.priceMin.id: {
-        const checkedMinPrice = checkMinPrice(userPrice, minPrice, maxPrice, userMaxPrice);
+        const checkedMinPrice = checkMinPrice(userPrice, minPrice, maxPrice, priceMax);
 
-        searchParams.set(Filter.PriceGte, checkedMinPrice);
         setPriceMin(checkedMinPrice);
         dispatch(setFilterMinPrice(checkedMinPrice));
+        searchParams.has(Filter.PriceGte)
+          ? searchParams.set(Filter.PriceGte, checkedMinPrice)
+          : searchParams.append(Filter.PriceGte, checkedMinPrice);
         break;
       }
       case priceFilter.priceMax.id: {
-        const checkedMaxPrice = checkMaxPrice(userPrice, minPrice, maxPrice, userMinPrice);
+        const checkedMaxPrice = checkMaxPrice(userPrice, minPrice, maxPrice, priceMin);
 
-        searchParams.set(Filter.PriceLte, checkedMaxPrice);
         setPriceMax(checkedMaxPrice);
         dispatch(setFilterMaxPrice(checkedMaxPrice));
+        searchParams.has(Filter.PriceLte)
+          ? searchParams.set(Filter.PriceLte, checkedMaxPrice)
+          : searchParams.append(Filter.PriceLte, checkedMaxPrice);
         break;
       }
       default:
@@ -68,9 +61,16 @@ function FilterPrice():JSX.Element {
     dispatch(setFirstPage(PaginationPage.First));
     dispatch(setLastPage(PaginationPage.Last));
     dispatch(setCurrentPage(DEFAULT_PAGE));
+    const currentIndexRange = getIndex(DEFAULT_PAGE);
 
-    console.log(searchParams.toString());
-    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${getCurrentItemsRange(DEFAULT_PAGE)}${filter}`));
+    searchParams.has(Filter.PriceGte)
+      ? searchParams.set(Filter.Start, String(currentIndexRange.startIndex))
+      : searchParams.append(Filter.Start, String(currentIndexRange.startIndex));
+    searchParams.has(Filter.End)
+      ? searchParams.set(Filter.End, String(currentIndexRange.lastIndex))
+      : searchParams.append(Filter.End, String(currentIndexRange.lastIndex));
+
+    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${searchParams.toString()}`));
   };
 
   return (

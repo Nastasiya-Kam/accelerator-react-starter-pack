@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RATING } from '../../../const';
-import { setCurrentPage } from '../../../store/action';
+import { ELEMENT_ON_PAGE_COUNT, RATING } from '../../../const';
+import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setOrder, setSorting } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
 import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
 import { getCurrentPage, getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
@@ -13,38 +13,74 @@ import Header from '../../header/header';
 import Pagination from '../../pagination/pagination';
 import Sorting from '../../sorting/sorting';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-// import { Filter as FilterParams } from '../../../const';
+import { Filter as FilterParams } from '../../../const';
+import { useLocation } from 'react-router-dom';
 
 type Props = {
   currentPage: number,
 }
 
 function CatalogScreen({currentPage}: Props): JSX.Element {
-  const guitars = useSelector(getGuitars);
-  const filter = useSelector(getFilter);
   const page = useSelector(getCurrentPage);
   const pageCount = useSelector(getCurrentPageCount);
 
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const searchPath = {
+      start: searchParams.get(FilterParams.Start),
+      min: searchParams.get(FilterParams.PriceGte),
+      max: searchParams.get(FilterParams.PriceLte),
+      types: searchParams.getAll(FilterParams.Type),
+      strings: searchParams.getAll(FilterParams.StringCount),
+      sortingType: searchParams.get(FilterParams.SortingType),
+      sortingOrder: searchParams.get(FilterParams.OrderingType),
+    };
+
+    if (searchPath.min !== null) {
+      dispatch(setFilterMinPrice(searchPath.min));
+    }
+
+    if (searchPath.max !== null) {
+      dispatch(setFilterMaxPrice(searchPath.max));
+    }
+
+    if (searchPath.types !== null) {
+      dispatch(setFilterTypes(searchPath.types));
+    }
+
+    if (searchPath.strings !== null) {
+      dispatch(setFilterStrings(searchPath.strings));
+    }
+
+    if (searchPath.sortingType !== null) {
+      dispatch(setSorting(searchPath.sortingType));
+    }
+
+    if (searchPath.sortingOrder !== null) {
+      dispatch(setOrder(searchPath.sortingOrder));
+    }
+
+    if (searchPath.start !== null) {
+      const indexPage = Number(searchPath.start) / ELEMENT_ON_PAGE_COUNT + 1;
+
+      dispatch(setCurrentPage(indexPage));
+    }
+  });
+
+  const guitars = useSelector(getGuitars);
+  const filter = useSelector(getFilter);
   const isLoading = useSelector(getLoadingStatus);
   const isDataLoaded = useSelector(getLoadingDataStatus);
   const isLoadingError = useSelector(getStatusLoadingError);
 
-  const dispatch = useDispatch();
-
-  const range = getCurrentItemsRange(page);
-  // const currentFilter = `?${range}${filter}`;
-  // const searchParams = new URLSearchParams(currentFilter);
-
   useEffect(() => {
-    // let usingPage = currentPage;
-
-    // if (usingPage > pageCount) {
-    //   usingPage = DEFAULT_PAGE;
-    // }
-
-    dispatch(setCurrentPage(currentPage));
+    const range = getCurrentItemsRange(page);
     dispatch(fetchFilterAction(range, filter));
-  }, [currentPage, pageCount, range, filter, dispatch]);
+  }, [ pageCount, page, filter, dispatch]);
 
   if (isDataLoaded && (currentPage > pageCount) && (pageCount !== 0)) {
     return <NotFoundScreen />;
