@@ -1,9 +1,23 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, DEFAULT_PAGE, ReplacedPart } from '../../../const';
+import { setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setOrder, setSorting } from '../../../store/action';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 
 function NotFoundScreen():JSX.Element {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setFilterMinPrice(''));
+    dispatch(setFilterMaxPrice(''));
+    dispatch(setFilterTypes([]));
+    dispatch(setFilterStrings([]));
+    dispatch(setSorting(''));
+    dispatch(setOrder(''));
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
