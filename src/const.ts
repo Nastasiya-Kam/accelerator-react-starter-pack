@@ -50,6 +50,7 @@ const enum ReplacedPart {
 //* ФИЛЬТР *//
 
 const STRINGS = [ 4, 6, 7, 12 ];
+const TYPE_GUITAR_NAMES = [ 'acoustic', 'electric', 'ukulele' ];
 const TYPES_COUNT = 3;
 const STRINGS_COUNT = 4;
 const NOT_VALID_PRICE = 0;
@@ -131,6 +132,7 @@ export {
   APIRoute,
   ReplacedPart,
   STRINGS,
+  TYPE_GUITAR_NAMES,
   TYPES_COUNT,
   STRINGS_COUNT,
   NOT_VALID_PRICE,

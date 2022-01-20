@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import browserHistory from '../../browser-history';
-import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS, Filter as FilterParams } from '../../const';
+import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS, Filter as FilterParams, TYPE_GUITAR_NAMES } from '../../const';
 import { setCurrentPage, setFilterStrings, setFilterTypes, setFirstPage, setLastPage } from '../../store/action';
 import { getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
 import { collectItems } from '../../utils/filter';
@@ -18,6 +18,7 @@ function Filter():JSX.Element {
   const [types, setTypes] = useState<boolean[]>(new Array(TYPES_COUNT).fill(false));
   const [strings, setStrings] = useState<boolean[]>(new Array(STRINGS_COUNT).fill(false));
   const [availiableStrings, setAvailableStrings] = useState<number[]>(STRINGS);
+  const [availiableTypes, setAvailableTypes] = useState<string[]>(TYPE_GUITAR_NAMES);
 
   const dispatch = useDispatch();
 
@@ -37,6 +38,27 @@ function Filter():JSX.Element {
 
     setAvailableStrings(includingStrings);
   }, [types]);
+
+  useEffect(() => {
+    if (!strings.some((string) => string)) {
+      setAvailableTypes(TYPE_GUITAR_NAMES);
+      return;
+    }
+
+    const includingTypes: string[] = [];
+
+    strings.forEach((isAvailable, index): void => {
+      if (isAvailable) {
+        TYPE_GUITARS.forEach((guitar, guitarIndex): void => {
+          if (guitar.stringsCount.includes(STRINGS[index])) {
+            includingTypes.push(TYPE_GUITARS[guitarIndex].name);
+          }
+        });
+      }
+    });
+
+    setAvailableTypes(includingTypes);
+  }, [strings]);
 
   const handleTypeChange = (items: string[]) => {
     searchParams.delete(FilterParams.Type);
@@ -88,6 +110,7 @@ function Filter():JSX.Element {
                     handleTypeChange(items);
                   }}
                   checked={isChecked}
+                  disabled={!availiableTypes.includes(name)}
                 />
                 <label htmlFor={name}>{type}</label>
               </div>
