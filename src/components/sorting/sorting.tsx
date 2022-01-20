@@ -1,21 +1,39 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Order, Sort } from '../../const';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import browserHistory from '../../browser-history';
+import { Filter, Order, Sort } from '../../const';
 import { setOrder, setSorting } from '../../store/action';
+import { getOrder, getSorting } from '../../store/user-data/selectors';
 
 function Sorting():JSX.Element {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  const sortingType = useSelector(getSorting);
+  const orderType = useSelector(getOrder);
+
   const dispatch = useDispatch();
 
-  const [currentSorting, setCurrentSorting] = useState<string>('');
-  const [currentOrder, setCurrentOrder] = useState<string>('');
+  const [currentSorting, setCurrentSorting] = useState<string>(sortingType);
+  const [currentOrder, setCurrentOrder] = useState<string>(orderType);
+
+  useEffect(() => {
+    setCurrentSorting(sortingType);
+    setCurrentOrder(orderType);
+  }, [sortingType, orderType]);
 
   const handleTypeClick = (type: string): void => {
     if (currentOrder === '') {
       setCurrentOrder(Order.Asc);
       dispatch(setOrder(Order.Asc));
     }
+
     setCurrentSorting(type);
     dispatch(setSorting(type));
+    searchParams.set(Filter.SortingType, type);
+
+    browserHistory.push(`${location.pathname}?${searchParams.toString()}`);
   };
 
   const handleOrderClick = (order: string): void => {
@@ -23,8 +41,12 @@ function Sorting():JSX.Element {
       setCurrentSorting(Sort.Price);
       dispatch(setSorting(Sort.Price));
     }
+
     setCurrentOrder(order);
     dispatch(setOrder(order));
+    searchParams.set(Filter.OrderingType, order);
+
+    browserHistory.push(`${location.pathname}?${searchParams.toString()}`);
   };
 
   return (
