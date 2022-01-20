@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ELEMENT_ON_PAGE_COUNT, RATING } from '../../../const';
-import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setOrder, setSorting } from '../../../store/action';
+import { PaginationPage, PAGINATION_STEP, RATING } from '../../../const';
+import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
 import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
-import { getCurrentPage, getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
+import { getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
 import { getCurrentItemsRange } from '../../../utils/filter';
-import { numberWithSpaces } from '../../../utils/utils';
+import { getIndex, numberWithSpaces } from '../../../utils/utils';
 import Filter from '../../filter/filter';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
@@ -21,7 +21,6 @@ type Props = {
 }
 
 function CatalogScreen({currentPage}: Props): JSX.Element {
-  const page = useSelector(getCurrentPage);
   const pageCount = useSelector(getCurrentPageCount);
 
   const dispatch = useDispatch();
@@ -65,9 +64,34 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
     }
 
     if (searchPath.start !== null) {
-      const indexPage = Number(searchPath.start) / ELEMENT_ON_PAGE_COUNT + 1;
+      let firstPage = PaginationPage.First;
+      let lastPage = PaginationPage.Last;
 
-      dispatch(setCurrentPage(indexPage));
+      if (currentPage % PAGINATION_STEP === 0) {
+        firstPage = currentPage - 3;
+        lastPage = currentPage;
+      }
+      if (currentPage % PAGINATION_STEP === 1) {
+        firstPage = currentPage - 1;
+        lastPage = currentPage + 2;
+      }
+      if (currentPage % PAGINATION_STEP === 2) {
+        firstPage = currentPage - 2;
+        lastPage = currentPage + 1;
+      }
+
+      const currentIndexRange = getIndex(currentPage);
+
+      searchParams.has(FilterParams.Start)
+        ? searchParams.set(FilterParams.Start, String(currentIndexRange.startIndex))
+        : searchParams.append(FilterParams.Start, String(currentIndexRange.startIndex));
+      searchParams.has(FilterParams.End)
+        ? searchParams.set(FilterParams.End, String(currentIndexRange.lastIndex))
+        : searchParams.append(FilterParams.End, String(currentIndexRange.lastIndex));
+
+      dispatch(setFirstPage(firstPage));
+      dispatch(setLastPage(lastPage));
+      dispatch(setCurrentPage(currentPage));
     }
   });
 
@@ -78,9 +102,9 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const isLoadingError = useSelector(getStatusLoadingError);
 
   useEffect(() => {
-    const range = getCurrentItemsRange(page);
+    const range = getCurrentItemsRange(currentPage);
     dispatch(fetchFilterAction(range, filter));
-  }, [ pageCount, page, filter, dispatch]);
+  }, [ pageCount, currentPage, filter, dispatch]);
 
   if (isDataLoaded && (currentPage > pageCount) && (pageCount !== 0)) {
     return <NotFoundScreen />;
