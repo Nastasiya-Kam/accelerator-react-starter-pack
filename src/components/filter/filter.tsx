@@ -1,24 +1,19 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import browserHistory from '../../browser-history';
-import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS } from '../../const';
+import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS, Filter as FilterParams } from '../../const';
 import { setCurrentPage, setFilterStrings, setFilterTypes, setFirstPage, setLastPage } from '../../store/action';
-import { getFilterTypes, getFilterStrings, getFilter } from '../../store/user-data/selectors';
-import { getCurrentItemsRange } from '../../utils/filter';
+import { getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
+import { collectItems } from '../../utils/filter';
 import FilterPrice from '../filter-price/filter-price';
 
-const collectItems = (currentItems: string[], item: string): string[] => {
-  if (currentItems.includes(item)) {
-    return currentItems.filter((currentType) => currentType !== item);
-  }
-
-  return [...currentItems, item];
-};
-
 function Filter():JSX.Element {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
   const userTypes = useSelector(getFilterTypes);
   const userStrings = useSelector(getFilterStrings);
-  const filter = useSelector(getFilter);
 
   const [types, setTypes] = useState<boolean[]>(new Array(TYPES_COUNT).fill(false));
   const [strings, setStrings] = useState<boolean[]>(new Array(STRINGS_COUNT).fill(false));
@@ -42,6 +37,20 @@ function Filter():JSX.Element {
 
     setAvailableStrings(includingStrings);
   }, [types]);
+
+  const handleTypeChange = (items: string[]) => {
+    searchParams.delete(FilterParams.Type);
+    items.map((item: string) => searchParams.append(FilterParams.Type, item));
+
+    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${searchParams.toString()}`));
+  };
+
+  const handleStringCountChange = (items: string[]) => {
+    searchParams.delete(FilterParams.StringCount);
+    items.map((item: string) => searchParams.append(FilterParams.StringCount, item));
+
+    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${searchParams.toString()}`));
+  };
 
   const handleInputChange = () => {
     dispatch(setFirstPage(PaginationPage.First));
@@ -71,10 +80,12 @@ function Filter():JSX.Element {
                   data-testid={name}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
+                    const items = collectItems(userTypes, name);
+
                     handleInputChange();
                     setTypes([...types.slice(0, index), value, ...types.slice(index + 1)]);
-                    dispatch(setFilterTypes(collectItems(userTypes, name)));
-                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${getCurrentItemsRange(DEFAULT_PAGE)}${filter}`));
+                    dispatch(setFilterTypes(items));
+                    handleTypeChange(items);
                   }}
                   checked={isChecked}
                 />
@@ -101,10 +112,12 @@ function Filter():JSX.Element {
                   checked={userStrings.includes(String(stringCount))}
                   onChange={({target}: ChangeEvent<HTMLInputElement>) => {
                     const value = target.checked;
+                    const items = collectItems(userStrings, String(stringCount));
+
                     handleInputChange();
                     setStrings([...strings.slice(0, index), value, ...strings.slice(index + 1)]);
-                    dispatch(setFilterStrings(collectItems(userStrings, String(stringCount))));
-                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${getCurrentItemsRange(DEFAULT_PAGE)}${filter}`));
+                    dispatch(setFilterStrings(items));
+                    handleStringCountChange(items);
                   }}
                   disabled={!availiableStrings.includes(stringCount)}
                 />

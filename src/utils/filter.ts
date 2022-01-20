@@ -35,8 +35,17 @@ const getUserFilter = (min: string, max: string, types: string[], strings: strin
 
 const getSortingTemplate = (sort: string, order: string): string => `${sort && `&_${Param.Sort}=${sort}`}${order && `&_${Param.Order}=${order}`}`;
 
+const collectItems = (currentItems: string[], item: string): string[] => {
+  if (currentItems.includes(item)) {
+    return currentItems.filter((currentType) => currentType !== item);
+  }
+
+  return [...currentItems, item];
+};
+
 export {
   getCurrentItemsRange,
   getUserFilter,
-  getSortingTemplate
+  getSortingTemplate,
+  collectItems
 };
