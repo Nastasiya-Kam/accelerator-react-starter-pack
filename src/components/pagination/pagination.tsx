@@ -1,10 +1,9 @@
-import { AppRoute, DEFAULT_PAGE, Filter, PAGINATION_STEP, ReplacedPart } from '../../const';
+import { AppRoute, DEFAULT_PAGE, PAGINATION_STEP, ReplacedPart } from '../../const';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIsFilter, getCurrentPage, getCurrentPageCount, getFirstPage, getLastPage } from '../../store/user-data/selectors';
 import { nextFirstPage, nextLastPage, prevFirstPage, prevLastPage, setCurrentPage } from '../../store/action';
 import { getPageCount } from '../../store/guitars-data/selectors';
 import { useLocation } from 'react-router-dom';
-import { getIndex } from '../../utils/utils';
 import browserHistory from '../../browser-history';
 
 function Pagination():JSX.Element {
@@ -21,19 +20,6 @@ function Pagination():JSX.Element {
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-
-  const handlePageClick = (page: number): void => {
-    const currentIndexRange = getIndex(page);
-
-    searchParams.has(Filter.Start)
-      ? searchParams.set(Filter.Start, String(currentIndexRange.startIndex))
-      : searchParams.append(Filter.Start, String(currentIndexRange.startIndex));
-    searchParams.has(Filter.End)
-      ? searchParams.set(Filter.End, String(currentIndexRange.lastIndex))
-      : searchParams.append(Filter.End, String(currentIndexRange.lastIndex));
-
-    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}/?${searchParams.toString()}`));
-  };
 
   return (
     <div className="pagination page-content__pagination">
@@ -54,8 +40,8 @@ function Pagination():JSX.Element {
                   dispatch(prevLastPage());
                 }
 
-                dispatch(setCurrentPage(currentPage - 1));
-                handlePageClick(currentPage - 1);
+                dispatch(setCurrentPage(newCurrentPage));
+                browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${newCurrentPage}/?${searchParams.toString()}`));
               }}
             >
               Назад
@@ -74,7 +60,7 @@ function Pagination():JSX.Element {
                   onClick={(evt) => {
                     evt.preventDefault();
                     dispatch(setCurrentPage(page));
-                    handlePageClick(page);
+                    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${page}/?${searchParams.toString()}`));
                   }}
                 >
                   {page}
@@ -100,7 +86,7 @@ function Pagination():JSX.Element {
                 }
 
                 dispatch(setCurrentPage(newCurrentPage));
-                handlePageClick(newCurrentPage);
+                browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${newCurrentPage}/?${searchParams.toString()}`));
               }}
             >
               Далее
