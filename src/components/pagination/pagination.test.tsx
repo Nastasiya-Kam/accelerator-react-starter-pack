@@ -33,11 +33,11 @@ describe('Component: Pagination', () => {
     const fakeApp = createFakeApp(store);
     render(fakeApp);
 
-    expect(screen.queryByRole('link', { name: 'Далее' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Назад' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: '1' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '2' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '3' })).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Назад' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Далее' })).toBeInTheDocument();
   });
 
   it('should render correctly pagination of five pages (current page is five)', () => {
@@ -78,7 +78,7 @@ describe('Component: Pagination', () => {
     const fakeApp = createFakeApp(store);
     render(fakeApp);
 
-    expect(screen.queryByRole('link', { name: 'Назад' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Назад' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '1' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '2' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '3' })).toBeInTheDocument();

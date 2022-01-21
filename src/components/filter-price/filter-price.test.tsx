@@ -7,7 +7,6 @@ import thunk from 'redux-thunk';
 import FilterPrice from './filter-price';
 import { makeFakeGuitars } from '../../utils/mocks';
 import { Sort } from '../../const';
-import userEvent from '@testing-library/user-event';
 
 const mockGuitars = makeFakeGuitars();
 const mockStore = configureMockStore([thunk]);
@@ -52,16 +51,5 @@ describe('Component: FilterPrice', () => {
 
     expect(screen.getByTestId('min-price')).toBeInTheDocument();
     expect(screen.getByTestId('max-price')).toBeInTheDocument();
-  });
-
-  it('should render the highest/minimum possible price when the user tries to enter a value greater/less than possible', () => {
-    render(fakeApp);
-
-    userEvent.type(screen.getByTestId('min-price'), String(minPrice - 1));
-    userEvent.type(screen.getByTestId('max-price'), String(maxPrice + 1));
-    userEvent.tab();
-
-    expect(screen.getByDisplayValue(String(minPrice))).toBeInTheDocument();
-    expect(screen.getByDisplayValue(String(maxPrice))).toBeInTheDocument();
   });
 });
