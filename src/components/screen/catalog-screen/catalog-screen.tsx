@@ -165,7 +165,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                 })
               }
             </div>
-            <Pagination />
+            {(!isLoadingError) && <Pagination />}
           </div>
         </div>
       </main>
