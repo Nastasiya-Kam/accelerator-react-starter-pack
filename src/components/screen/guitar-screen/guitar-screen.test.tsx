@@ -41,7 +41,7 @@ describe('Component: GuitarScreen', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <GuitarScreen />
+          <GuitarScreen id={1} />
         </Router>
       </Provider>,
     );
