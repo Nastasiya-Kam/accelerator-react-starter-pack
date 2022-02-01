@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute, PaginationPage, PAGINATION_STEP, RATING, ReplacedPart } from '../../../const';
+import { AppRoute, PaginationPage, PAGINATION_STEP, ratingSize, ReplacedPart } from '../../../const';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
 import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
@@ -15,6 +15,7 @@ import Sorting from '../../sorting/sorting';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { Filter as FilterParams } from '../../../const';
 import { Link, useLocation } from 'react-router-dom';
+import Rating from '../../rating/rating';
 
 type Props = {
   currentPage: number,
@@ -136,20 +137,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                     <div key={keyGuitar} className="product-card"><img src={previewImg.replace('img', 'img/content')} width="75" height="190" alt={name} />
                       <div className="product-card__info">
                         <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
-                          {
-                            RATING.map((item, indexRating) => {
-                              const keyRating = `${indexRating}-${item}`;
-
-                              return (
-                                <svg key={keyRating} width="12" height="11" aria-hidden="true">
-                                  <use
-                                    xlinkHref={item <= rating ? '#icon-full-star' : '#icon-star'}
-                                  >
-                                  </use>
-                                </svg>
-                              );
-                            })
-                          }
+                          <Rating width={ratingSize.catalog.width} height={ratingSize.catalog.height} count={rating} />
                           <span className="rate__count">{rating}</span>
                           <span className="rate__message"></span>
                         </div>

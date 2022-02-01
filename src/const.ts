@@ -26,6 +26,17 @@ const enum ErrorMessage {
   LoadData = 'Загрузить данные не удалось',
 }
 
+const ratingSize = {
+  catalog: {
+    width: 12,
+    height: 11,
+  },
+  item: {
+    width: 14,
+    height: 14,
+  },
+};
+
 //* НАВИГАЦИЯ *//
 
 const enum AppRoute {
@@ -130,6 +141,7 @@ export {
   FOOTER_MENUS,
   socials,
   ErrorMessage,
+  ratingSize,
   AppRoute,
   APIRoute,
   ReplacedPart,
