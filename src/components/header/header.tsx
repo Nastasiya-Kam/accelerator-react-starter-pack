@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import browserHistory from '../../browser-history';
-import { AppRoute, HEADER_MENUS } from '../../const';
+import { AppRoute, HEADER_MENUS, ReplacedPart } from '../../const';
 import { fetchSearchingAction } from '../../store/api-actions';
 import { getSearchingGuitars } from '../../store/user-data/selectors';
 
@@ -65,7 +65,7 @@ function Header():JSX.Element {
                       key={key}
                       className="form-search__select-item"
                       tabIndex={0}
-                      onClick={() => browserHistory.push(AppRoute.GuitarPage)}
+                      onClick={() => browserHistory.push(AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(guitar.id)))}
                     >
                       {guitar.name}
                     </li>

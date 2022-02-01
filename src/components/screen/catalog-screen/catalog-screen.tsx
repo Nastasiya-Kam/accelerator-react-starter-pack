@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute, PaginationPage, PAGINATION_STEP, RATING } from '../../../const';
+import { AppRoute, PaginationPage, PAGINATION_STEP, RATING, ReplacedPart } from '../../../const';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
 import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
@@ -130,7 +130,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
               {
                 (!isLoading && !isLoadingError) && guitars.map((guitar) => {
                   const keyGuitar = `${guitar.id}-${guitar.name}`;
-                  const { name, previewImg, rating, price } = guitar;
+                  const { id, name, previewImg, rating, price } = guitar;
 
                   return (
                     <div key={keyGuitar} className="product-card"><img src={previewImg.replace('img', 'img/content')} width="75" height="190" alt={name} />
@@ -157,7 +157,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{numberWithSpaces(price)} ₽</p>
                       </div>
                       <div className="product-card__buttons">
-                        <Link className="button button--mini" to={AppRoute.GuitarPage}>Подробнее</Link>
+                        <Link className="button button--mini" to={AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(id))}>Подробнее</Link>
                         <a className="button button--red button--mini button--add-to-cart" href="#">Купить</a>
                       </div>
                     </div>

@@ -19,8 +19,15 @@ function App(): JSX.Element {
         }}
       >
       </Route>
-      <Route exact path={AppRoute.GuitarPage}>
-        <GuitarScreen />
+      <Route
+        exact
+        path={AppRoute.GuitarPage}
+        render={(routerProps) => {
+          const id = parseInt(routerProps?.match?.params?.id as string, 10);
+
+          return <GuitarScreen id={id}/>;
+        }}
+      >
       </Route>
       <Route>
         <NotFoundScreen />

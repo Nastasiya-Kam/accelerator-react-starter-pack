@@ -1,10 +1,31 @@
+/* eslint-disable no-console */
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../../const';
+import { fetchGuitarAction } from '../../../store/api-actions';
+import { getGuitar } from '../../../store/guitar-data/selectors';
+import { GuitarId } from '../../../types/guitars';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 import Reviews from '../../reviews/reviews';
 
-function GuitarScreen(): JSX.Element {
+type Props = {
+  id: GuitarId,
+}
+
+function GuitarScreen({id}: Props): JSX.Element {
+  const guitar = useSelector(getGuitar);
+  console.log(guitar);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGuitarAction(id));
+  }, [id, dispatch]);
+
+  // TODO настраиваем отображение Not Found
+  // TODO настраиваем отображение Loading
 
   return (
     <div className="wrapper">

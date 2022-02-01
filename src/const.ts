@@ -46,6 +46,7 @@ const enum APIRoute {
 const enum ReplacedPart {
   Page = ':page',
   PartPage = 'page_',
+  GuitarId = ':id',
 }
 
 //* ФИЛЬТР *//
