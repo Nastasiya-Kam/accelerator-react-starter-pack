@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { ELEMENT_ON_PAGE_COUNT, ErrorMessage, NOT_VALID_PRICE } from '../const';
+import { ELEMENT_ON_PAGE_COUNT, ErrorMessage, guitarType, NOT_VALID_PRICE } from '../const';
 
 const numberWithSpaces = (integerNumber: number): string => integerNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -58,9 +58,23 @@ const getIndex = (page: number) => ({
   startIndex: page * ELEMENT_ON_PAGE_COUNT - ELEMENT_ON_PAGE_COUNT,
 });
 
+const getGuitarType = (type: string): string => {
+  switch (type) {
+    case guitarType.acoustic.name:
+      return guitarType.acoustic.type;
+    case guitarType.electric.name:
+      return guitarType.electric.type;
+    case guitarType.ukulele.name:
+      return guitarType.ukulele.type;
+  }
+
+  return type;
+};
+
 export {
   numberWithSpaces,
   checkMinPrice,
   checkMaxPrice,
-  getIndex
+  getIndex,
+  getGuitarType
 };

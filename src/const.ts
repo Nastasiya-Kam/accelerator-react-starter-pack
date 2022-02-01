@@ -37,6 +37,26 @@ const ratingSize = {
   },
 };
 
+const guitarType = {
+  acoustic: {
+    name: 'acoustic',
+    type:  'Акустические гитары',
+  },
+  electric: {
+    name: 'electric',
+    type: 'Электрогитары',
+  },
+  ukulele: {
+    name: 'ukulele',
+    type: 'Укулеле',
+  },
+};
+
+const enum ScreenTab {
+  Characteristics = 'characteristics',
+  Description = 'description',
+}
+
 //* НАВИГАЦИЯ *//
 
 const enum AppRoute {
@@ -142,6 +162,8 @@ export {
   socials,
   ErrorMessage,
   ratingSize,
+  guitarType,
+  ScreenTab,
   AppRoute,
   APIRoute,
   ReplacedPart,
