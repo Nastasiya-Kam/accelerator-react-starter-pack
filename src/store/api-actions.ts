@@ -1,8 +1,8 @@
-import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage, Filter } from '../const';
+import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage, Filter, ReplacedPart } from '../const';
 import { ThunkActionResult } from '../types/action';
-import { Guitars } from '../types/guitars';
+import { Guitar, GuitarId, Guitars } from '../types/guitars';
 import { toast } from 'react-toastify';
-import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading, loadSearchingGuitars, isLoadingError } from './action';
+import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading, loadSearchingGuitars, isLoadingError, loadGuitarData, isGuitarLoading } from './action';
 
 const fetchGuitarsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -52,8 +52,22 @@ const fetchSearchingAction = (text: string): ThunkActionResult =>
     }
   };
 
+const fetchGuitarAction = (id: GuitarId): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(isGuitarLoading(true));
+    try {
+      const {data} = await api.get<Guitar>(APIRoute.Guitar.replace(ReplacedPart.GuitarId, String(id)));
+
+      dispatch(loadGuitarData(data));
+    } catch {
+      toast.info(ErrorMessage.LoadData);
+    }
+    dispatch(isGuitarLoading(false));
+  };
+
 export {
   fetchGuitarsAction,
   fetchFilterAction,
-  fetchSearchingAction
+  fetchSearchingAction,
+  fetchGuitarAction
 };

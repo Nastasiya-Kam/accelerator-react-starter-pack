@@ -1,5 +1,5 @@
 import { RootState } from '../store/root-reducer';
-import { Guitars } from './guitars';
+import { Guitar, Guitars } from './guitars';
 
 type GuitarsData = {
   guitars: Guitars,
@@ -25,6 +25,12 @@ type UserData = {
   searchingGuitars: Guitars,
 };
 
+type GuitarData = {
+  guitar: Guitar | null,
+  isDataLoaded: boolean,
+  isGuitarLoading: boolean,
+}
+
 type State = RootState;
 
-export type { GuitarsData, UserData, State };
+export type { GuitarsData, UserData, GuitarData, State };
