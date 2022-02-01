@@ -31,6 +31,7 @@ const enum ErrorMessage {
 const enum AppRoute {
   Root = '/',
   CatalogPage = '/catalog/:page',
+  GuitarPage = '/guitar/:id',
 }
 
 const enum APIRoute {

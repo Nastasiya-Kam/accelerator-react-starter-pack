@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PaginationPage, PAGINATION_STEP, RATING } from '../../../const';
+import { AppRoute, PaginationPage, PAGINATION_STEP, RATING } from '../../../const';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
 import { fetchFilterAction } from '../../../store/api-actions';
 import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
@@ -14,7 +14,7 @@ import Pagination from '../../pagination/pagination';
 import Sorting from '../../sorting/sorting';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { Filter as FilterParams } from '../../../const';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
   currentPage: number,
@@ -157,7 +157,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{numberWithSpaces(price)} ₽</p>
                       </div>
                       <div className="product-card__buttons">
-                        <a className="button button--mini" href="#">Подробнее</a>
+                        <Link className="button button--mini" to={AppRoute.GuitarPage}>Подробнее</Link>
                         <a className="button button--red button--mini button--add-to-cart" href="#">Купить</a>
                       </div>
                     </div>
