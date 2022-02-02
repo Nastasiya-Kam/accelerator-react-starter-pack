@@ -27,6 +27,7 @@ enum ActionType {
   LoadSearchingGuitars = 'user/loadSearchingGuitars',
   LoadGuitarData = 'guitar/loadGuitarData',
   IsGuitarLoading = 'guitar/isGuitarLoading',
+  IsGuitarLoadingError = 'guitar/isGuitarLoadingError',
   LoadCommentsData = 'guitar/loadCommentsData',
   IsCommentsLoading = 'guitar/isCommentsLoading',
 }

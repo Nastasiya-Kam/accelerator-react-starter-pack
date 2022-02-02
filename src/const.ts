@@ -1,6 +1,7 @@
 const RATING = [ 1, 2, 3, 4, 5 ];
 const HEADER_MENUS = [ 'Каталог', 'Где купить?', 'О компании' ];
 const FOOTER_MENUS = [ 'Где купить?', 'Блог', 'Вопрос - ответ', 'Возврат', 'Сервис-центры' ];
+const ERROR_RESPONSE = 404;
 
 const socials = [
   {
@@ -164,6 +165,7 @@ export {
   RATING,
   HEADER_MENUS,
   FOOTER_MENUS,
+  ERROR_RESPONSE,
   socials,
   ErrorMessage,
   ratingSize,

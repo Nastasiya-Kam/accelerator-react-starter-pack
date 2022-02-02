@@ -129,13 +129,20 @@ const loadSearchingGuitars = createAction(
 
 const loadGuitarData = createAction(
   ActionType.LoadGuitarData,
-  (guitar: Guitar) => ({
+  (guitar: Guitar | null) => ({
     payload: guitar,
   }),
 );
 
 const isGuitarLoading = createAction(
   ActionType.IsGuitarLoading,
+  (flag: boolean) => ({
+    payload: flag,
+  }),
+);
+
+const isGuitarLoadingError = createAction(
+  ActionType.IsGuitarLoadingError,
   (flag: boolean) => ({
     payload: flag,
   }),
@@ -179,6 +186,7 @@ export {
   loadSearchingGuitars,
   loadGuitarData,
   isGuitarLoading,
+  isGuitarLoadingError,
   loadCommentsData,
   isCommentsLoading
 };

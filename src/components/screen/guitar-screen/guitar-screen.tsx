@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, ratingSize, ScreenTab } from '../../../const';
 import { fetchGuitarAction } from '../../../store/api-actions';
-import { getGuitar, getGuitarLoadingStatus } from '../../../store/guitar-data/selectors';
+import { getCommentsCount, getGuitar, getGuitarLoadingDataStatus, getGuitarLoadingError, getGuitarLoadingStatus } from '../../../store/guitar-data/selectors';
 import { GuitarId } from '../../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../../utils/utils';
 import Footer from '../../footer/footer';
@@ -18,6 +18,9 @@ type Props = {
 
 function GuitarScreen({id}: Props): JSX.Element {
   const guitar = useSelector(getGuitar);
+  const commentsCount = useSelector(getCommentsCount);
+  const isGuitarDataLoaded = useSelector(getGuitarLoadingDataStatus);
+  const isGuitarLoadingError = useSelector(getGuitarLoadingError);
   const isLoading = useSelector(getGuitarLoadingStatus);
 
   const dispatch = useDispatch();
@@ -28,36 +31,33 @@ function GuitarScreen({id}: Props): JSX.Element {
     dispatch(fetchGuitarAction(id));
   }, [id, dispatch]);
 
-  // TODO настраиваем отображение Not Found. Есть мелькание
-  if (!guitar) {
+  if (isGuitarDataLoaded && !guitar) {
     return <NotFoundScreen />;
   }
 
-  const { description, name, previewImg, price, rating, stringCount, type, vendorCode } = guitar;
-
-  // TODO настраиваем отображение Loading
   return (
     <div className="wrapper">
       <Header />
       <main className="page-content">
+        {(isLoading) && <p>Идёт загрузка данных...</p>}
+        {(isGuitarLoadingError) && <p>Не удалось загрузить данные с сервера. Попробуйте позже</p>}
         {
-          (isLoading)
-            ? <p>Идёт загрузка данных...</p>
-            :
+          (!isLoading && guitar)
+            &&
             <div className="container">
-              <h1 className="page-content__title title title--bigger" data-testid="main-title">Товар</h1>
+              <h1 className="page-content__title title title--bigger" data-testid="main-title">{guitar.name}</h1>
               <ul className="breadcrumbs page-content__breadcrumbs">
                 <li className="breadcrumbs__item"><Link className="link" to={AppRoute.Root}>Главная</Link></li>
                 <li className="breadcrumbs__item"><Link className="link" to={AppRoute.CatalogPage}>Каталог</Link></li>
-                <li className="breadcrumbs__item"><a className="link">{name}</a></li>
+                <li className="breadcrumbs__item"><a className="link">{guitar.name}</a></li>
               </ul>
               <div className="product-container">
-                <img className="product-container__img" src={previewImg.replace('img', 'img/content')} width="90" height="235" alt={name} />
+                <img className="product-container__img" src={guitar.previewImg.replace('img', 'img/content')} width="90" height="235" alt={guitar.name} />
                 <div className="product-container__info-wrapper">
-                  <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
+                  <h2 className="product-container__title title title--big title--uppercase">{guitar.name}</h2>
                   <div className="rate product-container__rating" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
-                    <Rating height={ratingSize.item.height} width={ratingSize.item.width} count={rating} />
-                    <span className="rate__count"></span><span className="rate__message"></span>
+                    <Rating height={ratingSize.item.height} width={ratingSize.item.width} count={guitar.rating} />
+                    <span className="rate__count">{commentsCount}</span><span className="rate__message"></span>
                   </div>
                   <div className="tabs">
                     <a className={`button button--medium tabs__button${(currentTab === ScreenTab.Characteristics) ? '' : ' button--black-border'}`} href="#characteristics"
@@ -80,24 +80,24 @@ function GuitarScreen({id}: Props): JSX.Element {
                       <table className={`tabs__table${(currentTab === ScreenTab.Description) ? ' hidden' : ''}`}>
                         <tr className="tabs__table-row">
                           <td className="tabs__title">Артикул:</td>
-                          <td className="tabs__value">{vendorCode}</td>
+                          <td className="tabs__value">{guitar.vendorCode}</td>
                         </tr>
                         <tr className="tabs__table-row">
                           <td className="tabs__title">Тип:</td>
-                          <td className="tabs__value">{getGuitarType(type)}</td>
+                          <td className="tabs__value">{getGuitarType(guitar.type)}</td>
                         </tr>
                         <tr className="tabs__table-row">
                           <td className="tabs__title">Количество струн:</td>
-                          <td className="tabs__value">{stringCount} струнная</td>
+                          <td className="tabs__value">{guitar.stringCount} струнная</td>
                         </tr>
                       </table>
-                      <p className={`tabs__product-description${(currentTab === ScreenTab.Characteristics) ? ' hidden' : ''}`}>{description}</p>
+                      <p className={`tabs__product-description${(currentTab === ScreenTab.Characteristics) ? ' hidden' : ''}`}>{guitar.description}</p>
                     </div>
                   </div>
                 </div>
                 <div className="product-container__price-wrapper">
                   <p className="product-container__price-info product-container__price-info--title">Цена:</p>
-                  <p className="product-container__price-info product-container__price-info--value">{numberWithSpaces(price)} ₽</p><a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
+                  <p className="product-container__price-info product-container__price-info--value">{numberWithSpaces(guitar.price)} ₽</p><a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
                 </div>
               </div>
               <Reviews guitarId={id} />

@@ -30,6 +30,7 @@ type GuitarData = {
   guitar: Guitar | null,
   isDataLoaded: boolean,
   isGuitarLoading: boolean,
+  isGuitarLoadingError: boolean,
   comments: Comments,
   isCommentsLoaded: boolean,
   isCommentsLoading: boolean,
