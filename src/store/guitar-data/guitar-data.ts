@@ -20,6 +20,9 @@ const guitarData = createReducer(initialState, (builder) => {
     .addCase(loadCommentsData, (state, action) => {
       state.comments = action.payload;
       state.isCommentsLoaded = true;
+    })
+    .addCase(isCommentsLoading, (state, action) => {
+      state.isCommentsLoading = action.payload;
     });
 });
 
