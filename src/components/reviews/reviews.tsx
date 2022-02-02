@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ratingSize } from '../../const';
+import { ratingSize, RENDER_COMMENTS_COUNT } from '../../const';
 import { fetchCommentsAction } from '../../store/api-actions';
 import { getComments, getCommentsLoadingStatus } from '../../store/guitar-data/selectors';
 import { GuitarId } from '../../types/guitars';
 import Rating from '../rating/rating';
+import ReviewMore from '../review-more/review-more';
 
 type Props = {
   guitarId: GuitarId,
@@ -15,6 +16,8 @@ function Reviews({guitarId}: Props): JSX.Element {
   const isCommentsLoading = useSelector(getCommentsLoadingStatus);
   const dispatch = useDispatch();
 
+  const [renderedCommentsCount, setRenderedCommentsCount] = useState<number>(RENDER_COMMENTS_COUNT);
+
   useEffect(() => {
     dispatch(fetchCommentsAction(guitarId));
   }, [ guitarId, dispatch ]);
@@ -23,10 +26,11 @@ function Reviews({guitarId}: Props): JSX.Element {
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">Отзывы</h3><a className="button button--red-border button--big reviews__sumbit-button" href="#">Оставить отзыв</a>
 
+      {(isCommentsLoading) && <p className="review__title">Комментарии загружаются...</p>}
       {
-        (isCommentsLoading)
-          ? <p className="review__title">Комментарии загружаются...</p>
-          : comments?.map((item) => {
+        (comments !== null && comments.length === 0)
+          ? <p className="review__value">Комментарии ещё никто не оставил. Ваш будет первым</p>
+          : comments?.slice(0, renderedCommentsCount).map((item) => {
             const { id, userName, advantage, disadvantage, comment, rating, createAt } = item;
             const keyComment = `comment-id-${id}`;
 
@@ -54,7 +58,8 @@ function Reviews({guitarId}: Props): JSX.Element {
             );
           })
       }
-      <button className="button button--medium reviews__more-button">Показать еще отзывы</button><a className="button button--up button--red-border button--big reviews__up-button" href="#header">Наверх</a>
+      {(comments !== null && comments.length > renderedCommentsCount) && <ReviewMore renderedCommentsCount={renderedCommentsCount} onClick={setRenderedCommentsCount} />}
+      <a className="button button--up button--red-border button--big reviews__up-button" href="#header">Наверх</a>
     </section>
   );
 }

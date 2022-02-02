@@ -161,6 +161,9 @@ const enum PaginationPage {
   Last = 3,
 }
 
+//* КОММЕНТАРИИ *//
+const RENDER_COMMENTS_COUNT = 3;
+
 export {
   RATING,
   HEADER_MENUS,
@@ -188,5 +191,6 @@ export {
   DEFAULT_PAGE,
   PAGINATION_STEP,
   ELEMENT_ON_PAGE_COUNT,
-  PaginationPage
+  PaginationPage,
+  RENDER_COMMENTS_COUNT
 };
