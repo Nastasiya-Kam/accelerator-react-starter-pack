@@ -1,4 +1,5 @@
 import { RootState } from '../store/root-reducer';
+import { Comments } from './comments';
 import { Guitar, Guitars } from './guitars';
 
 type GuitarsData = {
@@ -29,6 +30,9 @@ type GuitarData = {
   guitar: Guitar | null,
   isDataLoaded: boolean,
   isGuitarLoading: boolean,
+  comments: Comments,
+  isCommentsLoaded: boolean,
+  isCommentsLoading: boolean,
 }
 
 type State = RootState;

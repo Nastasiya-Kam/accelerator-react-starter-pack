@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ActionType } from '../types/action';
+import { Comments } from '../types/comments';
 import { Guitar, Guitars } from '../types/guitars';
 
 const loadGuitarsData = createAction(
@@ -140,6 +141,20 @@ const isGuitarLoading = createAction(
   }),
 );
 
+const loadCommentsData = createAction(
+  ActionType.LoadCommentsData,
+  (comments: Comments) => ({
+    payload: comments,
+  }),
+);
+
+const isCommentsLoading = createAction(
+  ActionType.IsCommentsLoading,
+  (flag: boolean) => ({
+    payload: flag,
+  }),
+);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
@@ -163,5 +178,7 @@ export {
   nextLastPage,
   loadSearchingGuitars,
   loadGuitarData,
-  isGuitarLoading
+  isGuitarLoading,
+  loadCommentsData,
+  isCommentsLoading
 };

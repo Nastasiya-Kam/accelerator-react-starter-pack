@@ -2,7 +2,8 @@ import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage, Filter, ReplacedPart } f
 import { ThunkActionResult } from '../types/action';
 import { Guitar, GuitarId, Guitars } from '../types/guitars';
 import { toast } from 'react-toastify';
-import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading, loadSearchingGuitars, isLoadingError, loadGuitarData, isGuitarLoading } from './action';
+import { loadGuitarsData, setFirstMinPrice, setFirstMaxPrice, setPageCount, setCurrentPageCount, isLoading, loadSearchingGuitars, isLoadingError, loadGuitarData, isGuitarLoading, isCommentsLoading, loadCommentsData } from './action';
+import { Comments } from '../types/comments';
 
 const fetchGuitarsAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -65,9 +66,23 @@ const fetchGuitarAction = (id: GuitarId): ThunkActionResult =>
     dispatch(isGuitarLoading(false));
   };
 
+const fetchCommentsAction = (id: GuitarId): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(isCommentsLoading(true));
+    try {
+      const {data} = await api.get<Comments>(APIRoute.Comments.replace(ReplacedPart.GuitarId, String(id)));
+
+      dispatch(loadCommentsData(data));
+    } catch {
+      toast.info(ErrorMessage.LoadCommentsData);
+    }
+    dispatch(isCommentsLoading(false));
+  };
+
 export {
   fetchGuitarsAction,
   fetchFilterAction,
   fetchSearchingAction,
-  fetchGuitarAction
+  fetchGuitarAction,
+  fetchCommentsAction
 };

@@ -27,6 +27,8 @@ enum ActionType {
   LoadSearchingGuitars = 'user/loadSearchingGuitars',
   LoadGuitarData = 'guitar/loadGuitarData',
   IsGuitarLoading = 'guitar/isGuitarLoading',
+  LoadCommentsData = 'guitar/loadCommentsData',
+  IsCommentsLoading = 'guitar/isCommentsLoading',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

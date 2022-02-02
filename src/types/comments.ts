@@ -3,13 +3,15 @@ import { GuitarId } from './guitars';
 type Comment = {
   id: string,
   userName: string,
-  advantages: string,
-  disadvantages: string,
+  advantage: string,
+  disadvantage: string,
   comment: string,
   rating: number,
   createAt: string,
   guitarId: number,
 }
+
+type Comments = Comment[];
 
 type CommentPost = {
   guitarId: GuitarId,
@@ -31,6 +33,7 @@ type OrderPost = {
 
 export type {
   Comment,
+  Comments,
   CommentPost,
   CouponPost,
   OrderPost
