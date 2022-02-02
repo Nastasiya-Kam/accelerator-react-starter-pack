@@ -24,6 +24,7 @@ const enum ErrorMessage {
   MinPrice = 'Цена не может быть нулевой или меньше минимального значения',
   MaxPrice = 'Цена не может быть больше максимального значения',
   LoadData = 'Загрузить данные не удалось',
+  LoadCommentsData = 'Загрузить комментарии не удалось',
 }
 
 const ratingSize = {
@@ -34,6 +35,10 @@ const ratingSize = {
   item: {
     width: 14,
     height: 14,
+  },
+  review: {
+    width: 16,
+    height: 16,
   },
 };
 
