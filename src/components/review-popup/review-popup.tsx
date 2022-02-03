@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { ESC_KEY_CODE, UserActivity } from '../../const';
-import { useOutsideClicker } from '../../hooks/use-outside-alerter';
+import { useOutsideClicker } from '../../hooks/use-outside-clicker';
 import { getGuitarName } from '../../store/guitar-data/selectors';
 
 type Props = {
