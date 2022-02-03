@@ -22,6 +22,11 @@ function Reviews({guitarId}: Props): JSX.Element {
     dispatch(fetchCommentsAction(guitarId));
   }, [ guitarId, dispatch ]);
 
+  const handleButtonUpClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    evt.preventDefault();
+    window.scrollTo(0, 0);
+  };
+
   return (
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">Отзывы</h3><a className="button button--red-border button--big reviews__sumbit-button" href="#">Оставить отзыв</a>
@@ -59,7 +64,7 @@ function Reviews({guitarId}: Props): JSX.Element {
           })
       }
       {(comments !== null && comments.length > renderedCommentsCount) && <ReviewMore renderedCommentsCount={renderedCommentsCount} onClick={setRenderedCommentsCount} />}
-      <a className="button button--up button--red-border button--big reviews__up-button" href="#header">Наверх</a>
+      <a className="button button--up button--red-border button--big reviews__up-button" href="#header" onClick={(evt) => handleButtonUpClick(evt)}>Наверх</a>
     </section>
   );
 }

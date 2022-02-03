@@ -1431,6 +1431,7 @@ button,
 }
 
 .button--up {
+  z-index: 1;
   padding-top: 9px;
   padding-bottom: 9px;
   padding-left: calc(var(--button-horizontal-padding) + 13px);
