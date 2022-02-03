@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ratingSize, RENDER_COMMENTS_COUNT } from '../../const';
 import { fetchCommentsAction } from '../../store/api-actions';
-import { getComments, getCommentsLoadingStatus } from '../../store/guitar-data/selectors';
+import { getCommentsLoadingStatus, getCommentsSortedByDate } from '../../store/guitar-data/selectors';
 import { GuitarId } from '../../types/guitars';
 import Rating from '../rating/rating';
 import ReviewMore from '../review-more/review-more';
@@ -12,7 +12,7 @@ type Props = {
 }
 
 function Reviews({guitarId}: Props): JSX.Element {
-  const comments = useSelector(getComments);
+  const comments = useSelector(getCommentsSortedByDate);
   const isCommentsLoading = useSelector(getCommentsLoadingStatus);
   const dispatch = useDispatch();
 

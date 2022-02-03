@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { ELEMENT_ON_PAGE_COUNT, ErrorMessage, guitarType, NOT_VALID_PRICE } from '../const';
+import { Comment } from '../types/comments';
 
 const numberWithSpaces = (integerNumber: number): string => integerNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -71,10 +72,18 @@ const getGuitarType = (type: string): string => {
   return type;
 };
 
+const sort = (commentA: Comment, commentB: Comment) => {
+  const dateA = new Date(commentA.createAt).getTime();
+  const dateB = new Date(commentB.createAt).getTime();
+
+  return dateB - dateA;
+};
+
 export {
   numberWithSpaces,
   checkMinPrice,
   checkMaxPrice,
   getIndex,
-  getGuitarType
+  getGuitarType,
+  sort
 };
