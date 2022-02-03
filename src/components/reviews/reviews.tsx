@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ratingSize, RENDER_COMMENTS_COUNT } from '../../const';
 import { fetchCommentsAction } from '../../store/api-actions';
@@ -9,9 +9,10 @@ import ReviewMore from '../review-more/review-more';
 
 type Props = {
   guitarId: GuitarId,
+  onClick: (a: boolean) => void,
 }
 
-function Reviews({guitarId}: Props): JSX.Element {
+function Reviews({guitarId, onClick}: Props): JSX.Element {
   const comments = useSelector(getCommentsSortedByDate);
   const isCommentsLoading = useSelector(getCommentsLoadingStatus);
   const dispatch = useDispatch();
@@ -27,9 +28,18 @@ function Reviews({guitarId}: Props): JSX.Element {
     window.scrollTo(0, 0);
   };
 
+  const handleLeaveReviewClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    evt.preventDefault();
+    document.body.style.overflow = 'hidden';
+    onClick(true);
+  };
+
   return (
     <section className="reviews">
-      <h3 className="reviews__title title title--bigger">Отзывы</h3><a className="button button--red-border button--big reviews__sumbit-button" href="#">Оставить отзыв</a>
+      <h3 className="reviews__title title title--bigger">Отзывы</h3>
+      <a className="button button--red-border button--big reviews__sumbit-button" onClick={(evt) => handleLeaveReviewClick(evt)} >
+        Оставить отзыв
+      </a>
 
       {(isCommentsLoading) && <p className="review__title">Комментарии загружаются...</p>}
       {

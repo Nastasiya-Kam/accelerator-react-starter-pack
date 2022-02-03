@@ -102,7 +102,7 @@ function GuitarScreen({id}: Props): JSX.Element {
                   <p className="product-container__price-info product-container__price-info--value">{numberWithSpaces(guitar.price)} ₽</p><a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
                 </div>
               </div>
-              <Reviews guitarId={id} />
+              <Reviews guitarId={id} onClick={setIsOpened} />
             </div>
         }
       </main>

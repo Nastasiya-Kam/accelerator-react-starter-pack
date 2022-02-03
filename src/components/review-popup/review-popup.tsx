@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { ESC_KEY_CODE, UserActivity } from '../../const';
+import { useOutsideClicker } from '../../hooks/use-outside-alerter';
 import { getGuitarName } from '../../store/guitar-data/selectors';
 
 type Props = {
@@ -28,11 +29,14 @@ function ReviewPopup({onClick}: Props): JSX.Element {
     return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
   }, [ handleEscKeyDown ]);
 
+  const wrapperRef = useRef(null);
+  useOutsideClicker(wrapperRef, onClick);
+
   return (
     <div className="modal is-active modal--review">
       <div className="modal__wrapper">
         <div className="modal__overlay" data-close-modal></div>
-        <div className="modal__content">
+        <div className="modal__content" ref={wrapperRef}>
           <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
           <h3 className="modal__product-name title title--medium-20 title--uppercase">{name}</h3>
           <form className="form-review">
