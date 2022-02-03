@@ -162,7 +162,18 @@ const enum PaginationPage {
 }
 
 //* КОММЕНТАРИИ *//
+
 const RENDER_COMMENTS_COUNT = 3;
+
+//* МОДАЛКА *//
+
+const ESC_KEY_CODE = 27;
+
+const enum UserActivity {
+  Scroll = 'scroll',
+  Keydown = 'keydown',
+  Mousedown = 'mousedown',
+}
 
 export {
   RATING,
@@ -192,5 +203,7 @@ export {
   PAGINATION_STEP,
   ELEMENT_ON_PAGE_COUNT,
   PaginationPage,
-  RENDER_COMMENTS_COUNT
+  RENDER_COMMENTS_COUNT,
+  ESC_KEY_CODE,
+  UserActivity
 };

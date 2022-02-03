@@ -9,6 +9,7 @@ import { getGuitarType, numberWithSpaces } from '../../../utils/utils';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 import Rating from '../../rating/rating';
+import ReviewPopup from '../../review-popup/review-popup';
 import Reviews from '../../reviews/reviews';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
@@ -26,6 +27,7 @@ function GuitarScreen({id}: Props): JSX.Element {
   const dispatch = useDispatch();
 
   const [currentTab, setCurrentTab] = useState<string>(ScreenTab.Characteristics);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchGuitarAction(id));
@@ -105,6 +107,7 @@ function GuitarScreen({id}: Props): JSX.Element {
         }
       </main>
       <Footer />
+      {(isOpened) && <ReviewPopup onClick={setIsOpened} />}
     </div>
   );
 }
