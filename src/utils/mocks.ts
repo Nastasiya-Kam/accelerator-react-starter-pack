@@ -1,5 +1,6 @@
 import { Guitar, Guitars } from '../types/guitars';
 import { image, music, name } from 'faker';
+import { Comment, Comments } from '../types/comments';
 
 enum Count {
   GuitarsTest = 4,
@@ -9,11 +10,11 @@ enum Count {
 enum HttpCode {
   Ok = 200,
   NoContent = 204,
-  NoAuth = 401,
+  NotFound = 404,
 }
 
 const makeFakeGuitar = (): Guitar => ({
-  'id': 1,
+  'id': Math.floor(Math.random() * 100000),
   'name': name.firstName(),
   'vendorCode': 'SO757575',
   'type': music.genre(),
@@ -26,8 +27,23 @@ const makeFakeGuitar = (): Guitar => ({
 
 const makeFakeGuitars = (): Guitars => new Array(Count.GuitarsTest).fill(undefined).map(() => makeFakeGuitar());
 
+const makeFakeComment = (): Comment => ({
+  id: String(Math.floor(Math.random() * 100000)),
+  userName: name.firstName(),
+  advantage: 'очень хорошо',
+  disadvantage: 'очень плохо',
+  comment: 'длинный комментарий',
+  rating: 4,
+  createAt: '2021-10-28T12:32:16.934Z',
+  guitarId: 1,
+} as Comment);
+
+const makeFakeComments = (): Comments => new Array(Count.CommentsTest).fill(undefined).map(() => makeFakeComment());
+
 export {
   HttpCode,
   makeFakeGuitar,
-  makeFakeGuitars
+  makeFakeGuitars,
+  makeFakeComment,
+  makeFakeComments
 };

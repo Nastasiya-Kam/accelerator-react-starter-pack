@@ -3,36 +3,27 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { makeFakeGuitars } from '../../../utils/mocks';
+import { makeFakeComments, makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks';
 import GuitarScreen from './guitar-screen';
-import { Sort } from '../../../const';
 import thunk from 'redux-thunk';
 
+const mockGuitar = makeFakeGuitar();
 const mockGuitars = makeFakeGuitars();
+const mockComments = makeFakeComments();
 const mockStore = configureMockStore([thunk]);
 
 describe('Component: GuitarScreen', () => {
   it('should render correctly', () => {
     const store = mockStore({
-      GUITARS: {
-        guitars: mockGuitars,
-        firstMinPrice: 1000,
-        firstMaxPrice: 50000,
-        pageCount: 3,
-        isDataLoaded: true,
-      },
       USER: {
-        minPrice: '5000',
-        maxPrice: '15000',
-        types: [],
-        strings: [],
-        sorting: Sort.Price,
-        order: '',
-        currentPage: 1,
-        currentPageCount: 0,
-        firstPage: 1,
-        lastPage: 3,
         searchingGuitars: mockGuitars,
+      },
+      GUITAR: {
+        guitar: mockGuitar,
+        comments: mockComments,
+        isDataLoaded: true,
+        isGuitarLoading: false,
+        isGuitarLoadingError: false,
       },
     });
 
@@ -47,5 +38,32 @@ describe('Component: GuitarScreen', () => {
     );
 
     expect(screen.getByTestId('main-title')).toBeInTheDocument();
+  });
+
+  it('should render loading text', () => {
+    const store = mockStore({
+      USER: {
+        searchingGuitars: mockGuitars,
+      },
+      GUITAR: {
+        guitar: mockGuitar,
+        comments: mockComments,
+        isDataLoaded: true,
+        isGuitarLoading: false,
+        isGuitarLoadingError: true,
+      },
+    });
+
+    const history = createMemoryHistory();
+
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <GuitarScreen id={1} />
+        </Router>
+      </Provider>,
+    );
+
+    expect(screen.getByText('Не удалось загрузить данные с сервера. Попробуйте позже')).toBeInTheDocument();
   });
 });

@@ -10,11 +10,11 @@ function Rating({width, height, count}: Props): JSX.Element {
   return (
     <>
       {
-        RATING.map((item, indexRating) => {
-          const keyRating = `${indexRating}-${item}`;
+        RATING.map((item) => {
+          const keyRating = `rating-star-${item}`;
 
           return (
-            <svg key={keyRating} width={width} height={height} aria-hidden="true">
+            <svg key={keyRating} data-testid={`star-${item}`} width={width} height={height} aria-hidden="true">
               <use xlinkHref={item <= count ? '#icon-full-star' : '#icon-star'} />
             </svg>
           );
