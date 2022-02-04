@@ -14,8 +14,8 @@ function Footer({isMain}: Props):JSX.Element {
         <div className="socials footer__socials">
           <ul className="socials__list">
             {
-              socials.map((social, index) => {
-                const key = `${index}-${social.name}`;
+              socials.map((social) => {
+                const key = `social-${social.name}`;
 
                 return (
                   <li key={key} className="socials-item">
@@ -38,8 +38,8 @@ function Footer({isMain}: Props):JSX.Element {
           <h2 className="footer__nav-title">Информация</h2>
           <ul className="footer__nav-list">
             {
-              FOOTER_MENUS.map((item, index)=> {
-                const key = `${index}-${item}`;
+              FOOTER_MENUS.map((item)=> {
+                const key = `footer-menu-${item}`;
                 return (
                   <li key={key} className="footer__nav-list-item"><a className="link" href="#top">{item}</a></li>
                 );
