@@ -11,6 +11,7 @@ import Header from '../../header/header';
 import Rating from '../../rating/rating';
 import ReviewPopup from '../../review-popup/review-popup';
 import Reviews from '../../reviews/reviews';
+import SuccessReviewPopup from '../../success-review-popup/success-review-popup';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type Props = {
@@ -28,6 +29,7 @@ function GuitarScreen({id}: Props): JSX.Element {
 
   const [currentTab, setCurrentTab] = useState<string>(ScreenTab.Characteristics);
   const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchGuitarAction(id));
@@ -107,7 +109,8 @@ function GuitarScreen({id}: Props): JSX.Element {
         }
       </main>
       <Footer />
-      {(isOpened && guitar?.id !== undefined) && <ReviewPopup onClick={setIsOpened} guitarId={guitar.id} />}
+      {(isOpened && guitar?.id !== undefined) && <ReviewPopup onClick={setIsOpened} guitarId={guitar.id} isSuccess={setIsSuccess} />}
+      {(!isOpened && isSuccess) && <SuccessReviewPopup onClick={setIsSuccess} />}
     </div>
   );
 }

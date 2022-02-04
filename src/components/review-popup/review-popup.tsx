@@ -8,6 +8,8 @@ import { postCommentAction } from '../../store/api-actions';
 import { getGuitarId, getGuitarName } from '../../store/guitar-data/selectors';
 import { CommentPost } from '../../types/comments';
 import { GuitarId } from '../../types/guitars';
+import ButtonCross from '../button-cross/button-cross';
+import FocusTrap from 'focus-trap-react';
 
 const enum UserForm {
   UserName = 'user-name',
@@ -96,55 +98,56 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   useOutsideClicker(wrapperRef, onClick);
 
   return (
-    <div className="modal is-active modal--review">
-      <div className="modal__wrapper">
-        <div className="modal__overlay" data-close-modal></div>
-        <div className="modal__content" ref={wrapperRef}>
-          <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
-          <h3 className="modal__product-name title title--medium-20 title--uppercase">{name}</h3>
-          <form className="form-review" onSubmit={(evt) => handleFormSubmit(evt)}>
-            <div className="form-review__wrapper">
-              <div className="form-review__name-wrapper">
-                <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
-                <input onChange={handleInputChange} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
-                {/* //TODO появляется только если не заполнено поле имя */}
-                <span className="form-review__warning">Заполните поле</span>
-              </div>
-              <div>
-                <span className="form-review__label form-review__label--required">Ваша Оценка</span>
-                <div className="rate rate--reverse">
-                  {
-                    RATINGS.map((item) => {
-                      const key = `rating-${item.rate}`;
+    <FocusTrap>
+      <div className="modal is-active modal--review">
+        <div className="modal__wrapper">
+          <div className="modal__overlay" data-close-modal></div>
+          <div className="modal__content" ref={wrapperRef}>
+            <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
+            <h3 className="modal__product-name title title--medium-20 title--uppercase">{name}</h3>
+            <form className="form-review" onSubmit={(evt) => handleFormSubmit(evt)}>
+              <div className="form-review__wrapper">
+                <div className="form-review__name-wrapper">
+                  <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
+                  <input onChange={handleInputChange} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
+                  {/* //TODO появляется только если не заполнено поле имя */}
+                  <span className="form-review__warning">Заполните поле</span>
+                </div>
+                <div>
+                  <span className="form-review__label form-review__label--required">Ваша Оценка</span>
+                  <div className="rate rate--reverse">
+                    {
+                      RATINGS.map((item) => {
+                        const key = `rating-${item.rate}`;
 
-                      return (
-                        <React.Fragment key={key}>
-                          <input className="visually-hidden" type="radio" id={`star-${item.rate}`} name="rate" value={item.rate} onChange={(evt) => handleRatingChange(evt)} />
-                          <label className="rate__label" htmlFor={`star-${item.rate}`} title={item.title} />
-                        </React.Fragment>
-                      );
-                    })
-                  }
-                  <span className="rate__count"></span>
-                  {/* //TODO появляется только если не проставлен рейтинг */}
-                  <span className="rate__message">Поставьте оценку</span>
+                        return (
+                          <React.Fragment key={key}>
+                            {/* //TODO не работает фокус по звёздам */}
+                            <input onChange={(evt) => handleRatingChange(evt)} className="visually-hidden" type="radio" id={`star-${item.rate}`} name="rate" value={item.rate} />
+                            <label className="rate__label" htmlFor={`star-${item.rate}`} title={item.title} />
+                          </React.Fragment>
+                        );
+                      })
+                    }
+                    <span className="rate__count"></span>
+                    {/* //TODO появляется только если не проставлен рейтинг */}
+                    <span className="rate__message">Поставьте оценку</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <label className="form-review__label" htmlFor="advantage">Достоинства</label>
-            <input onChange={handleInputChange} className="form-review__input" id="advantage" type="text" autoComplete="off" />
-            <label className="form-review__label" htmlFor="disadvantage">Недостатки</label>
-            <input onChange={handleInputChange} className="form-review__input" id="disadvantage" type="text" autoComplete="off"/>
-            <label className="form-review__label" htmlFor="comment">Комментарий</label>
-            <textarea onChange={handleInputChange} className="form-review__input form-review__input--textarea" id="comment" rows={10} autoComplete="off"></textarea>
-            <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
-          </form>
-          <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={handleCloseClick}>
-            <span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
-          </button>
+              <label className="form-review__label" htmlFor="advantage">Достоинства</label>
+              <input onChange={handleInputChange} className="form-review__input" id="advantage" type="text" autoComplete="off" />
+              <label className="form-review__label" htmlFor="disadvantage">Недостатки</label>
+              <input onChange={handleInputChange} className="form-review__input" id="disadvantage" type="text" autoComplete="off"/>
+              <label className="form-review__label" htmlFor="comment">Комментарий</label>
+              <textarea onChange={handleInputChange} className="form-review__input form-review__input--textarea" id="comment" rows={10} autoComplete="off"></textarea>
+              <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+            </form>
+            <ButtonCross onClick={handleCloseClick} />
+          </div>
         </div>
       </div>
-    </div>
+    </FocusTrap>
   );
 }
 

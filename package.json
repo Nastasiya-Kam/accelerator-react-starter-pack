@@ -3,6 +3,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "1.5.0",
     "axios": "0.21.1",
+    "focus-trap-react": "^8.9.1",
     "history": "4.10.1",
     "jest-watch-typeahead": "^0.6.5",
     "react": "17.0.2",
