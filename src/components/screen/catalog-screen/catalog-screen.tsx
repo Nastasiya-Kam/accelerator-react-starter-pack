@@ -120,7 +120,6 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
         <div className="container">
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
           <ul className="breadcrumbs page-content__breadcrumbs">
-            {/* //TODO: хлебные крошки откуда собираются? */}
             <li className="breadcrumbs__item"><a className="link" href="#">Главная</a></li>
             <li className="breadcrumbs__item"><a className="link">Каталог</a></li>
           </ul>
