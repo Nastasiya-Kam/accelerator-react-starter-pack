@@ -111,9 +111,11 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
     return <NotFoundScreen />;
   }
 
+  const isMain = true;
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header isMain={isMain} />
       <main className="page-content">
         <div className="container">
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
@@ -157,7 +159,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer isMain={isMain} />
     </div>
   );
 }

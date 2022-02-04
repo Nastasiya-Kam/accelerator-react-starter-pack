@@ -39,9 +39,11 @@ function GuitarScreen({id}: Props): JSX.Element {
     return <NotFoundScreen />;
   }
 
+  const isMain = false;
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header isMain={isMain} />
       <main className="page-content">
         {(isLoading) && <p>Идёт загрузка данных...</p>}
         {(isGuitarLoadingError) && <p>Не удалось загрузить данные с сервера. Попробуйте позже</p>}
@@ -108,7 +110,7 @@ function GuitarScreen({id}: Props): JSX.Element {
             </div>
         }
       </main>
-      <Footer />
+      <Footer isMain={isMain} />
       {(isOpened && guitar?.id !== undefined) && <ReviewPopup onClick={setIsOpened} guitarId={guitar.id} isSuccess={setIsSuccess} />}
       {(!isOpened && isSuccess) && <SuccessReviewPopup onClick={setIsSuccess} />}
     </div>

@@ -7,10 +7,11 @@ import { FOOTER_MENUS } from '../../const';
 describe('Component: Footer', () => {
   it('should render correctly', () => {
     const history = createMemoryHistory();
+    const isMain = true;
 
     render(
       <Router history={history}>
-        <Footer />
+        <Footer isMain={isMain} />
       </Router>,
     );
 

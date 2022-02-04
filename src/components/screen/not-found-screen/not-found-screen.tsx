@@ -21,16 +21,18 @@ function NotFoundScreen():JSX.Element {
     dispatch(setLastPage(PaginationPage.Last));
   }, [dispatch]);
 
+  const isMain = false;
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header isMain={isMain} />
       <main className="page-content">
         <div className="container">
           <p>404. Страница не найдена</p>
           <p>Вернуться в <Link to={AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`)} className="link">каталог</Link></p>
         </div>
       </main>
-      <Footer />
+      <Footer isMain={isMain} />
     </div>
   );
 }

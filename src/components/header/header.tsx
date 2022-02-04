@@ -6,7 +6,11 @@ import { AppRoute, HEADER_MENUS, ReplacedPart } from '../../const';
 import { fetchSearchingAction } from '../../store/api-actions';
 import { getSearchingGuitars } from '../../store/user-data/selectors';
 
-function Header():JSX.Element {
+type Props = {
+  isMain: boolean,
+}
+
+function Header({isMain}: Props):JSX.Element {
   const [search, setSearch] = useState<string>('');
   const searchRef = useRef<HTMLInputElement | null>(null);
   const searchingGuitars = useSelector(getSearchingGuitars);
@@ -20,15 +24,15 @@ function Header():JSX.Element {
 
   return (
     <header className="header" id="header">
-      <div className="container header__wrapper"><a className="header__logo logo"><img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" /></a>
+      <div className="container header__wrapper">
+        <a className="header__logo logo" href={isMain ? '##' : AppRoute.Root}><img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" /></a>
         <nav className="main-nav">
           <ul className="main-nav__list">
             {
-              HEADER_MENUS.map((item, index) => {
-                const key = `${index}-${item}`;
-                // TODO: активное меню выделять
+              HEADER_MENUS.map((item) => {
+                const key = `main-menu-${item}`;
                 return (
-                  <li key={key}><a className="link main-nav__link" href="#">{item}</a></li>
+                  <li key={key}><a className="link main-nav__link" href={(!isMain && item === 'Каталог') ? AppRoute.Root : '##'}>{item}</a></li>
                 );
               })
             }

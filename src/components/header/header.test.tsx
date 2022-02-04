@@ -23,11 +23,12 @@ describe('Component: Header', () => {
       },
     });
     const history = createMemoryHistory();
+    const isMain = true;
 
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Header />
+          <Header isMain={isMain} />
         </Router>
       </Provider>,
     );
