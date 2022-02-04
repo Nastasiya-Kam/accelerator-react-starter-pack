@@ -1,12 +1,11 @@
 import { Comments } from '../../types/comments';
-import { Guitar, GuitarId } from '../../types/guitars';
+import { Guitar } from '../../types/guitars';
 import { State } from '../../types/state';
 import { sort } from '../../utils/utils';
 import { NameSpace } from '../root-reducer';
 
 const getGuitar = (state: State): Guitar | null => state[NameSpace.Guitar].guitar;
 const getGuitarName = (state: State): string | undefined => state[NameSpace.Guitar].guitar?.name;
-const getGuitarId = (state: State): GuitarId | undefined => state[NameSpace.Guitar].guitar?.id;
 const getGuitarLoadingStatus = (state: State): boolean => state[NameSpace.Guitar].isGuitarLoading;
 const getGuitarLoadingDataStatus = (state: State): boolean => state[NameSpace.Guitar].isDataLoaded;
 const getGuitarLoadingError = (state: State): boolean => state[NameSpace.Guitar].isGuitarLoadingError;
@@ -18,7 +17,6 @@ const getCommentsCount = (state: State): number => state[NameSpace.Guitar].comme
 export {
   getGuitar,
   getGuitarName,
-  getGuitarId,
   getGuitarLoadingStatus,
   getGuitarLoadingDataStatus,
   getGuitarLoadingError,

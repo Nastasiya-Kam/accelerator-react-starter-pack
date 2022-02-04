@@ -1,28 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ESC_KEY_CODE, RATINGS, UserActivity } from '../../const';
+import { ESC_KEY_CODE, RATINGS, UserActivity, UserForm } from '../../const';
 import { useOutsideClicker } from '../../hooks/use-outside-clicker';
 import { postCommentAction } from '../../store/api-actions';
-import { getGuitarId, getGuitarName } from '../../store/guitar-data/selectors';
+import { getGuitarName } from '../../store/guitar-data/selectors';
 import { CommentPost } from '../../types/comments';
 import { GuitarId } from '../../types/guitars';
 import ButtonCross from '../button-cross/button-cross';
 import FocusTrap from 'focus-trap-react';
-
-const enum UserForm {
-  UserName = 'user-name',
-  Advantage = 'advantage',
-  Disadvantage = 'disadvantage',
-  Comment = 'comment',
-}
 
 type Props = {
   guitarId: GuitarId,
   onClick: (a: boolean) => void,
   isSuccess: (a: boolean) => void,
 }
+
+const checkValidRating = (rating: number): boolean => (rating > 0);
+const checkValidText = (text: string): boolean => (text !== '');
 
 function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   const name = useSelector(getGuitarName);
@@ -33,9 +27,19 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   const [advantage, setAdvantage] = useState<string>('');
   const [disadvantage, setDisadvantage] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
-  // TODO имя и рейтинг = обязательны к заполнению
-  // const [isValidName, setValidName] = useState<boolean>(false);
-  // const [isValidRating, setValidRating] = useState<boolean>(false);
+  const [isValidName, setValidName] = useState<boolean>(false);
+  const [isValidComment, setValidComment] = useState<boolean>(false);
+  const [isValidAdvantage, setValidAdvantage] = useState<boolean>(false);
+  const [isValidDisadvantage, setValidDisadvantage] = useState<boolean>(false);
+  const [isValidRating, setValidRating] = useState<boolean>(false);
+  const [formValid, setFormValid] = useState<boolean>(false);
+
+  const [dirtyAdvantage, setDirtyAdvantage] = useState<boolean>(false);
+  const [dirtyDisadvantage, setDirtyDisadvantage] = useState<boolean>(false);
+  const [dirtyComment, setDirtyComment] = useState<boolean>(false);
+  const [dirtyName, setDirtyName] = useState<boolean>(false);
+
+  const wrapperRef = useRef(null);
 
   const handleCloseClick = () => {
     document.body.style.overflow = UserActivity.Scroll;
@@ -50,7 +54,10 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   }, [ onClick ]);
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(Number(evt.target.value));
+    const userRating = Number(evt.target.value);
+
+    setValidRating(checkValidRating(userRating));
+    setRating(userRating);
   };
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,16 +66,39 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
 
     switch (currentInput) {
       case UserForm.Advantage:
+        setValidAdvantage(checkValidText(userText));
         setAdvantage(userText);
         break;
       case UserForm.Disadvantage:
+        setValidDisadvantage(checkValidText(userText));
         setDisadvantage(userText);
         break;
       case UserForm.Comment:
+        setValidComment(checkValidText(userText));
         setComment(userText);
         break;
       case UserForm.UserName:
+        setValidName(checkValidText(userText));
         setUserName(userText);
+        break;
+    }
+  };
+
+  const blurHandler = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const currentInput = evt.target.id;
+
+    switch (currentInput) {
+      case UserForm.Advantage:
+        setDirtyAdvantage(true);
+        break;
+      case UserForm.Disadvantage:
+        setDirtyDisadvantage(true);
+        break;
+      case UserForm.Comment:
+        setDirtyComment(true);
+        break;
+      case UserForm.UserName:
+        setDirtyName(true);
         break;
     }
   };
@@ -76,17 +106,19 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) =>  {
     evt.preventDefault();
 
-    const review: CommentPost = {
-      guitarId: guitarId,
-      userName: userName,
-      advantage: advantage,
-      disadvantage: disadvantage,
-      comment: comment,
-      rating: rating,
-    };
+    if (formValid) {
+      const review: CommentPost = {
+        guitarId: guitarId,
+        userName: userName,
+        advantage: advantage,
+        disadvantage: disadvantage,
+        comment: comment,
+        rating: rating,
+      };
 
-    dispatch(postCommentAction(review, isSuccess));
-    onClick(false);
+      dispatch(postCommentAction(review, isSuccess));
+      onClick(false);
+    }
   };
 
   useEffect(() => {
@@ -94,7 +126,14 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
     return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
   }, [ handleEscKeyDown ]);
 
-  const wrapperRef = useRef(null);
+  useEffect(() => {
+    if (isValidName && isValidComment && isValidAdvantage && isValidDisadvantage && isValidRating) {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+    }
+  }, [isValidName, isValidComment, isValidAdvantage, isValidDisadvantage, isValidRating]);
+
   useOutsideClicker(wrapperRef, onClick);
 
   return (
@@ -109,9 +148,8 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
               <div className="form-review__wrapper">
                 <div className="form-review__name-wrapper">
                   <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
-                  <input onChange={handleInputChange} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
-                  {/* //TODO появляется только если не заполнено поле имя */}
-                  <span className="form-review__warning">Заполните поле</span>
+                  <input onChange={handleInputChange} onBlur={blurHandler} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
+                  {(!isValidName && dirtyName) && <span className="form-review__warning">Заполните поле</span>}
                 </div>
                 <div>
                   <span className="form-review__label form-review__label--required">Ваша Оценка</span>
@@ -130,18 +168,20 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
                       })
                     }
                     <span className="rate__count"></span>
-                    {/* //TODO появляется только если не проставлен рейтинг */}
-                    <span className="rate__message">Поставьте оценку</span>
+                    {(!isValidRating) && <span className="rate__message">Поставьте оценку</span>}
                   </div>
                 </div>
               </div>
               <label className="form-review__label" htmlFor="advantage">Достоинства</label>
-              <input onChange={handleInputChange} className="form-review__input" id="advantage" type="text" autoComplete="off" />
+              <input onChange={handleInputChange} onBlur={blurHandler} className="form-review__input" id="advantage" type="text" autoComplete="off" />
+              {(!isValidAdvantage && dirtyAdvantage) && <span className="form-review__warning">Заполните поле</span>}
               <label className="form-review__label" htmlFor="disadvantage">Недостатки</label>
-              <input onChange={handleInputChange} className="form-review__input" id="disadvantage" type="text" autoComplete="off"/>
+              <input onChange={handleInputChange} onBlur={blurHandler} className="form-review__input" id="disadvantage" type="text" autoComplete="off"/>
+              {(!isValidDisadvantage && dirtyDisadvantage) && <span className="form-review__warning">Заполните поле</span>}
               <label className="form-review__label" htmlFor="comment">Комментарий</label>
-              <textarea onChange={handleInputChange} className="form-review__input form-review__input--textarea" id="comment" rows={10} autoComplete="off"></textarea>
-              <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+              <textarea onChange={handleInputChange} onBlur={blurHandler} className="form-review__input form-review__input--textarea" id="comment" rows={10} autoComplete="off"></textarea>
+              {(!isValidComment && dirtyComment) && <span className="form-review__warning">Заполните поле</span>}
+              <button className="button button--medium-20 form-review__button" type="submit" disabled={!formValid}>Отправить отзыв</button>
             </form>
             <ButtonCross onClick={handleCloseClick} />
           </div>

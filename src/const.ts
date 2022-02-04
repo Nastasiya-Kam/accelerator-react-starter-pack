@@ -184,6 +184,13 @@ const enum UserActivity {
   Mousedown = 'mousedown',
 }
 
+const enum UserForm {
+  UserName = 'user-name',
+  Advantage = 'advantage',
+  Disadvantage = 'disadvantage',
+  Comment = 'comment',
+}
+
 export {
   RATING,
   HEADER_MENUS,
@@ -215,5 +222,6 @@ export {
   RENDER_COMMENTS_COUNT,
   ESC_KEY_CODE,
   RATINGS,
-  UserActivity
+  UserActivity,
+  UserForm
 };
