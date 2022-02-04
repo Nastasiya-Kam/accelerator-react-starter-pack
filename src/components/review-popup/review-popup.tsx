@@ -1,18 +1,41 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { ESC_KEY_CODE, UserActivity } from '../../const';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ESC_KEY_CODE, RATINGS, UserActivity } from '../../const';
 import { useOutsideClicker } from '../../hooks/use-outside-clicker';
-import { getGuitarName } from '../../store/guitar-data/selectors';
+import { postCommentAction } from '../../store/api-actions';
+import { getGuitarId, getGuitarName } from '../../store/guitar-data/selectors';
+import { CommentPost } from '../../types/comments';
+import { GuitarId } from '../../types/guitars';
 
-type Props = {
-  onClick: (a: boolean) => void,
+const enum UserForm {
+  UserName = 'user-name',
+  Advantage = 'advantage',
+  Disadvantage = 'disadvantage',
+  Comment = 'comment',
 }
 
-function ReviewPopup({onClick}: Props): JSX.Element {
-  const name = useSelector(getGuitarName);
+type Props = {
+  guitarId: GuitarId,
+  onClick: (a: boolean) => void,
+  isSuccess: (a: boolean) => void,
+}
 
-  const handleCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    evt.preventDefault();
+function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
+  const name = useSelector(getGuitarName);
+  const dispatch = useDispatch();
+
+  const [userName, setUserName] = useState<string>('');
+  const [comment, setComment] = useState<string>('');
+  const [advantage, setAdvantage] = useState<string>('');
+  const [disadvantage, setDisadvantage] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
+  // TODO имя и рейтинг = обязательны к заполнению
+  // const [isValidName, setValidName] = useState<boolean>(false);
+  // const [isValidRating, setValidRating] = useState<boolean>(false);
+
+  const handleCloseClick = () => {
     document.body.style.overflow = UserActivity.Scroll;
     onClick(false);
   };
@@ -23,6 +46,46 @@ function ReviewPopup({onClick}: Props): JSX.Element {
       onClick(false);
     }
   }, [ onClick ]);
+
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setRating(Number(evt.target.value));
+  };
+
+  const handleInputChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const userText = evt.target.value;
+    const currentInput = evt.target.id;
+
+    switch (currentInput) {
+      case UserForm.Advantage:
+        setAdvantage(userText);
+        break;
+      case UserForm.Disadvantage:
+        setDisadvantage(userText);
+        break;
+      case UserForm.Comment:
+        setComment(userText);
+        break;
+      case UserForm.UserName:
+        setUserName(userText);
+        break;
+    }
+  };
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) =>  {
+    evt.preventDefault();
+
+    const review: CommentPost = {
+      guitarId: guitarId,
+      userName: userName,
+      advantage: advantage,
+      disadvantage: disadvantage,
+      comment: comment,
+      rating: rating,
+    };
+
+    dispatch(postCommentAction(review, isSuccess));
+    onClick(false);
+  };
 
   useEffect(() => {
     document.addEventListener(UserActivity.Keydown, handleEscKeyDown);
@@ -39,39 +102,44 @@ function ReviewPopup({onClick}: Props): JSX.Element {
         <div className="modal__content" ref={wrapperRef}>
           <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
           <h3 className="modal__product-name title title--medium-20 title--uppercase">{name}</h3>
-          <form className="form-review">
+          <form className="form-review" onSubmit={(evt) => handleFormSubmit(evt)}>
             <div className="form-review__wrapper">
               <div className="form-review__name-wrapper">
                 <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
-                <input className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
+                <input onChange={handleInputChange} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
+                {/* //TODO появляется только если не заполнено поле имя */}
                 <span className="form-review__warning">Заполните поле</span>
               </div>
               <div>
                 <span className="form-review__label form-review__label--required">Ваша Оценка</span>
                 <div className="rate rate--reverse">
-                  {/* //TODO цикл по массиву [ {rate: 5, title: 'Отлично'}, {rate: 4, title: 'Хорошо'}, {rate: 3, title: 'Нормально'}, {rate: 2, title: 'Плохо'}, {rate: 1, title: 'Ужасно'} ] */}
-                  <input className="visually-hidden" type="radio" id="star-5" name="rate" value="5" />
-                  <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
-                  <input className="visually-hidden" type="radio" id="star-4" name="rate" value="4" />
-                  <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
-                  <input className="visually-hidden" type="radio" id="star-3" name="rate" value="3" />
-                  <label className="rate__label" htmlFor="star-3" title="Нормально"></label>
-                  <input className="visually-hidden" type="radio" id="star-2" name="rate" value="2" />
-                  <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
-                  <input className="visually-hidden" type="radio" id="star-1" name="rate" value="1" />
-                  <label className="rate__label" htmlFor="star-1" title="Ужасно"></label><span className="rate__count"></span><span className="rate__message">Поставьте оценку</span>
+                  {
+                    RATINGS.map((item) => {
+                      const key = `rating-${item.rate}`;
+
+                      return (
+                        <React.Fragment key={key}>
+                          <input className="visually-hidden" type="radio" id={`star-${item.rate}`} name="rate" value={item.rate} onChange={(evt) => handleRatingChange(evt)} />
+                          <label className="rate__label" htmlFor={`star-${item.rate}`} title={item.title} />
+                        </React.Fragment>
+                      );
+                    })
+                  }
+                  <span className="rate__count"></span>
+                  {/* //TODO появляется только если не проставлен рейтинг */}
+                  <span className="rate__message">Поставьте оценку</span>
                 </div>
               </div>
             </div>
-            <label className="form-review__label" htmlFor="user-name">Достоинства</label>
-            <input className="form-review__input" id="pros" type="text" autoComplete="off" />
-            <label className="form-review__label" htmlFor="user-name">Недостатки</label>
-            <input className="form-review__input" id="user-name" type="text" autoComplete="off" />
-            <label className="form-review__label" htmlFor="user-name">Комментарий</label>
-            <textarea className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off"></textarea>
+            <label className="form-review__label" htmlFor="advantage">Достоинства</label>
+            <input onChange={handleInputChange} className="form-review__input" id="advantage" type="text" autoComplete="off" />
+            <label className="form-review__label" htmlFor="disadvantage">Недостатки</label>
+            <input onChange={handleInputChange} className="form-review__input" id="disadvantage" type="text" autoComplete="off"/>
+            <label className="form-review__label" htmlFor="comment">Комментарий</label>
+            <textarea onChange={handleInputChange} className="form-review__input form-review__input--textarea" id="comment" rows={10} autoComplete="off"></textarea>
             <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
           </form>
-          <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={(evt) => handleCloseClick(evt)}>
+          <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть" onClick={handleCloseClick}>
             <span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
           </button>
         </div>

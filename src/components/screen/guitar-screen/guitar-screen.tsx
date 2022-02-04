@@ -107,7 +107,7 @@ function GuitarScreen({id}: Props): JSX.Element {
         }
       </main>
       <Footer />
-      {(isOpened) && <ReviewPopup onClick={setIsOpened} />}
+      {(isOpened && guitar?.id !== undefined) && <ReviewPopup onClick={setIsOpened} guitarId={guitar.id} />}
     </div>
   );
 }

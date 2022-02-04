@@ -26,6 +26,7 @@ const enum ErrorMessage {
   MaxPrice = 'Цена не может быть больше максимального значения',
   LoadData = 'Загрузить данные не удалось',
   LoadCommentsData = 'Загрузить комментарии не удалось',
+  PostComment = 'Не удалось отправить отзыв. Попробуйте позднее',
 }
 
 const ratingSize = {
@@ -169,6 +170,14 @@ const RENDER_COMMENTS_COUNT = 3;
 
 const ESC_KEY_CODE = 27;
 
+const RATINGS = [
+  {rate: 5, title: 'Отлично'},
+  {rate: 4, title: 'Хорошо'},
+  {rate: 3, title: 'Нормально'},
+  {rate: 2, title: 'Плохо'},
+  {rate: 1, title: 'Ужасно'},
+];
+
 const enum UserActivity {
   Scroll = 'scroll',
   Keydown = 'keydown',
@@ -205,5 +214,6 @@ export {
   PaginationPage,
   RENDER_COMMENTS_COUNT,
   ESC_KEY_CODE,
+  RATINGS,
   UserActivity
 };
