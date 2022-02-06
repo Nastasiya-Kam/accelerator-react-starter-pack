@@ -149,7 +149,7 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
                 <div className="form-review__name-wrapper">
                   <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
                   <input onChange={handleInputChange} onBlur={blurHandler} className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
-                  {(!isValidName && dirtyName) && <span className="form-review__warning">Заполните поле</span>}
+                  {(!isValidName && dirtyName) && <span className="form-review__warning" data-testid="name-error">Заполните поле</span>}
                 </div>
                 <div>
                   <span className="form-review__label form-review__label--required">Ваша Оценка</span>
@@ -174,13 +174,13 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
               </div>
               <label className="form-review__label" htmlFor="advantage">Достоинства</label>
               <input onChange={handleInputChange} onBlur={blurHandler} className="form-review__input" id="advantage" type="text" autoComplete="off" />
-              {(!isValidAdvantage && dirtyAdvantage) && <span className="form-review__warning">Заполните поле</span>}
+              {(!isValidAdvantage && dirtyAdvantage) && <span className="form-review__warning" data-testid="advantage-error">Заполните поле</span>}
               <label className="form-review__label" htmlFor="disadvantage">Недостатки</label>
               <input onChange={handleInputChange} onBlur={blurHandler} className="form-review__input" id="disadvantage" type="text" autoComplete="off"/>
-              {(!isValidDisadvantage && dirtyDisadvantage) && <span className="form-review__warning">Заполните поле</span>}
+              {(!isValidDisadvantage && dirtyDisadvantage) && <span className="form-review__warning" data-testid="disadvantage-error">Заполните поле</span>}
               <label className="form-review__label" htmlFor="comment">Комментарий</label>
               <textarea onChange={handleInputChange} onBlur={blurHandler} className="form-review__input form-review__input--textarea" id="comment" rows={10} autoComplete="off"></textarea>
-              {(!isValidComment && dirtyComment) && <span className="form-review__warning">Заполните поле</span>}
+              {(!isValidComment && dirtyComment) && <span className="form-review__warning" data-testid="comment-error">Заполните поле</span>}
               <button className="button button--medium-20 form-review__button" type="submit" disabled={!formValid}>Отправить отзыв</button>
             </form>
             <ButtonCross onClick={handleCloseClick} />

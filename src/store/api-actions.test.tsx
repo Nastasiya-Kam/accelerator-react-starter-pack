@@ -5,7 +5,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createAPI } from '../services/api';
 import { State } from '../types/state';
 import { APIRoute, ReplacedPart } from '../const';
-import { fetchCommentsAction, fetchGuitarAction, fetchGuitarsAction } from './api-actions';
+import { fetchCommentsAction, fetchGuitarAction, fetchGuitarsAction, postCommentAction } from './api-actions';
 import { isCommentsLoading, isGuitarLoading, isGuitarLoadingError, isLoading, loadCommentsData, loadGuitarData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from './action';
 import { HttpCode, makeFakeComments, makeFakeGuitar, makeFakeGuitars } from '../utils/mocks';
 
@@ -91,6 +91,48 @@ describe('Async actions', () => {
       isCommentsLoading(true),
       loadCommentsData(mockComments),
       isCommentsLoading(false),
+    ]);
+  });
+
+  it('should dispatch loadCommentsData when postCommentAction', async () => {
+    const mockComments = makeFakeComments();
+    const mockCommentBeforePost =   {
+      id: 'sdfae154a5e6a2e31a2e3f',
+      userName: 'Анастасия',
+      advantage: 'очень хорошо',
+      disadvantage: 'очень плохо',
+      comment: 'длинный комментарий',
+      rating: 4,
+      guitarId: 1,
+    };
+    const mockCommentAfterPost = {
+      id: 'sdfae154a5e6a2e31a2e3f',
+      userName: 'Анастасия',
+      advantage: 'очень хорошо',
+      disadvantage: 'очень плохо',
+      comment: 'длинный комментарий',
+      rating: 4,
+      guitarId: 1,
+      createAt: '2022-02-06T10:24:16.934Z',
+    };
+
+    const guitarId = 1;
+    const setIsSuccess = jest.fn();
+    const apdatedMockComments = [...mockComments, mockCommentAfterPost];
+
+    mockAPI
+      .onPost(APIRoute.NewComment, mockCommentBeforePost)
+      .reply(HttpCode.PostOk, apdatedMockComments);
+
+    mockAPI
+      .onGet(APIRoute.Comments.replace(ReplacedPart.GuitarId, String(guitarId)))
+      .reply(HttpCode.Ok, apdatedMockComments);
+
+    const store = mockStore();
+    await store.dispatch(postCommentAction(mockCommentBeforePost, setIsSuccess));
+
+    expect(store.getActions()).toEqual([
+      loadCommentsData(apdatedMockComments),
     ]);
   });
 });

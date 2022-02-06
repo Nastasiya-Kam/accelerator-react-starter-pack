@@ -9,6 +9,7 @@ enum Count {
 
 enum HttpCode {
   Ok = 200,
+  PostOk = 201,
   NoContent = 204,
   NotFound = 404,
 }
