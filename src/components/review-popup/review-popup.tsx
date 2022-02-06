@@ -8,15 +8,13 @@ import { CommentPost } from '../../types/comments';
 import { GuitarId } from '../../types/guitars';
 import ButtonCross from '../button-cross/button-cross';
 import FocusTrap from 'focus-trap-react';
+import { checkValidRating, checkValidText } from '../../utils/utils';
 
 type Props = {
   guitarId: GuitarId,
   onClick: (a: boolean) => void,
   isSuccess: (a: boolean) => void,
 }
-
-const checkValidRating = (rating: number): boolean => (rating > 0);
-const checkValidText = (text: string): boolean => (text !== '');
 
 function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   const name = useSelector(getGuitarName);
@@ -141,7 +139,7 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
       <div className="modal is-active modal--review">
         <div className="modal__wrapper">
           <div className="modal__overlay" data-close-modal></div>
-          <div className="modal__content" ref={wrapperRef}>
+          <div className="modal__content" ref={wrapperRef} data-testid="modal-content">
             <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
             <h3 className="modal__product-name title title--medium-20 title--uppercase">{name}</h3>
             <form className="form-review" onSubmit={(evt) => handleFormSubmit(evt)}>

@@ -79,11 +79,16 @@ const sort = (commentA: Comment, commentB: Comment) => {
   return dateB - dateA;
 };
 
+const checkValidRating = (rating: number): boolean => (rating > 0);
+const checkValidText = (text: string): boolean => (text !== '');
+
 export {
   numberWithSpaces,
   checkMinPrice,
   checkMaxPrice,
   getIndex,
   getGuitarType,
-  sort
+  sort,
+  checkValidRating,
+  checkValidText
 };
