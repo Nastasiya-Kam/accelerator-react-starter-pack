@@ -105,7 +105,9 @@ function GuitarScreen({id}: Props): JSX.Element {
                 </div>
                 <div className="product-container__price-wrapper">
                   <p className="product-container__price-info product-container__price-info--title">Цена:</p>
-                  <p className="product-container__price-info product-container__price-info--value">{numberWithSpaces(guitar.price)} ₽</p><a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
+                  <p className="product-container__price-info product-container__price-info--value">{numberWithSpaces(guitar.price)} ₽</p>
+                  {/* //TODO на следующем этапе кнопка добавляет товар в корзину */}
+                  <a className="button button--red button--big product-container__button" href="##" onClick={(evt) => evt.preventDefault()}>Добавить в корзину</a>
                 </div>
               </div>
               <Reviews guitarId={id} onClick={setIsOpened} />
