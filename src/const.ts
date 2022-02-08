@@ -74,7 +74,7 @@ const enum AppRoute {
 
 const enum APIRoute {
   Guitars = '/guitars',
-  Guitar = '/guitars/:id',
+  Guitar = '/guitars/:id?_embed=comments',
   Comments = '/guitars/:id/comments',
   NewComment = '/comments',
   Coupon = '/coupons',

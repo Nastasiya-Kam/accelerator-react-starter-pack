@@ -1,3 +1,5 @@
+import { Comments } from './comments';
+
 type GuitarId = number;
 
 type Guitar = {
@@ -10,6 +12,7 @@ type Guitar = {
   stringCount: number,
   rating: number,
   price: number,
+  comments: Comments,
 }
 
 type Guitars = Guitar[];

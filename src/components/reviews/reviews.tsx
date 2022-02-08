@@ -43,7 +43,7 @@ function Reviews({guitarId, onClick}: Props): JSX.Element {
 
       {(isCommentsLoading) && <p className="review__title">Комментарии загружаются...</p>}
       {
-        (comments !== null && comments.length === 0)
+        (comments !== undefined && comments.length === 0)
           ? <p className="review__value">Комментарии ещё никто не оставил. Ваш будет первым</p>
           : comments?.slice(0, renderedCommentsCount).map((item) => {
             const { id, userName, advantage, disadvantage, comment, rating, createAt } = item;
@@ -73,7 +73,7 @@ function Reviews({guitarId, onClick}: Props): JSX.Element {
             );
           })
       }
-      {(comments !== null && comments.length > renderedCommentsCount) && <ReviewMore renderedCommentsCount={renderedCommentsCount} onClick={setRenderedCommentsCount} />}
+      {(comments !== undefined && comments.length > renderedCommentsCount) && <ReviewMore renderedCommentsCount={renderedCommentsCount} onClick={setRenderedCommentsCount} />}
       <a className="button button--up button--red-border button--big reviews__up-button" href="#header" onClick={(evt) => handleButtonUpClick(evt)}>Наверх</a>
     </section>
   );
