@@ -120,7 +120,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
         <div className="container">
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
           <ul className="breadcrumbs page-content__breadcrumbs">
-            <li className="breadcrumbs__item"><a className="link" href="#">Главная</a></li>
+            <li className="breadcrumbs__item"><Link className="link" to={AppRoute.Root}>Главная</Link></li>
             <li className="breadcrumbs__item"><a className="link">Каталог</a></li>
           </ul>
           <div className="catalog">

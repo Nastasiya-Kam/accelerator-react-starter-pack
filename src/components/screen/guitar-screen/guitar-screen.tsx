@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute, ratingSize, ScreenTab } from '../../../const';
+import { AppRoute, DEFAULT_PAGE, ratingSize, ReplacedPart, ScreenTab } from '../../../const';
 import { fetchGuitarAction } from '../../../store/api-actions';
 import { getCommentsCount, getGuitar, getGuitarLoadingDataStatus, getGuitarLoadingError, getGuitarLoadingStatus } from '../../../store/guitar-data/selectors';
 import { GuitarId } from '../../../types/guitars';
@@ -54,7 +54,7 @@ function GuitarScreen({id}: Props): JSX.Element {
               <h1 className="page-content__title title title--bigger" data-testid="main-title">{guitar.name}</h1>
               <ul className="breadcrumbs page-content__breadcrumbs">
                 <li className="breadcrumbs__item"><Link className="link" to={AppRoute.Root}>Главная</Link></li>
-                <li className="breadcrumbs__item"><Link className="link" to={AppRoute.CatalogPage}>Каталог</Link></li>
+                <li className="breadcrumbs__item"><Link className="link" to={AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`)}>Каталог</Link></li>
                 <li className="breadcrumbs__item"><a className="link">{guitar.name}</a></li>
               </ul>
               <div className="product-container">
