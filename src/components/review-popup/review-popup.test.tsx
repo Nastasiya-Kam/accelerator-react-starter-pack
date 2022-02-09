@@ -96,10 +96,10 @@ describe('Component: ReviewPopup', () => {
     userEvent.type(comment, '');
     userEvent.tab();
 
-    expect(screen.getByTestId('name-error')).toBeInTheDocument();
-    expect(screen.getByTestId('advantage-error')).toBeInTheDocument();
-    expect(screen.getByTestId('disadvantage-error')).toBeInTheDocument();
-    expect(screen.getByTestId('comment-error')).toBeInTheDocument();
+    expect(screen.getByTestId('name-error')).toHaveTextContent('Заполните поле');
+    expect(screen.getByTestId('advantage-error')).toHaveTextContent('Заполните поле');
+    expect(screen.getByTestId('disadvantage-error')).toHaveTextContent('Заполните поле');
+    expect(screen.getByTestId('comment-error')).toHaveTextContent('Заполните поле');
     expect(submitButton).toBeDisabled();
 
     // * incorrect some user data
@@ -110,10 +110,10 @@ describe('Component: ReviewPopup', () => {
     userEvent.type(comment, incorrectUserData.comment);
     userEvent.tab();
 
-    expect(screen.queryByTestId('name-error')).not.toBeInTheDocument();
-    expect(screen.getByTestId('advantage-error')).toBeInTheDocument();
-    expect(screen.queryByTestId('disadvantage-error')).not.toBeInTheDocument();
-    expect(screen.getByTestId('comment-error')).toBeInTheDocument();
+    expect(screen.queryByTestId('name-error')).toHaveTextContent('');
+    expect(screen.getByTestId('advantage-error')).toHaveTextContent('Заполните поле');
+    expect(screen.queryByTestId('disadvantage-error')).toHaveTextContent('');
+    expect(screen.getByTestId('comment-error')).toHaveTextContent('Заполните поле');
     expect(submitButton).toBeDisabled();
 
     // * correct all user data
@@ -122,9 +122,9 @@ describe('Component: ReviewPopup', () => {
     userEvent.type(comment, correctUserData.comment);
     userEvent.tab();
 
-    expect(screen.queryByTestId('name-error')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('advantage-error')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('disadvantage-error')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('comment-error')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('name-error')).toHaveTextContent('');
+    expect(screen.queryByTestId('advantage-error')).toHaveTextContent('');
+    expect(screen.queryByTestId('disadvantage-error')).toHaveTextContent('');
+    expect(screen.queryByTestId('comment-error')).toHaveTextContent('');
   });
 });
