@@ -2120,6 +2120,7 @@ button,
 
 .form-review__warning {
   display: block;
+  min-height: 15px;
 
   padding-right: 5px;
 
