@@ -79,7 +79,7 @@ describe('Async actions', () => {
   });
 
   it('fetchCommentsAction should dispatch isCommentsLoading, loadCommentsData when GET /guitar/:id/comments', async () => {
-    const mockComments = makeFakeComments();
+    const mockComments = makeFakeComments(10);
     const guitarId = 2;
 
     mockAPI
@@ -97,7 +97,7 @@ describe('Async actions', () => {
   });
 
   it('postCommentAction should dispatch loadCommentsData when POST /comments', async () => {
-    const mockComments = makeFakeComments();
+    const mockComments = makeFakeComments(10);
     const mockCommentBeforePost =   {
       id: 'sdfae154a5e6a2e31a2e3f',
       userName: 'Анастасия',

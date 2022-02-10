@@ -9,18 +9,19 @@ import thunk from 'redux-thunk';
 
 const mockGuitar = makeFakeGuitar();
 const mockGuitars = makeFakeGuitars();
-const mockComments = makeFakeComments();
+const mockComments = makeFakeComments(10);
+mockGuitar.comments = mockComments;
 const mockStore = configureMockStore([thunk]);
 
 describe('Component: GuitarScreen', () => {
   it('should render correctly', () => {
+
     const store = mockStore({
       USER: {
         searchingGuitars: mockGuitars,
       },
       GUITAR: {
         guitar: mockGuitar,
-        comments: mockComments,
         isDataLoaded: true,
         isGuitarLoading: false,
         isGuitarLoadingError: false,
@@ -47,7 +48,6 @@ describe('Component: GuitarScreen', () => {
       },
       GUITAR: {
         guitar: mockGuitar,
-        comments: mockComments,
         isDataLoaded: true,
         isGuitarLoading: false,
         isGuitarLoadingError: true,

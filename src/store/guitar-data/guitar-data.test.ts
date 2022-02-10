@@ -3,7 +3,7 @@ import { loadCommentsData, loadGuitarData } from '../action';
 import { guitarData } from './guitar-data';
 
 const mockGuitar = makeFakeGuitar();
-const mockComments = makeFakeComments();
+const mockComments = makeFakeComments(10);
 
 describe('Reducer: guitars-data', () => {
   const state = {
