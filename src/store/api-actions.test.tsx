@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
@@ -5,8 +6,8 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createAPI } from '../services/api';
 import { State } from '../types/state';
 import { APIRoute, ReplacedPart } from '../const';
-import { fetchCommentsAction, fetchGuitarAction, fetchGuitarsAction, postCommentAction } from './api-actions';
-import { isCommentsLoading, isGuitarLoading, isGuitarLoadingError, isLoading, loadCommentsData, loadGuitarData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from './action';
+import { fetchCommentsAction, fetchFilterAction, fetchGuitarAction, fetchPageAction, postCommentAction } from './api-actions';
+import { isCommentsLoading, isGuitarLoading, isGuitarLoadingError, isLoading, isLoadingError, loadCommentsData, loadGuitarData, loadGuitarsData, setCurrentPageCount, setFirstMaxPrice, setFirstMinPrice, setPageCount } from './action';
 import { HttpCode, makeFakeComments, makeFakeGuitar, makeFakeGuitars } from '../utils/mocks';
 
 describe('Async actions', () => {
@@ -19,26 +20,27 @@ describe('Async actions', () => {
       ThunkDispatch<State, typeof api, Action>
     >(middlewares);
 
-  it('should dispatch setFirstMinPrice, setFirstMaxPrice, setPageCount when GET /guitars', async () => {
+  it('fetchPageAction should dispatch loadGuitarsData, isLoadingError when GET /guitars', async () => {
     const mockGuitars = makeFakeGuitars();
+    const range = '';
+    const filter = '';
 
     mockAPI
-      .onGet(APIRoute.Guitars)
+      .onGet(`${APIRoute.Guitars}?${range}${filter}`)
       .reply(HttpCode.Ok, mockGuitars);
 
     const store = mockStore();
-    await store.dispatch(fetchGuitarsAction());
+    await store.dispatch(fetchPageAction(range, filter));
 
     expect(store.getActions()).toEqual([
       isLoading(true),
-      setFirstMinPrice(17500),
-      setFirstMaxPrice(17500),
-      setPageCount(1),
+      loadGuitarsData(mockGuitars),
+      isLoadingError(false),
       isLoading(false),
     ]);
   });
 
-  it('should dispatch loadGuitarData, isGuitarLoadingError, isGuitarLoading when GET /guitar/:id', async () => {
+  it('fetchGuitarAction should dispatch loadGuitarData, isGuitarLoadingError, isGuitarLoading when GET /guitar/:id', async () => {
     const mockGuitar = makeFakeGuitar();
     const guitarId = 2;
 
@@ -57,7 +59,7 @@ describe('Async actions', () => {
     ]);
   });
 
-  it('should dispatch loadGuitarData(null), isGuitarLoadingError, isGuitarLoading when GET /guitar/:id with 404', async () => {
+  it('fetchGuitarAction should dispatch loadGuitarData(null), isGuitarLoadingError, isGuitarLoading when GET /guitar/:id with 404', async () => {
     const mockGuitar = makeFakeGuitar();
     const guitarId = 25;
 
@@ -76,7 +78,7 @@ describe('Async actions', () => {
     ]);
   });
 
-  it('should dispatch isCommentsLoading, loadCommentsData when GET /guitar/:id/comments', async () => {
+  it('fetchCommentsAction should dispatch isCommentsLoading, loadCommentsData when GET /guitar/:id/comments', async () => {
     const mockComments = makeFakeComments();
     const guitarId = 2;
 
@@ -94,7 +96,7 @@ describe('Async actions', () => {
     ]);
   });
 
-  it('should dispatch loadCommentsData when postCommentAction', async () => {
+  it('postCommentAction should dispatch loadCommentsData when POST /comments', async () => {
     const mockComments = makeFakeComments();
     const mockCommentBeforePost =   {
       id: 'sdfae154a5e6a2e31a2e3f',
