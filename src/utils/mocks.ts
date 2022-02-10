@@ -4,7 +4,6 @@ import { Comment, Comments } from '../types/comments';
 
 enum Count {
   GuitarsTest = 4,
-  CommentsTest = 10,
 }
 
 enum HttpCode {
@@ -39,7 +38,7 @@ const makeFakeComment = (): Comment => ({
   guitarId: 1,
 } as Comment);
 
-const makeFakeComments = (): Comments => new Array(Count.CommentsTest).fill(undefined).map(() => makeFakeComment());
+const makeFakeComments = (commentsCount: number): Comments => new Array(commentsCount).fill(undefined).map(() => makeFakeComment());
 
 export {
   HttpCode,

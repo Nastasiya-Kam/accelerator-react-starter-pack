@@ -4,10 +4,9 @@ import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { makeFakeComments } from '../../utils/mocks';
+import { makeFakeComments, makeFakeGuitar } from '../../utils/mocks';
 import Reviews from './reviews';
 
-const mockComments = makeFakeComments();
 const mockStore = configureMockStore([thunk]);
 
 describe('Component: Review', () => {
@@ -15,9 +14,12 @@ describe('Component: Review', () => {
   const onClick = jest.fn();
 
   it('should render correctly', () => {
+    const mockGuitar = makeFakeGuitar();
+    mockGuitar.comments = makeFakeComments(10);
+
     const store = mockStore({
       GUITAR: {
-        comments: mockComments,
+        guitar: mockGuitar,
       },
     });
 
@@ -36,9 +38,12 @@ describe('Component: Review', () => {
   });
 
   it('should render empty list', () => {
+    const mockGuitar = makeFakeGuitar();
+    mockGuitar.comments = [];
+
     const store = mockStore({
       GUITAR: {
-        comments: [],
+        guitar: mockGuitar,
       },
     });
 
