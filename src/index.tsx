@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { Router as BrowserRouter } from 'react-router-dom';
 import { createAPI } from './services/api';
-import { fetchGuitarsAction } from './store/api-actions';
 import { rootReducer } from './store/root-reducer';
 import App from './components/app/app';
 import {ToastContainer} from 'react-toastify';
@@ -21,8 +20,6 @@ const store = configureStore({
       },
     }),
 });
-
-store.dispatch(fetchGuitarsAction());
 
 ReactDOM.render(
   <Provider store={store}>

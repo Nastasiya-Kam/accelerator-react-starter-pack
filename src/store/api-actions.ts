@@ -6,7 +6,6 @@ import {
   loadGuitarsData,
   setFirstMinPrice,
   setFirstMaxPrice,
-  setPageCount,
   setCurrentPageCount,
   isLoading,
   loadSearchingGuitars,
@@ -15,24 +14,21 @@ import {
   isGuitarLoading,
   isCommentsLoading,
   loadCommentsData,
-  isGuitarLoadingError} from './action';
+  isGuitarLoadingError,
+  setPageCount} from './action';
 import { CommentPost, Comments } from '../types/comments';
 
-const fetchGuitarsAction = (): ThunkActionResult =>
+const fetchPageAction = (range: string, filter: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(isLoading(true));
     try {
-      const {data} = await api.get<Guitars>(APIRoute.Guitars);
+      const response = await api.get<Guitars>(`${APIRoute.Guitars}?${range}${filter}`);
 
-      const min = Math.min(...data.map((guitar) => guitar.price));
-      const max = Math.max(...data.map((guitar) => guitar.price));
-      const pageCount = Math.ceil(data.length / ELEMENT_ON_PAGE_COUNT);
-
-      dispatch(setFirstMinPrice(min));
-      dispatch(setFirstMaxPrice(max));
-      dispatch(setPageCount(pageCount));
+      dispatch(loadGuitarsData(response.data));
+      dispatch(isLoadingError(false));
     } catch {
       toast.info(ErrorMessage.LoadData);
+      dispatch(isLoadingError(true));
     }
     dispatch(isLoading(false));
   };
@@ -41,12 +37,21 @@ const fetchFilterAction = (range: string, filter: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(isLoading(true));
     try {
-      const fullData = (await api.get<Guitars>(`${APIRoute.Guitars}?${filter}`)).data;
-      const currentPageCount = Math.ceil(fullData.length / ELEMENT_ON_PAGE_COUNT);
+      const response = await api.get<Guitars>(`${APIRoute.Guitars}?${range}${filter}`);
+      const minData = (await api.get<Guitars>(`${APIRoute.Guitars}?_sort=price&_order=asc&_start=0&_limit=1`)).data;
+      const maxData = (await api.get<Guitars>(`${APIRoute.Guitars}?_sort=price&_order=desc&_start=0&_limit=1`)).data;
 
-      const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?${range}${filter}`);
+      const countItems = response.headers['x-total-count'];
+      const minPrice = minData[0].price;
+      const maxPrice = maxData[0].price;
 
-      dispatch(loadGuitarsData(data));
+      const pageCount = Math.ceil(countItems / ELEMENT_ON_PAGE_COUNT);
+      const currentPageCount = Math.ceil(countItems / ELEMENT_ON_PAGE_COUNT);
+
+      dispatch(loadGuitarsData(response.data));
+      dispatch(setFirstMinPrice(minPrice));
+      dispatch(setFirstMaxPrice(maxPrice));
+      dispatch(setPageCount(pageCount));
       dispatch(setCurrentPageCount(currentPageCount));
       dispatch(isLoadingError(false));
     } catch {
@@ -114,7 +119,7 @@ const postCommentAction = (comment: CommentPost, setIsSuccess: (a: boolean) => v
   };
 
 export {
-  fetchGuitarsAction,
+  fetchPageAction,
   fetchFilterAction,
   fetchSearchingAction,
   fetchGuitarAction,

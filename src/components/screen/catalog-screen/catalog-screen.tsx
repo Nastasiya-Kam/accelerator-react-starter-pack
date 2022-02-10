@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, PaginationPage, PAGINATION_STEP, ratingSize, ReplacedPart } from '../../../const';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
-import { fetchFilterAction } from '../../../store/api-actions';
+import { fetchFilterAction, fetchPageAction } from '../../../store/api-actions';
 import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
 import { getCurrentPageCount, getFilter } from '../../../store/user-data/selectors';
 import { getCurrentItemsRange } from '../../../utils/filter';
@@ -22,7 +22,7 @@ type Props = {
 }
 
 function CatalogScreen({currentPage}: Props): JSX.Element {
-  const pageCount = useSelector(getCurrentPageCount);
+  const currentPageCount = useSelector(getCurrentPageCount);
 
   const dispatch = useDispatch();
 
@@ -105,9 +105,14 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   useEffect(() => {
     const range = getCurrentItemsRange(currentPage);
     dispatch(fetchFilterAction(range, filter));
-  }, [ pageCount, currentPage, filter, dispatch]);
+  }, [ filter, dispatch ]);
 
-  if (isDataLoaded && (currentPage > pageCount) && (pageCount !== 0)) {
+  useEffect(() => {
+    const range = getCurrentItemsRange(currentPage);
+    dispatch(fetchPageAction(range, filter));
+  }, [ currentPage, dispatch ]);
+
+  if (isDataLoaded && (currentPage > currentPageCount) && (currentPageCount !== 0)) {
     return <NotFoundScreen />;
   }
 
