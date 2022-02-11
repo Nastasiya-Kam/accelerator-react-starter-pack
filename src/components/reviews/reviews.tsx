@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ratingSize, RENDER_COMMENTS_COUNT } from '../../const';
-import { fetchCommentsAction } from '../../store/api-actions';
-import { getCommentsLoadingStatus, getCommentsSortedByDate } from '../../store/guitar-data/selectors';
-import { GuitarId } from '../../types/guitars';
+import { getCommentsSortedByDate } from '../../store/guitar-data/selectors';
 import Rating from '../rating/rating';
 import ReviewMore from '../review-more/review-more';
 
 type Props = {
-  guitarId: GuitarId,
   onClick: (a: boolean) => void,
 }
 
-function Reviews({guitarId, onClick}: Props): JSX.Element {
+function Reviews({onClick}: Props): JSX.Element {
   const comments = useSelector(getCommentsSortedByDate);
-  const isCommentsLoading = useSelector(getCommentsLoadingStatus);
-  const dispatch = useDispatch();
 
   const [renderedCommentsCount, setRenderedCommentsCount] = useState<number>(RENDER_COMMENTS_COUNT);
-
-  useEffect(() => {
-    dispatch(fetchCommentsAction(guitarId));
-  }, [ guitarId, dispatch ]);
 
   const handleButtonUpClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
@@ -41,7 +32,6 @@ function Reviews({guitarId, onClick}: Props): JSX.Element {
         Оставить отзыв
       </a>
 
-      {(isCommentsLoading) && <p className="review__title">Комментарии загружаются...</p>}
       {
         (comments !== undefined && comments.length === 0)
           ? <p className="review__value">Комментарии ещё никто не оставил. Ваш будет первым</p>

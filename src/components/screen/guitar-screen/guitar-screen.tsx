@@ -110,7 +110,7 @@ function GuitarScreen({id}: Props): JSX.Element {
                   <a className="button button--red button--big product-container__button" href="##" onClick={(evt) => evt.preventDefault()}>Добавить в корзину</a>
                 </div>
               </div>
-              <Reviews guitarId={id} onClick={setIsOpened} />
+              <Reviews onClick={setIsOpened} />
             </div>
         }
       </main>

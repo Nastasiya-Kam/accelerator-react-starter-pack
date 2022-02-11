@@ -12,11 +12,9 @@ import {
   isLoadingError,
   loadGuitarData,
   isGuitarLoading,
-  isCommentsLoading,
-  loadCommentsData,
   isGuitarLoadingError,
   setPageCount} from './action';
-import { CommentPost, Comments } from '../types/comments';
+import { CommentPost } from '../types/comments';
 
 const fetchPageAction = (range: string, filter: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -90,27 +88,14 @@ const fetchGuitarAction = (id: GuitarId): ThunkActionResult =>
     dispatch(isGuitarLoading(false));
   };
 
-const fetchCommentsAction = (id: GuitarId): ThunkActionResult =>
-  async (dispatch, _getState, api): Promise<void> => {
-    dispatch(isCommentsLoading(true));
-    try {
-      const {data} = await api.get<Comments>(APIRoute.Comments.replace(ReplacedPart.GuitarId, String(id)));
-
-      dispatch(loadCommentsData(data));
-    } catch {
-      toast.info(ErrorMessage.LoadCommentsData);
-    }
-    dispatch(isCommentsLoading(false));
-  };
-
 const postCommentAction = (comment: CommentPost, setIsSuccess: (a: boolean) => void): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
       setIsSuccess(true);
       await api.post<CommentPost>(APIRoute.NewComment, comment);
-      const {data} = await api.get<Comments>(APIRoute.Comments.replace(ReplacedPart.GuitarId, String(comment.guitarId)));
+      const {data} = await api.get<Guitar>(APIRoute.Guitar.replace(ReplacedPart.GuitarId, String(comment.guitarId)));
 
-      dispatch(loadCommentsData(data));
+      dispatch(loadGuitarData(data));
     } catch {
       toast.info(ErrorMessage.PostComment);
       setIsSuccess(false);
@@ -122,6 +107,5 @@ export {
   fetchFilterAction,
   fetchSearchingAction,
   fetchGuitarAction,
-  fetchCommentsAction,
   postCommentAction
 };

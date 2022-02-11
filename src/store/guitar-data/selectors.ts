@@ -15,7 +15,6 @@ const getCommentsSortedByDate  = createSelector(
   [ getComments ],
   (comments) => comments?.slice().sort(sort),
 );
-const getCommentsLoadingStatus = (state: State): boolean => state[NameSpace.Guitar].isCommentsLoading;
 const getCommentsCount = (state: State): number | undefined => state[NameSpace.Guitar].guitar?.comments.length;
 
 export {
@@ -26,6 +25,5 @@ export {
   getGuitarLoadingError,
   getComments,
   getCommentsSortedByDate,
-  getCommentsLoadingStatus,
   getCommentsCount
 };
