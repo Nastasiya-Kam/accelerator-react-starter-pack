@@ -2,6 +2,7 @@ const RATING = [ 1, 2, 3, 4, 5 ];
 const HEADER_MENUS = [ 'Каталог', 'Где купить?', 'О компании' ];
 const FOOTER_MENUS = [ 'Где купить?', 'Блог', 'Вопрос - ответ', 'Возврат', 'Сервис-центры' ];
 const ERROR_RESPONSE = 404;
+const HEADER_TOTAL_COUNT = 'x-total-count';
 
 const socials = [
   {
@@ -79,6 +80,8 @@ const enum APIRoute {
   NewComment = '/comments',
   Coupon = '/coupons',
   Order = '/orders',
+  MinPrice = '_sort=price&_order=asc&_start=0&_limit=1',
+  MaxPrice = '_sort=price&_order=desc&_start=0&_limit=1',
 }
 
 const enum ReplacedPart {
@@ -147,8 +150,8 @@ const enum Filter {
   Type = 'type',
   StringCount = 'stringCount',
   NameLike = 'name_like',
-  SortingType = 'sort',
-  OrderingType = 'order',
+  SortingType = '_sort',
+  OrderingType = '_order',
 }
 
 //* ПАГИНАЦИЯ *//
@@ -196,6 +199,7 @@ export {
   HEADER_MENUS,
   FOOTER_MENUS,
   ERROR_RESPONSE,
+  HEADER_TOTAL_COUNT,
   socials,
   ErrorMessage,
   ratingSize,

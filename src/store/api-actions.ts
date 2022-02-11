@@ -1,4 +1,4 @@
-import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage, ERROR_RESPONSE, Filter, ReplacedPart } from '../const';
+import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage, ERROR_RESPONSE, Filter, HEADER_TOTAL_COUNT, ReplacedPart } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Guitar, GuitarId, Guitars } from '../types/guitars';
 import { toast } from 'react-toastify';
@@ -37,14 +37,13 @@ const fetchFilterAction = (range: string, filter: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(isLoading(true));
     try {
-      const response = await api.get<Guitars>(`${APIRoute.Guitars}?${range}${filter}`);
-      const minData = (await api.get<Guitars>(`${APIRoute.Guitars}?_sort=price&_order=asc&_start=0&_limit=1`)).data;
-      const maxData = (await api.get<Guitars>(`${APIRoute.Guitars}?_sort=price&_order=desc&_start=0&_limit=1`)).data;
-
-      const countItems = response.headers['x-total-count'];
+      const minData = (await api.get<Guitars>(`${APIRoute.Guitars}?${APIRoute.MinPrice}`)).data;
+      const maxData = (await api.get<Guitars>(`${APIRoute.Guitars}?${APIRoute.MaxPrice}`)).data;
       const minPrice = minData[0].price;
       const maxPrice = maxData[0].price;
 
+      const response = await api.get<Guitars>(`${APIRoute.Guitars}?${range}${filter}`);
+      const countItems = response.headers[HEADER_TOTAL_COUNT];
       const pageCount = Math.ceil(countItems / ELEMENT_ON_PAGE_COUNT);
       const currentPageCount = Math.ceil(countItems / ELEMENT_ON_PAGE_COUNT);
 
