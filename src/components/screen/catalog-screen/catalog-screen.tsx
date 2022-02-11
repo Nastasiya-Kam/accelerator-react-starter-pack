@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, PaginationPage, PAGINATION_STEP, ratingSize, ReplacedPart } from '../../../const';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
@@ -28,6 +28,12 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const searchPath = {
@@ -108,6 +114,10 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   }, [ filter, dispatch ]);
 
   useEffect(() => {
+    if (!isMounted) {
+      return;
+    }
+
     const range = getCurrentItemsRange(currentPage);
     dispatch(fetchPageAction(range, filter));
   }, [ currentPage, dispatch ]);
