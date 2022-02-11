@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
@@ -6,8 +5,8 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createAPI } from '../services/api';
 import { State } from '../types/state';
 import { APIRoute, ReplacedPart } from '../const';
-import { fetchCommentsAction, fetchFilterAction, fetchGuitarAction, fetchPageAction, postCommentAction } from './api-actions';
-import { isCommentsLoading, isGuitarLoading, isGuitarLoadingError, isLoading, isLoadingError, loadCommentsData, loadGuitarData, loadGuitarsData, setCurrentPageCount, setFirstMaxPrice, setFirstMinPrice, setPageCount } from './action';
+import { fetchGuitarAction, fetchPageAction, postCommentAction } from './api-actions';
+import { isGuitarLoading, isGuitarLoadingError, isLoading, isLoadingError, loadCommentsData, loadGuitarData, loadGuitarsData } from './action';
 import { HttpCode, makeFakeComments, makeFakeGuitar, makeFakeGuitars } from '../utils/mocks';
 
 describe('Async actions', () => {
@@ -75,24 +74,6 @@ describe('Async actions', () => {
       isGuitarLoadingError(false),
       loadGuitarData(null),
       isGuitarLoading(false),
-    ]);
-  });
-
-  it('fetchCommentsAction should dispatch isCommentsLoading, loadCommentsData when GET /guitar/:id/comments', async () => {
-    const mockComments = makeFakeComments(10);
-    const guitarId = 2;
-
-    mockAPI
-      .onGet(APIRoute.Comments.replace(ReplacedPart.GuitarId, String(guitarId)))
-      .reply(HttpCode.Ok, mockComments);
-
-    const store = mockStore();
-    await store.dispatch(fetchCommentsAction(guitarId));
-
-    expect(store.getActions()).toEqual([
-      isCommentsLoading(true),
-      loadCommentsData(mockComments),
-      isCommentsLoading(false),
     ]);
   });
 

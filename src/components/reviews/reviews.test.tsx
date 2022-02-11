@@ -10,7 +10,6 @@ import Reviews from './reviews';
 const mockStore = configureMockStore([thunk]);
 
 describe('Component: Review', () => {
-  const guitarId = 10;
   const onClick = jest.fn();
 
   it('should render correctly', () => {
@@ -28,7 +27,7 @@ describe('Component: Review', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Reviews guitarId={guitarId} onClick={onClick} />
+          <Reviews onClick={onClick} />
         </Router>
       </Provider>,
     );
@@ -52,7 +51,7 @@ describe('Component: Review', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Reviews guitarId={guitarId} onClick={onClick} />
+          <Reviews onClick={onClick} />
         </Router>
       </Provider>,
     );
