@@ -70,7 +70,7 @@ function Pagination():JSX.Element {
           })
         }
         {
-          (currentPage !== currentPageCount) &&
+          (currentPage !== currentPageCount && currentPageCount !== 0) &&
           <li className="pagination__page pagination__page--next" id="next">
             <a
               className="link pagination__page-link"
