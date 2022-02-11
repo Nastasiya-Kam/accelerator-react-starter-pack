@@ -31,10 +31,16 @@ function FilterPrice():JSX.Element {
   }, [userMinPrice, userMaxPrice]);
 
   const handleInputBlur = (evt: FormEvent<HTMLInputElement>) => {
-    const userPrice = Number(evt.currentTarget.value);
-
     switch (evt.currentTarget.id) {
       case priceFilter.priceMin.id: {
+        if (evt.currentTarget.value === '') {
+          setPriceMin(evt.currentTarget.value);
+          dispatch(setFilterMinPrice(evt.currentTarget.value));
+          searchParams.delete(Filter.PriceGte);
+          break;
+        }
+
+        const userPrice = Number(evt.currentTarget.value);
         const checkedMinPrice = checkMinPrice(userPrice, minPrice, maxPrice, priceMax);
 
         setPriceMin(checkedMinPrice);
@@ -45,6 +51,14 @@ function FilterPrice():JSX.Element {
         break;
       }
       case priceFilter.priceMax.id: {
+        if (evt.currentTarget.value === '') {
+          setPriceMax(evt.currentTarget.value);
+          dispatch(setFilterMaxPrice(evt.currentTarget.value));
+          searchParams.delete(Filter.PriceLte);
+          break;
+        }
+
+        const userPrice = Number(evt.currentTarget.value);
         const checkedMaxPrice = checkMaxPrice(userPrice, minPrice, maxPrice, priceMin);
 
         setPriceMax(checkedMaxPrice);
@@ -63,7 +77,7 @@ function FilterPrice():JSX.Element {
     dispatch(setCurrentPage(DEFAULT_PAGE));
     const currentIndexRange = getIndex(DEFAULT_PAGE);
 
-    searchParams.has(Filter.PriceGte)
+    searchParams.has(Filter.Start)
       ? searchParams.set(Filter.Start, String(currentIndexRange.startIndex))
       : searchParams.append(Filter.Start, String(currentIndexRange.startIndex));
     searchParams.has(Filter.End)
