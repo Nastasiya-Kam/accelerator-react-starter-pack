@@ -40,6 +40,7 @@ function Sorting():JSX.Element {
     if (currentSorting === '') {
       setCurrentSorting(Sort.Price);
       dispatch(setSorting(Sort.Price));
+      searchParams.set(Filter.SortingType, Sort.Price);
     }
 
     setCurrentOrder(order);
