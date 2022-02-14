@@ -1,8 +1,8 @@
-import { FormEvent, KeyboardEvent, useRef, useState } from 'react';
+import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import browserHistory from '../../browser-history';
-import { AppRoute, HEADER_MENUS, KeyCode, ReplacedPart } from '../../const';
+import { AppRoute, HEADER_MENUS, KeyCode, ReplacedPart, UserActivity } from '../../const';
 import { fetchSearchingAction } from '../../store/api-actions';
 import { getSearchingGuitars } from '../../store/user-data/selectors';
 
@@ -12,13 +12,16 @@ type Props = {
 
 function Header({isMain}: Props):JSX.Element {
   const [search, setSearch] = useState<string>('');
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const searchRef = useRef<HTMLInputElement | null>(null);
+  const wrapperRef = useRef<any>(null);
   const searchingGuitars = useSelector(getSearchingGuitars);
 
   const dispatch = useDispatch();
 
   const handleSearchChange = (evt: FormEvent<HTMLInputElement>) => {
     setSearch(evt.currentTarget.value);
+    setIsSearching(true);
     dispatch(fetchSearchingAction(evt.currentTarget.value));
   };
 
@@ -27,6 +30,18 @@ function Header({isMain}: Props):JSX.Element {
       browserHistory.push(AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(id)));
     }
   };
+
+
+  useEffect(() => {
+    const handleOutsideClick = (evt: any) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(evt.target)) {
+        setIsSearching(false);
+      }
+    };
+
+    document.addEventListener(UserActivity.Mousedown, handleOutsideClick);
+    return () => document.removeEventListener(UserActivity.Mousedown, handleOutsideClick);
+  }, [ isSearching, wrapperRef ]);
 
   return (
     <header className="header" id="header">
@@ -44,7 +59,7 @@ function Header({isMain}: Props):JSX.Element {
             }
           </ul>
         </nav>
-        <div className="form-search">
+        <div className="form-search" ref={wrapperRef}>
           <form className="form-search__form">
             <button className="form-search__submit" type="submit">
               <svg className="form-search__icon" width="14" height="15" aria-hidden="true">
@@ -54,6 +69,7 @@ function Header({isMain}: Props):JSX.Element {
             <input
               ref={searchRef}
               onChange={handleSearchChange}
+              onFocus={handleSearchChange}
               value={search}
               className="form-search__input"
               id="search"
@@ -63,7 +79,8 @@ function Header({isMain}: Props):JSX.Element {
             />
             <label className="visually-hidden" htmlFor="search">Поиск</label>
           </form>
-          <ul className={`form-search__select-list${(search === '') ? ' hidden' : ''}`}>
+          <ul className={`form-search__select-list${(!isSearching) ? ' hidden' : ''}`}>
+            {/* <ul className={`form-search__select-list${(search === '') ? ' hidden' : ''}`}> */}
             {
               (search === '' && searchingGuitars.length !== 0)
                 ? ''
