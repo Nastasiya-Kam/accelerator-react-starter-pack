@@ -80,7 +80,6 @@ function Header({isMain}: Props):JSX.Element {
             <label className="visually-hidden" htmlFor="search">Поиск</label>
           </form>
           <ul className={`form-search__select-list${(!isSearching) ? ' hidden' : ''}`}>
-            {/* <ul className={`form-search__select-list${(search === '') ? ' hidden' : ''}`}> */}
             {
               (search === '' && searchingGuitars.length !== 0)
                 ? ''
