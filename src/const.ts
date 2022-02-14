@@ -4,6 +4,12 @@ const FOOTER_MENUS = [ 'Где купить?', 'Блог', 'Вопрос - от�
 const ERROR_RESPONSE = 404;
 const HEADER_TOTAL_COUNT = 'x-total-count';
 
+const enum KeyCode {
+  Escape = 27,
+  Enter = 13,
+  Space = 32,
+}
+
 const socials = [
   {
     name: 'facebook',
@@ -171,8 +177,6 @@ const RENDER_COMMENTS_COUNT = 3;
 
 //* МОДАЛКА *//
 
-const ESC_KEY_CODE = 27;
-
 const RATINGS = [
   {rate: 5, title: 'Отлично'},
   {rate: 4, title: 'Хорошо'},
@@ -200,6 +204,7 @@ export {
   FOOTER_MENUS,
   ERROR_RESPONSE,
   HEADER_TOTAL_COUNT,
+  KeyCode,
   socials,
   ErrorMessage,
   ratingSize,
@@ -224,7 +229,6 @@ export {
   ELEMENT_ON_PAGE_COUNT,
   PaginationPage,
   RENDER_COMMENTS_COUNT,
-  ESC_KEY_CODE,
   RATINGS,
   UserActivity,
   UserForm

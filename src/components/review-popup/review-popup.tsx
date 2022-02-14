@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ESC_KEY_CODE, RATINGS, UserActivity, UserForm } from '../../const';
+import { KeyCode, RATINGS, UserActivity, UserForm } from '../../const';
 import { useOutsideClicker } from '../../hooks/use-outside-clicker';
 import { postCommentAction } from '../../store/api-actions';
 import { getGuitarName } from '../../store/guitar-data/selectors';
@@ -45,7 +45,7 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   };
 
   const handleEscKeyDown = useCallback((evt) => {
-    if(evt.keyCode === ESC_KEY_CODE) {
+    if(evt.keyCode === KeyCode.Escape) {
       document.body.style.overflow = UserActivity.Scroll;
       onClick(false);
     }

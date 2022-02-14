@@ -1,8 +1,8 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, KeyboardEvent, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import browserHistory from '../../browser-history';
-import { AppRoute, HEADER_MENUS, ReplacedPart } from '../../const';
+import { AppRoute, HEADER_MENUS, KeyCode, ReplacedPart } from '../../const';
 import { fetchSearchingAction } from '../../store/api-actions';
 import { getSearchingGuitars } from '../../store/user-data/selectors';
 
@@ -20,6 +20,12 @@ function Header({isMain}: Props):JSX.Element {
   const handleSearchChange = (evt: FormEvent<HTMLInputElement>) => {
     setSearch(evt.currentTarget.value);
     dispatch(fetchSearchingAction(evt.currentTarget.value));
+  };
+
+  const handleItemKeyDown = (evt: KeyboardEvent<HTMLLIElement>, id: number) => {
+    if (evt.keyCode === KeyCode.Enter || evt.keyCode === KeyCode.Space) {
+      browserHistory.push(AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(id)));
+    }
   };
 
   return (
@@ -70,6 +76,7 @@ function Header({isMain}: Props):JSX.Element {
                       className="form-search__select-item"
                       tabIndex={0}
                       onClick={() => browserHistory.push(AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(guitar.id)))}
+                      onKeyDown={(evt) => handleItemKeyDown(evt, guitar.id)}
                     >
                       {guitar.name}
                     </li>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { ESC_KEY_CODE, UserActivity } from '../../const';
+import { KeyCode, UserActivity } from '../../const';
 import { useOutsideClicker } from '../../hooks/use-outside-clicker';
 import ButtonCross from '../button-cross/button-cross';
 import FocusTrap from 'focus-trap-react';
@@ -19,7 +19,7 @@ function SuccessReviewPopup({onClick}: Props): JSX.Element {
   };
 
   const handleEscKeyDown = useCallback((evt) => {
-    if(evt.keyCode === ESC_KEY_CODE) {
+    if(evt.keyCode === KeyCode.Escape) {
       document.body.style.overflow = UserActivity.Scroll;
       onClick(false);
     }
