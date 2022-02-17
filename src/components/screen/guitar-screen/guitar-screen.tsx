@@ -128,7 +128,7 @@ function GuitarScreen({id}: Props): JSX.Element {
       {(isOpened && guitar?.id !== undefined) && <ReviewPopup onClick={setIsOpened} guitarId={guitar.id} isSuccess={setIsSuccess} />}
       {(!isOpened && isSuccess) && <SuccessReviewPopup onClick={setIsSuccess} />}
       {(isCartAddOpened && guitar !== null) && <CartAddPopup guitar={guitar} onClick={setIsCartAddOpened} isAdded={setIsCartAdded} />}
-      {(!isCartAddOpened && isCartAdded) && <SuccessAddPopup onClick={setIsCartAdded} />}
+      {(!isCartAddOpened && isCartAdded) && <SuccessAddPopup onClick={setIsCartAdded} isCatalogPage={isMain} />}
     </div>
   );
 }

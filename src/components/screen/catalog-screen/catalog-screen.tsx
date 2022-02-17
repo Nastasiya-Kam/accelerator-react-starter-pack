@@ -133,6 +133,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const handleAddToCartClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>, guitar: Guitar) => {
     evt.preventDefault();
 
+    document.body.style.overflow = 'hidden';
     setPickedGuitar(guitar);
     setIsCartAddOpened(true);
   };
@@ -195,7 +196,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
       </main>
       <Footer isMain={isMain} />
       {(isCartAddOpened && pickedGuitar !== null) && <CartAddPopup guitar={pickedGuitar} onClick={setIsCartAddOpened} isAdded={setIsCartAdded} />}
-      {(!isCartAddOpened && isCartAdded) && <SuccessAddPopup onClick={setIsCartAdded} />}
+      {(!isCartAddOpened && isCartAdded) && <SuccessAddPopup onClick={setIsCartAdded} isCatalogPage={isMain} />}
     </div>
   );
 }

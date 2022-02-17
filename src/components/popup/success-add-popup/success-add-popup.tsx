@@ -1,21 +1,37 @@
 import FocusTrap from 'focus-trap-react';
 import { useCallback, useEffect, useRef } from 'react';
 import browserHistory from '../../../browser-history';
-import { AppRoute, KeyCode, UserActivity } from '../../../const';
+import { AppRoute, DEFAULT_PAGE, KeyCode, ReplacedPart, UserActivity } from '../../../const';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
 import ButtonCross from '../../button-cross/button-cross';
 
 type Props = {
   onClick: (a: boolean) => void,
+  isCatalogPage: boolean,
 }
 
-function SuccessAddPopup({onClick}: Props):JSX.Element {
+function SuccessAddPopup({onClick, isCatalogPage}: Props):JSX.Element {
   const wrapperRef = useRef(null);
 
   useOutsideClicker(wrapperRef, onClick);
 
   const handleCloseClick = () => {
     onClick(false);
+  };
+
+  const handleToCartClick = () => {
+    browserHistory.push(AppRoute.CartPage);
+    document.body.style.overflow = UserActivity.Scroll;
+    onClick(false);
+  };
+
+  const handleContinueShoppingClick = () => {
+    document.body.style.overflow = UserActivity.Scroll;
+    onClick(false);
+
+    if (!isCatalogPage) {
+      browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
+    }
   };
 
   const handleEscKeyDown = useCallback((evt) => {
@@ -42,11 +58,8 @@ function SuccessAddPopup({onClick}: Props):JSX.Element {
               </svg>
               <p className="modal__message">Товар успешно добавлен в корзину</p>
               <div className="modal__button-container modal__button-container--add">
-                <button className="button button--small modal__button" onClick={() => browserHistory.push(AppRoute.CartPage)}>Перейти в корзину</button>
-                {/* //TODO Гитара: По клику `Продолжить покупки` пользователь перенаправляется в Каталог.
-                                По клику на “Х” попап  “Товар успешно добавлен” закрывается и пользователь остается на странице Карточки товара
-                        Каталог: По клику Продолжить покупки попап закрывается и пользователь остается в Каталоге*/}
-                <button className="button button--black-border button--small modal__button modal__button--right">Продолжить покупки</button>
+                <button className="button button--small modal__button" onClick={handleToCartClick}>Перейти в корзину</button>
+                <button className="button button--black-border button--small modal__button modal__button--right" onClick={handleContinueShoppingClick}>Продолжить покупки</button>
               </div>
               <ButtonCross onClick={handleCloseClick} />
             </div>
