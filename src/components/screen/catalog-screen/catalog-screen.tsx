@@ -19,6 +19,7 @@ import Rating from '../../rating/rating';
 import CartAddPopup from '../../popup/cart-add-popup/cart-add-popup';
 import SuccessAddPopup from '../../popup/success-add-popup/success-add-popup';
 import { Guitar } from '../../../types/guitars';
+import { getGuitarsInCart } from '../../../store/cart-data/selectors';
 
 type Props = {
   currentPage: number,
@@ -26,6 +27,7 @@ type Props = {
 
 function CatalogScreen({currentPage}: Props): JSX.Element {
   const currentPageCount = useSelector(getCurrentPageCount);
+  const guitarsInCart = useSelector(getGuitarsInCart);
 
   const dispatch = useDispatch();
 
@@ -161,6 +163,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                 (!isLoading && !isLoadingError) && guitars.map((guitar) => {
                   const keyGuitar = `${guitar.id}-${guitar.name}`;
                   const { id, name, previewImg, rating, price } = guitar;
+                  const isInCart = guitarsInCart.some((guitarInCart) => guitarInCart.id === guitar.id);
 
                   return (
                     <div key={keyGuitar} className="product-card"><img src={previewImg.replace('img', 'img/content')} width="75" height="190" alt={name} />
@@ -175,7 +178,11 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                       </div>
                       <div className="product-card__buttons">
                         <Link className="button button--mini" to={AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(id))}>Подробнее</Link>
-                        <a className="button button--red button--mini button--add-to-cart" href="##" onClick={(evt) => handleAddToCartClick(evt, guitar)}>Купить</a>
+                        {
+                          (isInCart)
+                            ? <Link className="button button--red-border button--mini button--in-cart" to={AppRoute.CartPage}>В Корзине</Link>
+                            : <a className="button button--red button--mini button--add-to-cart" href="##" onClick={(evt) => handleAddToCartClick(evt, guitar)}>Купить</a>
+                        }
                       </div>
                     </div>
                   );
