@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { AppRoute, FOOTER_MENUS, socials } from '../../const';
 
 type Props = {
@@ -8,9 +9,9 @@ function Footer({isMain}: Props):JSX.Element {
   return (
     <footer className="footer">
       <div className="footer__container container">
-        <a className="footer__logo logo" href={isMain ? '##' : AppRoute.Root}>
+        <Link className="footer__logo logo" to={isMain ? '##' : AppRoute.Root}>
           <img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" />
-        </a>
+        </Link>
         <div className="socials footer__socials">
           <ul className="socials__list">
             {
