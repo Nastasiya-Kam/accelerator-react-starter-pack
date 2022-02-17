@@ -2,12 +2,16 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, DEFAULT_PAGE, ReplacedPart } from '../../../const';
 import { getGuitarsInCart } from '../../../store/cart-data/selectors';
+import { getCartSumm } from '../../../utils/cart';
 import { getGuitarType, numberWithSpaces } from '../../../utils/utils';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 
 function CartScreen(): JSX.Element {
   const guitarsInCart = useSelector(getGuitarsInCart);
+  const summ = getCartSumm(guitarsInCart);
+  // const discount = 0;
+  // const discountSumm = summ - discount;
 
   const isMain = false;
 
@@ -75,8 +79,10 @@ function CartScreen(): JSX.Element {
                 </form>
               </div>
               <div className="cart__total-info">
-                <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">52 000 ₽</span></p>
+                <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{numberWithSpaces(summ)} ₽</span></p>
+                {/* //TODO тянем купон с сервера (проверяем введённый купон и вставляем значение скидки (рассчитанное)) */}
                 <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className="cart__total-value cart__total-value--bonus">- 3000 ₽</span></p>
+                {/* //TODO сумма товаров - скидка */}
                 <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">49 000 ₽</span></p>
                 <button className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>
@@ -85,6 +91,7 @@ function CartScreen(): JSX.Element {
         </div>
       </main>
       <Footer isMain={isMain} />
+      {/* //TODO удаление из корзины товара */}
       {/* {(isOpened && guitar?.id !== undefined) && <ReviewPopup onClick={setIsOpened} guitarId={guitar.id} isSuccess={setIsSuccess} />} */}
       {/* {(!isOpened && isSuccess) && <SuccessReviewPopup onClick={setIsSuccess} />} */}
     </div>
