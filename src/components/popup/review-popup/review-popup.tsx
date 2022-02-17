@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { KeyCode, RATINGS, UserActivity, UserForm } from '../../const';
-import { useOutsideClicker } from '../../hooks/use-outside-clicker';
-import { postCommentAction } from '../../store/api-actions';
-import { getGuitarName } from '../../store/guitar-data/selectors';
-import { CommentPost } from '../../types/comments';
-import { GuitarId } from '../../types/guitars';
-import ButtonCross from '../button-cross/button-cross';
+import { KeyCode, RATINGS, UserActivity, UserForm } from '../../../const';
+import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
+import { postCommentAction } from '../../../store/api-actions';
+import { getGuitarName } from '../../../store/guitar-data/selectors';
+import { CommentPost } from '../../../types/comments';
+import { GuitarId } from '../../../types/guitars';
+import ButtonCross from '../../button-cross/button-cross';
 import FocusTrap from 'focus-trap-react';
-import { checkValidRating, checkValidText } from '../../utils/utils';
+import { checkValidRating, checkValidText } from '../../../utils/utils';
 
 type Props = {
   guitarId: GuitarId,

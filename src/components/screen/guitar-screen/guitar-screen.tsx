@@ -9,9 +9,9 @@ import { getGuitarType, numberWithSpaces } from '../../../utils/utils';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 import Rating from '../../rating/rating';
-import ReviewPopup from '../../review-popup/review-popup';
+import ReviewPopup from '../../popup/review-popup/review-popup';
 import Reviews from '../../reviews/reviews';
-import SuccessReviewPopup from '../../success-review-popup/success-review-popup';
+import SuccessReviewPopup from '../../popup/success-review-popup/success-review-popup';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type Props = {

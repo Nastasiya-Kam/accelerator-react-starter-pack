@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { KeyCode, UserActivity } from '../../const';
-import { useOutsideClicker } from '../../hooks/use-outside-clicker';
-import ButtonCross from '../button-cross/button-cross';
+import { KeyCode, UserActivity } from '../../../const';
+import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
+import ButtonCross from '../../button-cross/button-cross';
 import FocusTrap from 'focus-trap-react';
 
 type Props = {

@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import ReviewPopup from './review-popup';
-import { makeFakeGuitar } from '../../utils/mocks';
+import { makeFakeGuitar } from '../../../utils/mocks';
 import userEvent from '@testing-library/user-event';
 
 const mockStore = configureMockStore();
