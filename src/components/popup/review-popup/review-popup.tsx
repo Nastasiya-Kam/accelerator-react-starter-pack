@@ -40,7 +40,6 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   const wrapperRef = useRef(null);
 
   const handleCloseClick = () => {
-    document.body.style.overflow = UserActivity.Scroll;
     onClick(false);
   };
 

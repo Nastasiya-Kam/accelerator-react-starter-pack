@@ -14,7 +14,6 @@ function SuccessReviewPopup({onClick}: Props): JSX.Element {
   useOutsideClicker(wrapperRef, onClick);
 
   const handleCloseClick = () => {
-    document.body.style.overflow = UserActivity.Scroll;
     onClick(false);
   };
 
