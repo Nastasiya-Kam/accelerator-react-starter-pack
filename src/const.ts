@@ -77,6 +77,7 @@ const enum AppRoute {
   Root = '/',
   CatalogPage = '/catalog/:page',
   GuitarPage = '/guitar/:id',
+  CartPage = '/cart',
 }
 
 const enum APIRoute {

@@ -1,6 +1,7 @@
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import browserHistory from '../../browser-history';
 import { AppRoute, HEADER_MENUS, KeyCode, ReplacedPart, UserActivity } from '../../const';
 import { fetchSearchingAction } from '../../store/api-actions';
@@ -101,11 +102,11 @@ function Header({isMain}: Props):JSX.Element {
             }
           </ul>
         </div>
-        <a className="header__cart-link" href="#" aria-label="Корзина">
+        <Link to={AppRoute.CartPage} className="header__cart-link" aria-label="Корзина">
           <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">2</span>
-        </a>
+        </Link>
       </div>
     </header>
   );

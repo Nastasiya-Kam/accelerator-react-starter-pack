@@ -1,5 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
 import { AppRoute, DEFAULT_PAGE, ReplacedPart } from '../../const';
+import CartScreen from '../screen/cart-screen/cart-screen';
 import CatalogScreen from '../screen/catalog-screen/catalog-screen';
 import GuitarScreen from '../screen/guitar-screen/guitar-screen';
 import NotFoundScreen from '../screen/not-found-screen/not-found-screen';
@@ -28,6 +29,9 @@ function App(): JSX.Element {
           return <GuitarScreen id={id}/>;
         }}
       >
+      </Route>
+      <Route exact path={AppRoute.CartPage} >
+        <CartScreen />
       </Route>
       <Route>
         <NotFoundScreen />
