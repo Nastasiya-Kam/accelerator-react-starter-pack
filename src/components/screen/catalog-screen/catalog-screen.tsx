@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, PaginationPage, PAGINATION_STEP, ratingSize, ReplacedPart } from '../../../const';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
@@ -16,6 +16,9 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { Filter as FilterParams } from '../../../const';
 import { Link, useLocation } from 'react-router-dom';
 import Rating from '../../rating/rating';
+import CartAddPopup from '../../popup/cart-add-popup/cart-add-popup';
+import SuccessAddPopup from '../../popup/success-add-popup/success-add-popup';
+import { Guitar } from '../../../types/guitars';
 
 type Props = {
   currentPage: number,
@@ -30,6 +33,9 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const searchParams = new URLSearchParams(location.search);
 
   const [isMounted, setIsMounted] = useState(false);
+  const [isCartAddOpened, setIsCartAddOpened] = useState<boolean>(false);
+  const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
+  const [pickedGuitar, setPickedGuitar] = useState<Guitar | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -122,6 +128,13 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
     dispatch(fetchPageAction(range, filter));
   }, [ currentPage, dispatch ]);
 
+  const handleAddToCartClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>, guitar: Guitar) => {
+    evt.preventDefault();
+
+    setPickedGuitar(guitar);
+    setIsCartAddOpened(true);
+  };
+
   if (isDataLoaded && (currentPage > currentPageCount) && (currentPageCount !== 0)) {
     return <NotFoundScreen />;
   }
@@ -162,8 +175,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
                       </div>
                       <div className="product-card__buttons">
                         <Link className="button button--mini" to={AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(id))}>Подробнее</Link>
-                        {/* //TODO на следующем этапе кнопка добавляет товар в корзину */}
-                        <a className="button button--red button--mini button--add-to-cart" href="##" onClick={(evt) => evt.preventDefault()}>Купить</a>
+                        <a className="button button--red button--mini button--add-to-cart" href="##" onClick={(evt) => handleAddToCartClick(evt, guitar)}>Купить</a>
                       </div>
                     </div>
                   );
@@ -175,6 +187,8 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
         </div>
       </main>
       <Footer isMain={isMain} />
+      {(isCartAddOpened && pickedGuitar !== null) && <CartAddPopup guitar={pickedGuitar} onClick={setIsCartAddOpened} isAdded={setIsCartAdded} />}
+      {(!isCartAddOpened && isCartAdded) && <SuccessAddPopup onClick={setIsCartAdded} />}
     </div>
   );
 }

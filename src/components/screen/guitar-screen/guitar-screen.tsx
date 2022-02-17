@@ -13,6 +13,8 @@ import ReviewPopup from '../../popup/review-popup/review-popup';
 import Reviews from '../../reviews/reviews';
 import SuccessReviewPopup from '../../popup/success-review-popup/success-review-popup';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import CartAddPopup from '../../popup/cart-add-popup/cart-add-popup';
+import SuccessAddPopup from '../../popup/success-add-popup/success-add-popup';
 
 type Props = {
   id: GuitarId,
@@ -30,6 +32,8 @@ function GuitarScreen({id}: Props): JSX.Element {
   const [currentTab, setCurrentTab] = useState<string>(ScreenTab.Characteristics);
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isCartAddOpened, setIsCartAddOpened] = useState<boolean>(false);
+  const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchGuitarAction(id));
@@ -38,6 +42,12 @@ function GuitarScreen({id}: Props): JSX.Element {
   if (isGuitarDataLoaded && !guitar) {
     return <NotFoundScreen />;
   }
+
+  const handleAddToCardClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    evt.preventDefault();
+    document.body.style.overflow = 'hidden';
+    setIsCartAddOpened(true);
+  };
 
   const isMain = false;
 
@@ -107,7 +117,7 @@ function GuitarScreen({id}: Props): JSX.Element {
                   <p className="product-container__price-info product-container__price-info--title">Цена:</p>
                   <p className="product-container__price-info product-container__price-info--value">{numberWithSpaces(guitar.price)} ₽</p>
                   {/* //TODO на следующем этапе кнопка добавляет товар в корзину */}
-                  <a className="button button--red button--big product-container__button" href="##" onClick={(evt) => evt.preventDefault()}>Добавить в корзину</a>
+                  <a className="button button--red button--big product-container__button" href="##" onClick={(evt) => handleAddToCardClick(evt)}>Добавить в корзину</a>
                 </div>
               </div>
               <Reviews onClick={setIsOpened} />
@@ -117,6 +127,8 @@ function GuitarScreen({id}: Props): JSX.Element {
       <Footer isMain={isMain} />
       {(isOpened && guitar?.id !== undefined) && <ReviewPopup onClick={setIsOpened} guitarId={guitar.id} isSuccess={setIsSuccess} />}
       {(!isOpened && isSuccess) && <SuccessReviewPopup onClick={setIsSuccess} />}
+      {(isCartAddOpened && guitar !== null) && <CartAddPopup guitar={guitar} onClick={setIsCartAddOpened} isAdded={setIsCartAdded} />}
+      {(!isCartAddOpened && isCartAdded) && <SuccessAddPopup onClick={setIsCartAdded} />}
     </div>
   );
 }
