@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import browserHistory from '../../browser-history';
-import { AppRoute, HEADER_MENUS, KeyCode, ReplacedPart, UserActivity } from '../../const';
+import { AppRoute, DEFAULT_PAGE, HEADER_MENUS, KeyCode, ReplacedPart, UserActivity } from '../../const';
 import { fetchSearchingAction } from '../../store/api-actions';
 import { getSearchingGuitars } from '../../store/user-data/selectors';
 
@@ -54,7 +54,7 @@ function Header({isMain}: Props):JSX.Element {
               HEADER_MENUS.map((item) => {
                 const key = `main-menu-${item}`;
                 return (
-                  <li key={key}><a className="link main-nav__link" href={(!isMain && item === 'Каталог') ? AppRoute.Root : '##'}>{item}</a></li>
+                  <li key={key}><Link className="link main-nav__link" to={(!isMain && item === 'Каталог') ? AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`) : '##'}>{item}</Link></li>
                 );
               })
             }
