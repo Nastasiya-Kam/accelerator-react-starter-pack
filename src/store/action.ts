@@ -3,6 +3,8 @@ import { ActionType } from '../types/action';
 import { Comments } from '../types/comments';
 import { Guitar, Guitars } from '../types/guitars';
 
+// * GUITARS_DATA * //
+
 const loadGuitarsData = createAction(
   ActionType.LoadGuitarsData,
   (guitars: Guitars) => ({
@@ -44,6 +46,8 @@ const isLoadingError = createAction(
     payload: flag,
   }),
 );
+
+// * USER_DATA * //
 
 const setFilterMinPrice = createAction(
   ActionType.SetFilterMinPrice,
@@ -127,6 +131,8 @@ const loadSearchingGuitars = createAction(
   }),
 );
 
+// * GUITAR_DATA * //
+
 const loadGuitarData = createAction(
   ActionType.LoadGuitarData,
   (guitar: Guitar | null) => ({
@@ -162,6 +168,15 @@ const isCommentsLoading = createAction(
   }),
 );
 
+// * CART_DATA * //
+
+const loadCartData = createAction(
+  ActionType.LoadCartData,
+  (guitars: Guitars) => ({
+    payload: guitars,
+  }),
+);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
@@ -188,5 +203,6 @@ export {
   isGuitarLoading,
   isGuitarLoadingError,
   loadCommentsData,
-  isCommentsLoading
+  isCommentsLoading,
+  loadCartData
 };

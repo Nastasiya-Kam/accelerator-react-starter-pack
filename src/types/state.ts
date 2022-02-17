@@ -32,6 +32,10 @@ type GuitarData = {
   isGuitarLoadingError: boolean,
 }
 
+type CartData = {
+  guitarsInCart: Guitars,
+}
+
 type State = RootState;
 
-export type { GuitarsData, UserData, GuitarData, State };
+export type { GuitarsData, UserData, GuitarData, CartData, State };
