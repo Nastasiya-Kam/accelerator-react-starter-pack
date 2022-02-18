@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, DEFAULT_PAGE, ReplacedPart } from '../../../const';
 import { getGuitarsInCart } from '../../../store/cart-data/selectors';
-import { getCartSumm } from '../../../utils/cart';
+import { getCartSumm, getCountOfGuitarId, getUniqueGuitars } from '../../../utils/cart';
 import { getGuitarType, numberWithSpaces } from '../../../utils/utils';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
@@ -10,6 +10,8 @@ import Header from '../../header/header';
 function CartScreen(): JSX.Element {
   const guitarsInCart = useSelector(getGuitarsInCart);
   const summ = getCartSumm(guitarsInCart);
+  const uniqueGuitars = getUniqueGuitars(guitarsInCart);
+  const countOfGuitarsId = getCountOfGuitarId(uniqueGuitars, guitarsInCart);
   // const discount = 0;
   // const discountSumm = summ - discount;
 
@@ -28,9 +30,12 @@ function CartScreen(): JSX.Element {
           </ul>
           <div className="cart">
             {
-              guitarsInCart.map((guitarInCart) => {
-                const { id, name, previewImg, price, vendorCode, stringCount, type } = guitarInCart;
+              uniqueGuitars.map((guitarInCart) => {
+                const { id, name, vendorCode, type, previewImg, stringCount, price } = guitarInCart;
                 const key = `guitarInCart-${id}`;
+
+                const countOfGuitarId = countOfGuitarsId.filter((item) => item.id === guitarInCart.id)[0];
+                const guitarsIdSumm = countOfGuitarId.count * price;
 
                 return (
                   <div key={key} className="cart-item">
@@ -52,15 +57,14 @@ function CartScreen(): JSX.Element {
                           <use xlinkHref="#icon-minus"></use>
                         </svg>
                       </button>
-                      <input className="quantity__input" type="number" placeholder="1" id="2-count" name="2-count" max="99" />
+                      <input className="quantity__input" type="number" placeholder={String(countOfGuitarId.count)} id="2-count" name="2-count" max="99" />
                       <button className="quantity__button" aria-label="Увеличить количество">
                         <svg width="8" height="8" aria-hidden="true">
                           <use xlinkHref="#icon-plus"></use>
                         </svg>
                       </button>
                     </div>
-                    {/* //TODO Формула для подсчёта суммы ТИПА гитары, находящейся в корзине ТУТ */}
-                    <div className="cart-item__price-total">17 500 ₽</div>
+                    <div className="cart-item__price-total">{numberWithSpaces(guitarsIdSumm)} ₽</div>
                   </div>
                 );
               })
