@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ActionType } from '../types/action';
 import { Comments } from '../types/comments';
-import { Guitar, Guitars } from '../types/guitars';
+import { Guitar, GuitarCart, Guitars } from '../types/guitars';
 
 // * GUITARS_DATA * //
 
@@ -179,7 +179,7 @@ const loadCartData = createAction(
 
 const addToCart = createAction(
   ActionType.AddToCart,
-  (guitar: Guitar) => ({
+  (guitar: GuitarCart) => ({
     payload: guitar,
   }),
 );

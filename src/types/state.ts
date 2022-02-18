@@ -1,5 +1,5 @@
 import { RootState } from '../store/root-reducer';
-import { Guitar, Guitars } from './guitars';
+import { Guitar, Guitars, GuitarsCart } from './guitars';
 
 type GuitarsData = {
   guitars: Guitars,
@@ -33,7 +33,7 @@ type GuitarData = {
 }
 
 type CartData = {
-  guitarsInCart: Guitars,
+  guitarsInCart: GuitarsCart,
 }
 
 type State = RootState;

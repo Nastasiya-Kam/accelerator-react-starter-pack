@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { KeyCode, UserActivity } from '../../../const';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
 import { addToCart } from '../../../store/action';
-import { Guitar } from '../../../types/guitars';
+import { GuitarCart } from '../../../types/guitars';
 import ButtonCross from '../../button-cross/button-cross';
 import PopupInfo from '../../popup-info/popup-info';
 
 type Props = {
-  guitar: Guitar,
+  guitar: GuitarCart,
   onClick: (a: boolean) => void,
   isAdded: (a: boolean) => void,
 }
@@ -31,7 +31,17 @@ function CartAddPopup({guitar, onClick, isAdded}: Props):JSX.Element {
   }, [ handleEscKeyDown ]);
 
   const handleAddToCardClick = () => {
-    dispatch(addToCart(guitar));
+    const guitarToAdd = {
+      id: guitar.id,
+      name: guitar.name,
+      vendorCode: guitar.vendorCode,
+      type: guitar.type,
+      previewImg: guitar.previewImg,
+      stringCount: guitar.stringCount,
+      price: guitar.price,
+    };
+
+    dispatch(addToCart(guitarToAdd));
     onClick(false);
     isAdded(true);
   };

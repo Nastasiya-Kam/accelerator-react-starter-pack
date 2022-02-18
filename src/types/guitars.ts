@@ -23,4 +23,16 @@ type GuitarType = {
   stringsCount: number[],
 }
 
-export type { GuitarId, Guitar, Guitars, GuitarType };
+type GuitarCart = {
+  id: GuitarId,
+  name: string,
+  vendorCode: string,
+  type: string,
+  previewImg: string,
+  stringCount: number,
+  price: number,
+}
+
+type GuitarsCart = GuitarCart[];
+
+export type { GuitarId, Guitar, Guitars, GuitarType, GuitarCart, GuitarsCart };
