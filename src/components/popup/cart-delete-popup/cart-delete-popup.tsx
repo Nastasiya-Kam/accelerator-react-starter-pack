@@ -1,10 +1,10 @@
 import FocusTrap from 'focus-trap-react';
-import { Guitar } from '../../../types/guitars';
+import { GuitarCart } from '../../../types/guitars';
 import ButtonCross from '../../button-cross/button-cross';
 import PopupInfo from '../../popup-info/popup-info';
 
 type Props = {
-  guitar: Guitar,
+  guitar: GuitarCart,
 }
 
 function CartDeletePopup({guitar}: Props):JSX.Element {
