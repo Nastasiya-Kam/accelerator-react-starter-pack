@@ -1,4 +1,4 @@
-import { Guitar, Guitars } from '../types/guitars';
+import { Guitar, GuitarCart, Guitars, GuitarsCart } from '../types/guitars';
 import { image, music, name } from 'faker';
 import { Comment, Comments } from '../types/comments';
 
@@ -40,10 +40,25 @@ const makeFakeComment = (): Comment => ({
 
 const makeFakeComments = (commentsCount: number): Comments => new Array(commentsCount).fill(undefined).map(() => makeFakeComment());
 
+const makeFakeGuitarCart = (): GuitarCart => ({
+  'id': Math.floor(Math.random() * 100000),
+  'name': name.firstName(),
+  'vendorCode': 'SO757575',
+  'type': music.genre(),
+  'description': 'Вариант для настоящих профессионалов. Двенадцатиструнный инструмент оснащён карбоновыми струнами и корпусом из массива ели.',
+  'previewImg': image.image(),
+  'stringCount': 7,
+  'price': 17500,
+} as GuitarCart);
+
+const makeFakeGuitarsCart = (guitarsCartCount: number): GuitarsCart => new Array(guitarsCartCount).fill(undefined).map(() => makeFakeGuitarCart());
+
 export {
   HttpCode,
   makeFakeGuitar,
   makeFakeGuitars,
   makeFakeComment,
-  makeFakeComments
+  makeFakeComments,
+  makeFakeGuitarCart,
+  makeFakeGuitarsCart
 };
