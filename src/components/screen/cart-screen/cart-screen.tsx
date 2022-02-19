@@ -1,17 +1,14 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, DEFAULT_PAGE, ReplacedPart } from '../../../const';
-import { getGuitarsInCart } from '../../../store/cart-data/selectors';
-import { getCartSumm, getCountOfGuitarId, getUniqueGuitars } from '../../../utils/cart';
-import { getGuitarType, numberWithSpaces } from '../../../utils/utils';
+import { getSummOfGuitarsInCart } from '../../../store/cart-data/selectors';
+import { numberWithSpaces } from '../../../utils/utils';
+import CartList from '../../cart-list/cart-list';
 import Footer from '../../footer/footer';
 import Header from '../../header/header';
 
 function CartScreen(): JSX.Element {
-  const guitarsInCart = useSelector(getGuitarsInCart);
-  const summ = getCartSumm(guitarsInCart);
-  const uniqueGuitars = getUniqueGuitars(guitarsInCart);
-  const countOfGuitarsId = getCountOfGuitarId(uniqueGuitars, guitarsInCart);
+  const summ = useSelector(getSummOfGuitarsInCart);
   // const discount = 0;
   // const discountSumm = summ - discount;
 
@@ -29,46 +26,7 @@ function CartScreen(): JSX.Element {
             <li className="breadcrumbs__item"><a className="link">Корзина</a></li>
           </ul>
           <div className="cart">
-            {
-              uniqueGuitars.map((guitarInCart) => {
-                const { id, name, vendorCode, type, previewImg, stringCount, price } = guitarInCart;
-                const key = `guitarInCart-${id}`;
-
-                const countOfGuitarId = countOfGuitarsId.filter((item) => item.id === guitarInCart.id)[0];
-                const guitarsIdSumm = countOfGuitarId.count * price;
-
-                return (
-                  <div key={key} className="cart-item">
-                    <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
-                      <span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
-                    </button>
-                    <div className="cart-item__image">
-                      <img src={previewImg.replace('img', 'img/content')} width="55" height="130" alt={name} />
-                    </div>
-                    <div className="product-info cart-item__info">
-                      <p className="product-info__title">{name}</p>
-                      <p className="product-info__info">Артикул: {vendorCode}</p>
-                      <p className="product-info__info">{getGuitarType(type)}, {stringCount} струнная</p>
-                    </div>
-                    <div className="cart-item__price">{numberWithSpaces(price)} ₽</div>
-                    <div className="quantity cart-item__quantity">
-                      <button className="quantity__button" aria-label="Уменьшить количество">
-                        <svg width="8" height="8" aria-hidden="true">
-                          <use xlinkHref="#icon-minus"></use>
-                        </svg>
-                      </button>
-                      <input className="quantity__input" type="number" placeholder={String(countOfGuitarId.count)} id="2-count" name="2-count" max="99" />
-                      <button className="quantity__button" aria-label="Увеличить количество">
-                        <svg width="8" height="8" aria-hidden="true">
-                          <use xlinkHref="#icon-plus"></use>
-                        </svg>
-                      </button>
-                    </div>
-                    <div className="cart-item__price-total">{numberWithSpaces(guitarsIdSumm)} ₽</div>
-                  </div>
-                );
-              })
-            }
+            <CartList />
             <div className="cart__footer">
               <div className="cart__coupon coupon">
                 <h2 className="title title--little coupon__title">Промокод на скидку</h2>
