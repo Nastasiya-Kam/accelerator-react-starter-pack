@@ -1,10 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../store/action';
 import { getCountOfGuitarsIdInCart, getUniqueGuitarsInCart } from '../../store/cart-data/selectors';
+import { GuitarCart } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
 
 function CartList(): JSX.Element {
   const uniqueGuitars = useSelector(getUniqueGuitarsInCart);
   const countOfGuitarsId = useSelector(getCountOfGuitarsIdInCart);
+  const dispatch = useDispatch();
+
+  const handleDecreaseClick = () => {
+    // Если уменьшаем, то удаляем элемент из массива
+  };
+
+  const handleIncreaseClick = (item: GuitarCart) => {
+    // Если увеличиваем, то добавляем элемент в массив
+    dispatch(addToCart(item));
+  };
 
   return (
     <>
@@ -31,13 +43,13 @@ function CartList(): JSX.Element {
               </div>
               <div className="cart-item__price">{numberWithSpaces(price)} ₽</div>
               <div className="quantity cart-item__quantity">
-                <button className="quantity__button" aria-label="Уменьшить количество">
+                <button onClick={handleDecreaseClick} className="quantity__button" aria-label="Уменьшить количество">
                   <svg width="8" height="8" aria-hidden="true">
                     <use xlinkHref="#icon-minus"></use>
                   </svg>
                 </button>
                 <input className="quantity__input" type="number" placeholder={String(countOfGuitarId.count)} id="2-count" name="2-count" max="99" />
-                <button className="quantity__button" aria-label="Увеличить количество">
+                <button onClick={() => handleIncreaseClick(guitarInCart)} className="quantity__button" aria-label="Увеличить количество">
                   <svg width="8" height="8" aria-hidden="true">
                     <use xlinkHref="#icon-plus"></use>
                   </svg>
