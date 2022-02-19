@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import browserHistory from '../../browser-history';
-import { AppRoute, DEFAULT_PAGE, HEADER_MENUS, KeyCode, ReplacedPart, UserActivity } from '../../const';
+import { AppRoute, DEFAULT_PAGE, EMPTY_CART, HEADER_MENUS, KeyCode, ReplacedPart, UserActivity } from '../../const';
 import { fetchSearchingAction } from '../../store/api-actions';
+import { getCountGuitarsInCart } from '../../store/cart-data/selectors';
 import { getSearchingGuitars } from '../../store/user-data/selectors';
 
 type Props = {
@@ -17,6 +18,7 @@ function Header({isMain}: Props):JSX.Element {
   const searchRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<any>(null);
   const searchingGuitars = useSelector(getSearchingGuitars);
+  const guitarsInCart = useSelector(getCountGuitarsInCart);
 
   const dispatch = useDispatch();
 
@@ -105,7 +107,9 @@ function Header({isMain}: Props):JSX.Element {
         <Link to={AppRoute.CartPage} className="header__cart-link" aria-label="Корзина">
           <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
-          </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">2</span>
+          </svg>
+          <span className="visually-hidden">Перейти в корзину</span>
+          {(guitarsInCart !== EMPTY_CART) && <span className="header__cart-count">{guitarsInCart}</span>}
         </Link>
       </div>
     </header>

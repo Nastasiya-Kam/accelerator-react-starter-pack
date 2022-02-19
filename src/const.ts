@@ -3,6 +3,7 @@ const HEADER_MENUS = [ 'Каталог', 'Где купить?', 'О компа�
 const FOOTER_MENUS = [ 'Где купить?', 'Блог', 'Вопрос - ответ', 'Возврат', 'Сервис-центры' ];
 const ERROR_RESPONSE = 404;
 const HEADER_TOTAL_COUNT = 'x-total-count';
+const EMPTY_CART = 0;
 
 const enum KeyCode {
   Escape = 27,
@@ -205,6 +206,7 @@ export {
   FOOTER_MENUS,
   ERROR_RESPONSE,
   HEADER_TOTAL_COUNT,
+  EMPTY_CART,
   KeyCode,
   socials,
   ErrorMessage,
