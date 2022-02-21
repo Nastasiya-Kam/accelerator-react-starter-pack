@@ -31,6 +31,7 @@ type GuitarCart = {
   previewImg: string,
   stringCount: number,
   price: number,
+  count: number,
 }
 
 type GuitarsCart = GuitarCart[];

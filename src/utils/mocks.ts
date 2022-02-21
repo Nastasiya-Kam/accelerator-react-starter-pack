@@ -49,6 +49,7 @@ const makeFakeGuitarCart = (): GuitarCart => ({
   'previewImg': image.image(),
   'stringCount': 7,
   'price': 17500,
+  'count': 1,
 } as GuitarCart);
 
 const makeFakeGuitarsCart = (guitarsCartCount: number): GuitarsCart => new Array(guitarsCartCount).fill(undefined).map(() => makeFakeGuitarCart());

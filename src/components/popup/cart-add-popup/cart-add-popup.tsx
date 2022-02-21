@@ -3,13 +3,12 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { KeyCode, UserActivity } from '../../../const';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
-import { addToCart } from '../../../store/action';
-import { GuitarCart } from '../../../types/guitars';
+import { Guitar } from '../../../types/guitars';
 import ButtonCross from '../../button-cross/button-cross';
 import PopupInfo from '../../popup-info/popup-info';
 
 type Props = {
-  guitar: GuitarCart,
+  guitar: Guitar,
   onClick: (a: boolean) => void,
   isAdded: (a: boolean) => void,
 }
@@ -39,6 +38,7 @@ function CartAddPopup({guitar, onClick, isAdded}: Props):JSX.Element {
       previewImg: guitar.previewImg,
       stringCount: guitar.stringCount,
       price: guitar.price,
+      count: 1,
     };
 
     dispatch(addToCart(guitarToAdd));
