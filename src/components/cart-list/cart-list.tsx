@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { updateGuitar } from '../../store/action';
+import { decreaseGuitar, updateGuitar } from '../../store/action';
 import { getGuitarsInCart } from '../../store/cart-data/selectors';
 import { GuitarCart } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
@@ -8,12 +8,11 @@ function CartList(): JSX.Element {
   const guitarsInCart = useSelector(getGuitarsInCart);
   const dispatch = useDispatch();
 
-  const handleDecreaseClick = () => {
-    // Если уменьшаем, то удаляем элемент из массива
+  const handleDecreaseClick = (item: GuitarCart) => {
+    dispatch(decreaseGuitar(item));
   };
 
   const handleIncreaseClick = (item: GuitarCart) => {
-    // Если увеличиваем, то добавляем элемент в массив
     dispatch(updateGuitar(item));
   };
 
@@ -40,7 +39,7 @@ function CartList(): JSX.Element {
               </div>
               <div className="cart-item__price">{numberWithSpaces(price)} ₽</div>
               <div className="quantity cart-item__quantity">
-                <button onClick={handleDecreaseClick} className="quantity__button" aria-label="Уменьшить количество">
+                <button onClick={() => handleDecreaseClick(guitarInCart)} className="quantity__button" aria-label="Уменьшить количество">
                   <svg width="8" height="8" aria-hidden="true">
                     <use xlinkHref="#icon-minus"></use>
                   </svg>
