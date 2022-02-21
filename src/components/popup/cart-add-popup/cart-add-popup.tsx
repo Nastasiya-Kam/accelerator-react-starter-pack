@@ -1,8 +1,10 @@
 import FocusTrap from 'focus-trap-react';
 import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { KeyCode, UserActivity } from '../../../const';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
+import { addToCart, updateGuitar } from '../../../store/action';
+import { getGuitarsInCart } from '../../../store/cart-data/selectors';
 import { Guitar } from '../../../types/guitars';
 import ButtonCross from '../../button-cross/button-cross';
 import PopupInfo from '../../popup-info/popup-info';
@@ -16,6 +18,7 @@ type Props = {
 function CartAddPopup({guitar, onClick, isAdded}: Props):JSX.Element {
   const wrapperRef = useRef(null);
   const dispatch = useDispatch();
+  const guitarsInCart = useSelector(getGuitarsInCart);
 
   const handleEscKeyDown = useCallback((evt) => {
     if(evt.keyCode === KeyCode.Escape) {
@@ -41,7 +44,13 @@ function CartAddPopup({guitar, onClick, isAdded}: Props):JSX.Element {
       count: 1,
     };
 
-    dispatch(addToCart(guitarToAdd));
+    const isInCart = guitarsInCart.some((item) => item.id === guitarToAdd.id);
+
+    if (isInCart) {
+      dispatch(updateGuitar(guitarToAdd));
+    } else {
+      dispatch(addToCart(guitarToAdd));
+    }
     onClick(false);
     isAdded(true);
   };

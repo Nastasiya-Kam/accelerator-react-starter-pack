@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../store/action';
-import { getCountOfGuitarsIdInCart, getUniqueGuitarsInCart } from '../../store/cart-data/selectors';
+import { updateGuitar } from '../../store/action';
+import { getGuitarsInCart } from '../../store/cart-data/selectors';
 import { GuitarCart } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
 
 function CartList(): JSX.Element {
-  const uniqueGuitars = useSelector(getUniqueGuitarsInCart);
-  const countOfGuitarsId = useSelector(getCountOfGuitarsIdInCart);
+  const guitarsInCart = useSelector(getGuitarsInCart);
   const dispatch = useDispatch();
 
   const handleDecreaseClick = () => {
@@ -15,18 +14,16 @@ function CartList(): JSX.Element {
 
   const handleIncreaseClick = (item: GuitarCart) => {
     // Если увеличиваем, то добавляем элемент в массив
-    dispatch(addToCart(item));
+    dispatch(updateGuitar(item));
   };
 
   return (
     <>
       {
-        uniqueGuitars.map((guitarInCart) => {
-          const { id, name, vendorCode, type, previewImg, stringCount, price } = guitarInCart;
+        guitarsInCart.map((guitarInCart) => {
+          const { id, name, vendorCode, type, previewImg, stringCount, price, count } = guitarInCart;
+          const guitarsIdSumm = count * price;
           const key = `guitarInCart-${id}`;
-
-          const countOfGuitarId = countOfGuitarsId.filter((item) => item.id === guitarInCart.id)[0];
-          const guitarsIdSumm = countOfGuitarId.count * price;
 
           return (
             <div key={key} className="cart-item">
@@ -48,7 +45,7 @@ function CartList(): JSX.Element {
                     <use xlinkHref="#icon-minus"></use>
                   </svg>
                 </button>
-                <input className="quantity__input" type="number" placeholder={String(countOfGuitarId.count)} id="2-count" name="2-count" max="99" />
+                <input className="quantity__input" type="number" placeholder={String(count)} id="2-count" name="2-count" max="99" />
                 <button onClick={() => handleIncreaseClick(guitarInCart)} className="quantity__button" aria-label="Увеличить количество">
                   <svg width="8" height="8" aria-hidden="true">
                     <use xlinkHref="#icon-plus"></use>

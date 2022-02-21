@@ -184,6 +184,13 @@ const addToCart = createAction(
   }),
 );
 
+const updateGuitar = createAction(
+  ActionType.UpdateGuitar,
+  (guitar: GuitarCart) => ({
+    payload: guitar,
+  }),
+);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
@@ -212,5 +219,6 @@ export {
   loadCommentsData,
   isCommentsLoading,
   loadCartData,
-  addToCart
+  addToCart,
+  updateGuitar
 };

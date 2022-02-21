@@ -31,7 +31,8 @@ enum ActionType {
   LoadCommentsData = 'guitar/loadCommentsData',
   IsCommentsLoading = 'guitar/isCommentsLoading',
   LoadCartData = 'cart/loadCartData',
-  AddToCart = 'cart/addToCart'
+  AddToCart = 'cart/addToCart',
+  UpdateGuitar = 'cart/updateGuitar',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
