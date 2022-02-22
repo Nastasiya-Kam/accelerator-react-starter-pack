@@ -13,7 +13,8 @@ function CartList(): JSX.Element {
   };
 
   const handleIncreaseClick = (item: GuitarCart) => {
-    dispatch(updateGuitar(item));
+    const count = item.count + 1;
+    dispatch(updateGuitar(item.id, count));
   };
 
   return (

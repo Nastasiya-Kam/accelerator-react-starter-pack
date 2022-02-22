@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ActionType } from '../types/action';
 import { Comments } from '../types/comments';
-import { Guitar, GuitarCart, Guitars, GuitarsCart } from '../types/guitars';
+import { Guitar, GuitarCart, GuitarId, Guitars, GuitarsCart } from '../types/guitars';
 
 // * GUITARS_DATA * //
 
@@ -186,8 +186,11 @@ const addToCart = createAction(
 
 const updateGuitar = createAction(
   ActionType.UpdateGuitar,
-  (guitar: GuitarCart) => ({
-    payload: guitar,
+  (guitarId: GuitarId, count: number) => ({
+    payload: {
+      id: guitarId,
+      count: count,
+    },
   }),
 );
 

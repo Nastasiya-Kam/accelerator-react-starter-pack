@@ -16,10 +16,11 @@ const cartData = createReducer(initialState, (builder) => {
     })
     .addCase(updateGuitar, (state, action) => {
       const index = state.guitarsInCart.findIndex((element) => element.id === action.payload.id);
-      const currentCount = state.guitarsInCart[index].count + 1;
+      const updatedGuitar = { ...state.guitarsInCart[index], count: action.payload.count };
+
       state.guitarsInCart = [
         ...state.guitarsInCart.slice(0, index),
-        { ...action.payload, count: currentCount },
+        updatedGuitar,
         ...state.guitarsInCart.slice(index + 1),
       ];
     })
