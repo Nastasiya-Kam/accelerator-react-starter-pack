@@ -200,6 +200,14 @@ const enum UserForm {
   Comment = 'comment',
 }
 
+//* КОРЗИНА *//
+
+const enum Count {
+  Min = 1,
+  Max = 99,
+  Unvalid = 0,
+}
+
 export {
   RATING,
   HEADER_MENUS,
@@ -234,5 +242,6 @@ export {
   RENDER_COMMENTS_COUNT,
   RATINGS,
   UserActivity,
-  UserForm
+  UserForm,
+  Count
 };

@@ -1,21 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { decreaseGuitar, updateGuitar } from '../../store/action';
+import { useSelector } from 'react-redux';
 import { getGuitarsInCart } from '../../store/cart-data/selectors';
-import { GuitarCart } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
+import CartItemQuantity from '../cart-item-quantity/cart-item-quantity';
 
 function CartList(): JSX.Element {
   const guitarsInCart = useSelector(getGuitarsInCart);
-  const dispatch = useDispatch();
-
-  const handleDecreaseClick = (item: GuitarCart) => {
-    dispatch(decreaseGuitar(item));
-  };
-
-  const handleIncreaseClick = (item: GuitarCart) => {
-    const count = item.count + 1;
-    dispatch(updateGuitar(item.id, count));
-  };
 
   return (
     <>
@@ -39,19 +28,7 @@ function CartList(): JSX.Element {
                 <p className="product-info__info">{getGuitarType(type)}, {stringCount} струнная</p>
               </div>
               <div className="cart-item__price">{numberWithSpaces(price)} ₽</div>
-              <div className="quantity cart-item__quantity">
-                <button onClick={() => handleDecreaseClick(guitarInCart)} className="quantity__button" aria-label="Уменьшить количество">
-                  <svg width="8" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-minus"></use>
-                  </svg>
-                </button>
-                <input className="quantity__input" type="number" placeholder={String(count)} id="2-count" name="2-count" max="99" />
-                <button onClick={() => handleIncreaseClick(guitarInCart)} className="quantity__button" aria-label="Увеличить количество">
-                  <svg width="8" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-plus"></use>
-                  </svg>
-                </button>
-              </div>
+              <CartItemQuantity guitarId={id} count={count} />
               <div className="cart-item__price-total">{numberWithSpaces(guitarsIdSumm)} ₽</div>
             </div>
           );
