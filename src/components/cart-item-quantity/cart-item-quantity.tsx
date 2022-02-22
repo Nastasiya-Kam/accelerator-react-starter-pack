@@ -1,7 +1,7 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Count } from '../../const';
-import { updateGuitar } from '../../store/action';
+import { deleteGuitar, updateGuitar } from '../../store/action';
 import { GuitarId } from '../../types/guitars';
 
 type Props = {
@@ -15,6 +15,11 @@ function CartItemQuantity({guitarId, count}: Props):JSX.Element {
   const [userCount, setUserCount] = useState<string>(String(count));
 
   const handleDecreaseClick = (id: GuitarId) => {
+    if (count === Count.Min) {
+      dispatch(deleteGuitar(id));
+      return;
+    }
+
     setUserCount(String(count - 1));
     dispatch(updateGuitar(id, count - 1));
   };

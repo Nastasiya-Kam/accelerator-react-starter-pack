@@ -1,10 +1,17 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteGuitar } from '../../store/action';
 import { getGuitarsInCart } from '../../store/cart-data/selectors';
+import { GuitarId } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
 import CartItemQuantity from '../cart-item-quantity/cart-item-quantity';
 
 function CartList(): JSX.Element {
   const guitarsInCart = useSelector(getGuitarsInCart);
+  const dispatch = useDispatch();
+
+  const handleDeleteClick = (id: GuitarId) => {
+    dispatch(deleteGuitar(id));
+  };
 
   return (
     <>
@@ -16,7 +23,7 @@ function CartList(): JSX.Element {
 
           return (
             <div key={key} className="cart-item">
-              <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
+              <button onClick={() => handleDeleteClick(id)} className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
                 <span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
               </button>
               <div className="cart-item__image">

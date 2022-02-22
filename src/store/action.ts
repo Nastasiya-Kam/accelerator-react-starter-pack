@@ -194,10 +194,10 @@ const updateGuitar = createAction(
   }),
 );
 
-const decreaseGuitar = createAction(
-  ActionType.DecreaseGuitar,
-  (guitar: GuitarCart) => ({
-    payload: guitar,
+const deleteGuitar = createAction(
+  ActionType.DeleteGuitar,
+  (id: GuitarId) => ({
+    payload: id,
   }),
 );
 
@@ -231,5 +231,5 @@ export {
   loadCartData,
   addToCart,
   updateGuitar,
-  decreaseGuitar
+  deleteGuitar
 };
