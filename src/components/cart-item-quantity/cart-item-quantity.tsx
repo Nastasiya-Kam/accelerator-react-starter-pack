@@ -25,6 +25,11 @@ function CartItemQuantity({guitarId, count}: Props):JSX.Element {
   };
 
   const handleIncreaseClick = (id: GuitarId) => {
+    if (count === Count.Max) {
+      setUserCount(String(Count.Max));
+      return;
+    }
+
     setUserCount(String(count + 1));
     dispatch(updateGuitar(id, count + 1));
   };
