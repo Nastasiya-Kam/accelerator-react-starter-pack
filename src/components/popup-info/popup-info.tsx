@@ -1,8 +1,8 @@
-import { Guitar } from '../../types/guitars';
+import { Guitar, GuitarCart } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
 
 type Props = {
-  guitar: Guitar,
+  guitar: Guitar | GuitarCart,
 }
 
 function PopupInfo({guitar}: Props):JSX.Element {

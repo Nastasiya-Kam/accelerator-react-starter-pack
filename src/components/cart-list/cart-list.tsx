@@ -1,16 +1,21 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteGuitar } from '../../store/action';
+import { useSelector } from 'react-redux';
 import { getGuitarsInCart } from '../../store/cart-data/selectors';
-import { GuitarId } from '../../types/guitars';
+import { GuitarCart } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
 import CartItemQuantity from '../cart-item-quantity/cart-item-quantity';
 
-function CartList(): JSX.Element {
-  const guitarsInCart = useSelector(getGuitarsInCart);
-  const dispatch = useDispatch();
+type Props = {
+  onGuitarClick: (a: GuitarCart) => void,
+  onDeleteClick: (a: boolean) => void,
+}
 
-  const handleDeleteClick = (id: GuitarId) => {
-    dispatch(deleteGuitar(id));
+function CartList({onGuitarClick, onDeleteClick}: Props): JSX.Element {
+  const guitarsInCart = useSelector(getGuitarsInCart);
+
+  const handleDeleteClick = (guitar: GuitarCart) => {
+    document.body.style.overflow = 'hidden';
+    onGuitarClick(guitar);
+    onDeleteClick(true);
   };
 
   return (
@@ -23,7 +28,7 @@ function CartList(): JSX.Element {
 
           return (
             <div key={key} className="cart-item">
-              <button onClick={() => handleDeleteClick(id)} className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
+              <button onClick={() => handleDeleteClick(guitarInCart)} className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
                 <span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
               </button>
               <div className="cart-item__image">
@@ -35,7 +40,7 @@ function CartList(): JSX.Element {
                 <p className="product-info__info">{getGuitarType(type)}, {stringCount} струнная</p>
               </div>
               <div className="cart-item__price">{numberWithSpaces(price)} ₽</div>
-              <CartItemQuantity guitarId={id} count={count} />
+              <CartItemQuantity guitarId={id} count={count} onClick={onGuitarClick} onDeleteClick={onDeleteClick} />
               <div className="cart-item__price-total">{numberWithSpaces(guitarsIdSumm)} ₽</div>
             </div>
           );

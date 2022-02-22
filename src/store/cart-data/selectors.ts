@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { GuitarId, GuitarsCart } from '../../types/guitars';
+import { GuitarCart, GuitarId, GuitarsCart } from '../../types/guitars';
 import { State } from '../../types/state';
 import { getCartSumm, getCountOfGuitarId, getUniqueGuitars } from '../../utils/cart';
 import { NameSpace } from '../root-reducer';
@@ -8,6 +8,10 @@ const getGuitarsInCart = (state: State): GuitarsCart => state[NameSpace.Cart].gu
 const getCountGuitarsInCart = (state: State): number => state[NameSpace.Cart].guitarsInCart.reduce((previousValue, currentValue) => previousValue + currentValue.count, 0);
 const getSummOfGuitarsInCart = (state: State): number => getCartSumm(state[NameSpace.Cart].guitarsInCart);
 const getUniqueGuitarsInCart = (state: State): GuitarsCart => getUniqueGuitars(state[NameSpace.Cart].guitarsInCart);
+const getGuitarById = (id: GuitarId) => (state: State): GuitarCart => {
+  const index = state[NameSpace.Cart].guitarsInCart.findIndex((element) => element.id === id);
+  return state[NameSpace.Cart].guitarsInCart[index];
+};
 
 const getCurrentGuitarCount = (id: GuitarId) => (state: State): number => {
   const index = state[NameSpace.Cart].guitarsInCart.findIndex((element) => element.id === id);
@@ -27,6 +31,7 @@ export {
   getCountGuitarsInCart,
   getSummOfGuitarsInCart,
   getUniqueGuitarsInCart,
+  getGuitarById,
   getCurrentGuitarCount,
   getCountOfGuitarsIdInCart
 };
