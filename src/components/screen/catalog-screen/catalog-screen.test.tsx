@@ -3,12 +3,13 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { makeFakeGuitars } from '../../../utils/mocks';
+import { makeFakeGuitars, makeFakeGuitarsCart } from '../../../utils/mocks';
 import CatalogScreen from './catalog-screen';
 import { DEFAULT_PAGE, Sort } from '../../../const';
 import thunk from 'redux-thunk';
 
 const mockGuitars = makeFakeGuitars();
+const mockGuitarsCart = makeFakeGuitarsCart(10);
 const mockStore = configureMockStore([thunk]);
 
 describe('Component: CatalogScreen', () => {
@@ -33,6 +34,9 @@ describe('Component: CatalogScreen', () => {
         firstPage: 1,
         lastPage: 3,
         searchingGuitars: mockGuitars,
+      },
+      CART: {
+        guitarsInCart: mockGuitarsCart,
       },
     });
 

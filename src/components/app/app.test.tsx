@@ -5,10 +5,11 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Router } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { makeFakeGuitars } from '../../utils/mocks';
+import { makeFakeGuitars, makeFakeGuitarsCart } from '../../utils/mocks';
 import App from './app';
 
 const mockGuitars = makeFakeGuitars();
+const mockGuitarsCart = makeFakeGuitarsCart(5);
 const mockStore = configureMockStore([thunk]);
 
 const history = createMemoryHistory();
@@ -33,6 +34,9 @@ const store = mockStore({
     firstPage: 1,
     lastPage: 3,
     searchingGuitars: mockGuitars,
+  },
+  CART: {
+    guitarsInCart: mockGuitarsCart,
   },
 });
 const fakeApp = (

@@ -3,7 +3,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { makeFakeGuitarCart } from '../../../utils/mocks';
 import CartDeletePopup from './cart-delete-popup';
 
@@ -14,21 +14,20 @@ describe('Component: CartAddPopup', () => {
   it('should render correctly', () => {
     const store = mockStore();
     const history = createMemoryHistory();
-    // const onClick = jest.fn();
-    // const isAdded = jest.fn();
+    const onClick = jest.fn();
 
     render(
       <Provider store={store}>
         <Router history={history}>
-          <CartDeletePopup guitar={mockGuitarCart} />
+          <CartDeletePopup guitar={mockGuitarCart} onClick={onClick} />
         </Router>
       </Provider>,
     );
 
     expect(screen.getByText('Удалить этот товар?')).toBeInTheDocument();
-    // userEvent.click(screen.getByRole('button', { name: 'Удалить товар' }));
-    // expect(onClick).toHaveBeenCalled();
-    // userEvent.click(screen.getByRole('button', { name: 'Продолжить покупки' }));
-    // expect(isAdded).toHaveBeenCalled();
+    userEvent.click(screen.getByRole('button', { name: 'Удалить товар' }));
+    expect(onClick).toHaveBeenCalled();
+    userEvent.click(screen.getByRole('button', { name: 'Продолжить покупки' }));
+    expect(onClick).toHaveBeenCalled();
   });
 });

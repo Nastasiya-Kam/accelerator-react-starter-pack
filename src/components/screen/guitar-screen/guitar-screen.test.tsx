@@ -3,12 +3,13 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { makeFakeComments, makeFakeGuitar, makeFakeGuitars } from '../../../utils/mocks';
+import { makeFakeComments, makeFakeGuitar, makeFakeGuitars, makeFakeGuitarsCart } from '../../../utils/mocks';
 import GuitarScreen from './guitar-screen';
 import thunk from 'redux-thunk';
 
 const mockGuitar = makeFakeGuitar();
 const mockGuitars = makeFakeGuitars();
+const mockGuitarsCart = makeFakeGuitarsCart(5);
 const mockComments = makeFakeComments(10);
 mockGuitar.comments = mockComments;
 const mockStore = configureMockStore([thunk]);
@@ -25,6 +26,9 @@ describe('Component: GuitarScreen', () => {
         isDataLoaded: true,
         isGuitarLoading: false,
         isGuitarLoadingError: false,
+      },
+      CART: {
+        guitarsInCart: mockGuitarsCart,
       },
     });
 
@@ -51,6 +55,9 @@ describe('Component: GuitarScreen', () => {
         isDataLoaded: true,
         isGuitarLoading: false,
         isGuitarLoadingError: true,
+      },
+      CART: {
+        guitarsInCart: mockGuitarsCart,
       },
     });
 

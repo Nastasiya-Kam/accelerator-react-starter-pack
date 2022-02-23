@@ -7,10 +7,11 @@ import { HEADER_MENUS } from '../../const';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { makeFakeGuitars } from '../../utils/mocks';
+import { makeFakeGuitars, makeFakeGuitarsCart } from '../../utils/mocks';
 
-const mockStore = configureMockStore([thunk]);
 const mockGuitars = makeFakeGuitars();
+const mockGuitarsCart = makeFakeGuitarsCart(5);
+const mockStore = configureMockStore([thunk]);
 
 describe('Component: Header', () => {
   it('should render correctly', () => {
@@ -20,6 +21,9 @@ describe('Component: Header', () => {
       },
       USER: {
         searchingGuitars: mockGuitars,
+      },
+      CART: {
+        guitarsInCart: mockGuitarsCart,
       },
     });
     const history = createMemoryHistory();

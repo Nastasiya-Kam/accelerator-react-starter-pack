@@ -3,16 +3,22 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import userEvent from '@testing-library/user-event';
 import CartAddPopup from './cart-add-popup';
-import { makeFakeGuitarCart } from '../../../utils/mocks';
+import { makeFakeGuitar, makeFakeGuitarsCart } from '../../../utils/mocks';
 
-const mockStore = configureMockStore();
-const mockGuitarCart = makeFakeGuitarCart();
+const mockGuitar = makeFakeGuitar();
+const mockGuitarCart = makeFakeGuitarsCart(5);
+const mockStore = configureMockStore([thunk]);
 
 describe('Component: CartAddPopup', () => {
   it('should render correctly', () => {
-    const store = mockStore();
+    const store = mockStore({
+      CART: {
+        guitarsInCart: mockGuitarCart,
+      },
+    });
     const history = createMemoryHistory();
     const onClick = jest.fn();
     const isAdded = jest.fn();
@@ -20,7 +26,7 @@ describe('Component: CartAddPopup', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <CartAddPopup guitar={mockGuitarCart} onClick={onClick} isAdded={isAdded} />
+          <CartAddPopup guitar={mockGuitar} onClick={onClick} isAdded={isAdded} />
         </Router>
       </Provider>,
     );

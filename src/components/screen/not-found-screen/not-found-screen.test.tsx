@@ -5,9 +5,10 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import NotFoundScreen from './not-found-screen';
-import { makeFakeGuitars } from '../../../utils/mocks';
+import { makeFakeGuitars, makeFakeGuitarsCart } from '../../../utils/mocks';
 
 const mockGuitars = makeFakeGuitars();
+const mockGuitarsCart = makeFakeGuitarsCart(5);
 const mockStore = configureMockStore([thunk]);
 
 describe('Component: NotFoundScreen', () => {
@@ -18,6 +19,9 @@ describe('Component: NotFoundScreen', () => {
       },
       USER: {
         searchingGuitars: mockGuitars,
+      },
+      CART: {
+        guitarsInCart: mockGuitarsCart,
       },
     });
 

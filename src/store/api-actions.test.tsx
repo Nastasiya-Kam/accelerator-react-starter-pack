@@ -5,9 +5,9 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createAPI } from '../services/api';
 import { State } from '../types/state';
 import { APIRoute, ReplacedPart } from '../const';
-import { fetchGuitarAction, fetchPageAction, postCommentAction } from './api-actions';
-import { isGuitarLoading, isGuitarLoadingError, isLoading, isLoadingError, loadCommentsData, loadGuitarData, loadGuitarsData } from './action';
-import { HttpCode, makeFakeComments, makeFakeGuitar, makeFakeGuitars } from '../utils/mocks';
+import { fetchGuitarAction, fetchPageAction } from './api-actions';
+import { isGuitarLoading, isGuitarLoadingError, isLoading, isLoadingError, loadGuitarData, loadGuitarsData } from './action';
+import { HttpCode, makeFakeGuitar, makeFakeGuitars } from '../utils/mocks';
 
 describe('Async actions', () => {
   const api = createAPI();
@@ -74,48 +74,6 @@ describe('Async actions', () => {
       isGuitarLoadingError(false),
       loadGuitarData(null),
       isGuitarLoading(false),
-    ]);
-  });
-
-  it('postCommentAction should dispatch loadCommentsData when POST /comments', async () => {
-    const mockComments = makeFakeComments(10);
-    const mockCommentBeforePost =   {
-      id: 'sdfae154a5e6a2e31a2e3f',
-      userName: 'Анастасия',
-      advantage: 'очень хорошо',
-      disadvantage: 'очень плохо',
-      comment: 'длинный комментарий',
-      rating: 4,
-      guitarId: 1,
-    };
-    const mockCommentAfterPost = {
-      id: 'sdfae154a5e6a2e31a2e3f',
-      userName: 'Анастасия',
-      advantage: 'очень хорошо',
-      disadvantage: 'очень плохо',
-      comment: 'длинный комментарий',
-      rating: 4,
-      guitarId: 1,
-      createAt: '2022-02-06T10:24:16.934Z',
-    };
-
-    const guitarId = 1;
-    const setIsSuccess = jest.fn();
-    const apdatedMockComments = [...mockComments, mockCommentAfterPost];
-
-    mockAPI
-      .onPost(APIRoute.NewComment, mockCommentBeforePost)
-      .reply(HttpCode.PostOk, apdatedMockComments);
-
-    mockAPI
-      .onGet(APIRoute.Comments.replace(ReplacedPart.GuitarId, String(guitarId)))
-      .reply(HttpCode.Ok, apdatedMockComments);
-
-    const store = mockStore();
-    await store.dispatch(postCommentAction(mockCommentBeforePost, setIsSuccess));
-
-    expect(store.getActions()).toEqual([
-      loadCommentsData(apdatedMockComments),
     ]);
   });
 });
