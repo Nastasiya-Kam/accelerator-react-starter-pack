@@ -1,4 +1,4 @@
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -34,6 +34,16 @@ function Header({isMain}: Props):JSX.Element {
     }
   };
 
+  const handleEscKeyDown = useCallback((evt) => {
+    if(evt.keyCode === KeyCode.Escape) {
+      setIsSearching(false);
+    }
+  }, [ setIsSearching ]);
+
+  useEffect(() => {
+    document.addEventListener(UserActivity.Keydown, handleEscKeyDown);
+    return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
+  }, [ handleEscKeyDown ]);
 
   useEffect(() => {
     const handleOutsideClick = (evt: any) => {
