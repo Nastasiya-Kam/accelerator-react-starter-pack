@@ -11,6 +11,7 @@ describe('Reducer: cart-data', () => {
     const state = {
       guitarsInCart: [],
       discount: 0,
+      coupon: '',
     };
 
     expect(cartData(state, loadCartData(mockGuitars)))
@@ -21,6 +22,7 @@ describe('Reducer: cart-data', () => {
     const state = {
       guitarsInCart: mockGuitars,
       discount: 0,
+      coupon: '',
     };
 
     expect(cartData(state, addToCart(mockGuitar)))
@@ -31,6 +33,7 @@ describe('Reducer: cart-data', () => {
     const state = {
       guitarsInCart: [],
       discount: 0,
+      coupon: '',
     };
 
     const discount = 35;
