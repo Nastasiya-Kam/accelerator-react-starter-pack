@@ -35,6 +35,7 @@ enum ActionType {
   UpdateGuitar = 'cart/updateGuitar',
   DeleteGuitar = 'cart/deleteGuitar',
   LoadDiscount = 'cart/loadDiscount',
+  LoadCoupon = 'cart/loadCoupon',
 }
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

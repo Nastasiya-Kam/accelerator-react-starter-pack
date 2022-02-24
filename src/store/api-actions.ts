@@ -14,7 +14,8 @@ import {
   isGuitarLoading,
   isGuitarLoadingError,
   setPageCount,
-  loadDiscount} from './action';
+  loadDiscount,
+  loadCoupon} from './action';
 import { CommentPost } from '../types/comments';
 
 const fetchPageAction = (range: string, filter: string): ThunkActionResult =>
@@ -109,6 +110,7 @@ const postCouponAction = (coupon: string, isSuccess: (a: boolean) => void, isSub
       const {data} = await api.post<number>(APIRoute.Coupon, { 'coupon': coupon });
 
       isSuccess(true);
+      dispatch(loadCoupon(coupon));
       dispatch(loadDiscount(data));
     } catch {
       toast.info(ErrorMessage.Coupon);

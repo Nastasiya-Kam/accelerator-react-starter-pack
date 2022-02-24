@@ -1,11 +1,13 @@
 import { FormEvent, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postCouponAction } from '../../store/api-actions';
+import { getCurrentCoupon } from '../../store/cart-data/selectors';
 
 function CartCoupon():JSX.Element {
   const dispatch = useDispatch();
+  const currentCoupon = useSelector(getCurrentCoupon);
 
-  const [userCoupon, setUserCoupon] = useState<string>('');
+  const [userCoupon, setUserCoupon] = useState<string>(currentCoupon);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isSubmited, setIsSubmited] = useState<boolean>(false);
 
@@ -25,7 +27,7 @@ function CartCoupon():JSX.Element {
       <p className="coupon__info">Введите свой промокод, если он у вас есть.</p>
       <form onSubmit={handleSubmit} className="coupon__form" id="coupon-form" method="post" action="/">
         <div className="form-input coupon__input">
-          <label className="visually-hidden">Промокод</label>
+          <label className="visually-hidden" htmlFor="coupon">Промокод</label>
           <input
             onChange={(evt) => setUserCoupon(evt.currentTarget.value)}
             value={userCoupon}

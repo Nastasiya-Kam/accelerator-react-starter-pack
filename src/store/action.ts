@@ -203,8 +203,15 @@ const deleteGuitar = createAction(
 
 const loadDiscount = createAction(
   ActionType.LoadDiscount,
-  (discount: GuitarId) => ({
+  (discount: number) => ({
     payload: discount,
+  }),
+);
+
+const loadCoupon = createAction(
+  ActionType.LoadCoupon,
+  (coupon: string) => ({
+    payload: coupon,
   }),
 );
 
@@ -239,5 +246,6 @@ export {
   addToCart,
   updateGuitar,
   deleteGuitar,
-  loadDiscount
+  loadDiscount,
+  loadCoupon
 };

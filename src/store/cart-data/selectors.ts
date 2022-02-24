@@ -10,6 +10,7 @@ const getCountGuitarsInCart = (state: State): number => state[NameSpace.Cart].gu
 const getSummOfGuitarsInCart = (state: State): number => getCartSumm(state[NameSpace.Cart].guitarsInCart);
 const getUniqueGuitarsInCart = (state: State): GuitarsCart => getUniqueGuitars(state[NameSpace.Cart].guitarsInCart);
 const getDiscount = (state: State): number => state[NameSpace.Cart].discount;
+const getCurrentCoupon = (state: State): string => state[NameSpace.Cart].coupon;
 
 const getGuitarById = (id: GuitarId) => (state: State): GuitarCart => {
   const index = state[NameSpace.Cart].guitarsInCart.findIndex((element) => element.id === id);
@@ -39,6 +40,7 @@ export {
   getCountGuitarsInCart,
   getSummOfGuitarsInCart,
   getUniqueGuitarsInCart,
+  getCurrentCoupon,
   getGuitarById,
   getCurrentGuitarCount,
   getCountOfGuitarsIdInCart,
