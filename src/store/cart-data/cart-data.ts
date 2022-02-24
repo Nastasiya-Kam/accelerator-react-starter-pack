@@ -1,9 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { DEFAULT_DISCOUNT } from '../../const';
 import { CartData } from '../../types/state';
-import { addToCart, loadCartData, updateGuitar, deleteGuitar } from '../action';
+import { addToCart, loadCartData, updateGuitar, deleteGuitar, loadDiscount } from '../action';
 
 const initialState: CartData = {
   guitarsInCart: [],
+  discount: DEFAULT_DISCOUNT,
 };
 
 const cartData = createReducer(initialState, (builder) => {
@@ -31,6 +33,9 @@ const cartData = createReducer(initialState, (builder) => {
         ...state.guitarsInCart.slice(0, index),
         ...state.guitarsInCart.slice(index + 1),
       ];
+    })
+    .addCase(loadDiscount, (state, action) => {
+      state.discount = action.payload;
     });
 });
 

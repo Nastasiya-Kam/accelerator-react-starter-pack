@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { HUNDRED_PERCENT } from '../../const';
 import { GuitarCart, GuitarId, GuitarsCart } from '../../types/guitars';
 import { State } from '../../types/state';
 import { getCartSumm, getCountOfGuitarId, getUniqueGuitars } from '../../utils/cart';
@@ -8,6 +9,8 @@ const getGuitarsInCart = (state: State): GuitarsCart => state[NameSpace.Cart].gu
 const getCountGuitarsInCart = (state: State): number => state[NameSpace.Cart].guitarsInCart.reduce((previousValue, currentValue) => previousValue + currentValue.count, 0);
 const getSummOfGuitarsInCart = (state: State): number => getCartSumm(state[NameSpace.Cart].guitarsInCart);
 const getUniqueGuitarsInCart = (state: State): GuitarsCart => getUniqueGuitars(state[NameSpace.Cart].guitarsInCart);
+const getDiscount = (state: State): number => state[NameSpace.Cart].discount;
+
 const getGuitarById = (id: GuitarId) => (state: State): GuitarCart => {
   const index = state[NameSpace.Cart].guitarsInCart.findIndex((element) => element.id === id);
   return state[NameSpace.Cart].guitarsInCart[index];
@@ -26,6 +29,11 @@ const getCountOfGuitarsIdInCart = createSelector(
   (guitarsInCart, uniqueGuitars) => getCountOfGuitarId(uniqueGuitars, guitarsInCart),
 );
 
+const getDiscountSumm = createSelector(
+  [ getSummOfGuitarsInCart, getDiscount ],
+  (summOfGuitars, discount): number => summOfGuitars * discount / HUNDRED_PERCENT,
+);
+
 export {
   getGuitarsInCart,
   getCountGuitarsInCart,
@@ -33,5 +41,6 @@ export {
   getUniqueGuitarsInCart,
   getGuitarById,
   getCurrentGuitarCount,
-  getCountOfGuitarsIdInCart
+  getCountOfGuitarsIdInCart,
+  getDiscountSumm
 };

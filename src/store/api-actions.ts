@@ -1,4 +1,4 @@
-import { APIRoute, ELEMENT_ON_PAGE_COUNT, ErrorMessage, ERROR_RESPONSE, Filter, HEADER_TOTAL_COUNT, ReplacedPart } from '../const';
+import { APIRoute, DEFAULT_DISCOUNT, ELEMENT_ON_PAGE_COUNT, ErrorMessage, ERROR_RESPONSE, Filter, HEADER_TOTAL_COUNT, ReplacedPart } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Guitar, GuitarId, Guitars } from '../types/guitars';
 import { toast } from 'react-toastify';
@@ -103,7 +103,7 @@ const postCommentAction = (comment: CommentPost, setIsSuccess: (a: boolean) => v
     }
   };
 
-const postCouponAction = (coupon: string, isSuccess: (a: boolean) => void): ThunkActionResult =>
+const postCouponAction = (coupon: string, isSuccess: (a: boolean) => void, isSubmited: (a: boolean) => void): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
       const {data} = await api.post<number>(APIRoute.Coupon, { 'coupon': coupon });
@@ -113,7 +113,10 @@ const postCouponAction = (coupon: string, isSuccess: (a: boolean) => void): Thun
     } catch {
       toast.info(ErrorMessage.Coupon);
       isSuccess(false);
+      dispatch(loadDiscount(DEFAULT_DISCOUNT));
     }
+
+    isSubmited(true);
   };
 
 export {

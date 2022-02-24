@@ -180,6 +180,9 @@ const RENDER_COMMENTS_COUNT = 3;
 
 //* МОДАЛКА *//
 
+const HUNDRED_PERCENT = 100;
+const DEFAULT_DISCOUNT = 0;
+
 const RATINGS = [
   {rate: 5, title: 'Отлично'},
   {rate: 4, title: 'Хорошо'},
@@ -241,6 +244,8 @@ export {
   ELEMENT_ON_PAGE_COUNT,
   PaginationPage,
   RENDER_COMMENTS_COUNT,
+  HUNDRED_PERCENT,
+  DEFAULT_DISCOUNT,
   RATINGS,
   UserActivity,
   UserForm,

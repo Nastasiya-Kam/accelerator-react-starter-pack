@@ -34,6 +34,7 @@ type GuitarData = {
 
 type CartData = {
   guitarsInCart: GuitarsCart,
+  discount: number,
 }
 
 type State = RootState;
