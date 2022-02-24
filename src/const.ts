@@ -35,6 +35,7 @@ const enum ErrorMessage {
   LoadData = 'Загрузить данные не удалось',
   LoadCommentsData = 'Загрузить комментарии не удалось',
   PostComment = 'Не удалось отправить отзыв. Попробуйте позднее',
+  Coupon = 'Такого промокода не существует',
 }
 
 const ratingSize = {

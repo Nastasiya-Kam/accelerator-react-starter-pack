@@ -201,6 +201,13 @@ const deleteGuitar = createAction(
   }),
 );
 
+const loadDiscount = createAction(
+  ActionType.LoadDiscount,
+  (discount: GuitarId) => ({
+    payload: discount,
+  }),
+);
+
 export {
   loadGuitarsData,
   setFirstMinPrice,
@@ -231,5 +238,6 @@ export {
   loadCartData,
   addToCart,
   updateGuitar,
-  deleteGuitar
+  deleteGuitar,
+  loadDiscount
 };

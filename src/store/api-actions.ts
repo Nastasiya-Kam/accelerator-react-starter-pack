@@ -13,7 +13,8 @@ import {
   loadGuitarData,
   isGuitarLoading,
   isGuitarLoadingError,
-  setPageCount} from './action';
+  setPageCount,
+  loadDiscount} from './action';
 import { CommentPost } from '../types/comments';
 
 const fetchPageAction = (range: string, filter: string): ThunkActionResult =>
@@ -102,10 +103,24 @@ const postCommentAction = (comment: CommentPost, setIsSuccess: (a: boolean) => v
     }
   };
 
+const postCouponAction = (coupon: string, isSuccess: (a: boolean) => void): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      const {data} = await api.post<number>(APIRoute.Coupon, { 'coupon': coupon });
+
+      isSuccess(true);
+      dispatch(loadDiscount(data));
+    } catch {
+      toast.info(ErrorMessage.Coupon);
+      isSuccess(false);
+    }
+  };
+
 export {
   fetchPageAction,
   fetchFilterAction,
   fetchSearchingAction,
   fetchGuitarAction,
-  postCommentAction
+  postCommentAction,
+  postCouponAction
 };
