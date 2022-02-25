@@ -1,35 +1,29 @@
-import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import CartFooter from './cart-footer';
-import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
-const mockStore = configureMockStore();
+jest.mock('../cart-coupon/cart-coupon', () => ({
+  __esModule: true,
+  default: () => <div data-testid="CartCoupon" />,
+}));
+
+jest.mock('../cart-total-info/cart-total-info', () => ({
+  __esModule: true,
+  default: () => <div data-testid="CartTotalInfo" />,
+}));
 
 describe('Component: CartFooter', () => {
-  const store = mockStore({
-    CART: {
-      guitarsInCart: [],
-      discount: 0,
-      coupon: '',
-    },
-  });
-
   const history = createMemoryHistory();
 
   render(
-    <Provider store={store}>
-      <Router history={history}>
-        <CartFooter />
-      </Router>
-    </Provider>,
+    <Router history={history}>
+      <CartFooter />
+    </Router>,
   );
 
   it('should render correctly', () => {
-    expect(screen.getByText(/Промокод на скидку/i)).toBeInTheDocument();
-    expect(screen.getByText('Всего:')).toBeInTheDocument();
-    expect(screen.getByText('Скидка:')).toBeInTheDocument();
-    expect(screen.getByText('К оплате:')).toBeInTheDocument();
+    expect(screen.getByTestId('CartCoupon')).toBeInTheDocument();
+    expect(screen.getByTestId('CartTotalInfo')).toBeInTheDocument();
   });
 });

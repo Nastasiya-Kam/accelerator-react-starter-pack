@@ -3,7 +3,6 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import Rating from './rating';
 
-
 describe('Component: Rating', () => {
   it('should render correctly 4 rating', () => {
     const history = createMemoryHistory();

@@ -5,25 +5,17 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import NotFoundScreen from './not-found-screen';
-import { makeFakeGuitars, makeFakeGuitarsCart } from '../../../utils/mocks';
 
-const mockGuitars = makeFakeGuitars();
-const mockGuitarsCart = makeFakeGuitarsCart(5);
+jest.mock('../../header/header', () => ({
+  __esModule: true,
+  default: () => <div data-testid="Header" />,
+}));
+
 const mockStore = configureMockStore([thunk]);
 
 describe('Component: NotFoundScreen', () => {
   it('should render correctly', () => {
-    const store = mockStore({
-      GUITARS: {
-        isDataLoaded: true,
-      },
-      USER: {
-        searchingGuitars: mockGuitars,
-      },
-      CART: {
-        guitarsInCart: mockGuitarsCart,
-      },
-    });
+    const store = mockStore();
 
     const history = createMemoryHistory();
 
