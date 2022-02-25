@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Count } from '../../const';
+import { Count, UserActivity } from '../../const';
 import { updateGuitar } from '../../store/action';
 import { getGuitarById } from '../../store/cart-data/selectors';
 import { GuitarCart, GuitarId } from '../../types/guitars';
@@ -20,7 +20,7 @@ function CartItemQuantity({guitarId, count, onClick, onDeleteClick}: Props):JSX.
 
   const handleDecreaseClick = () => {
     if (count === Count.Min) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = UserActivity.Hidden;
       onDeleteClick(true);
       onClick(guitar);
       return;

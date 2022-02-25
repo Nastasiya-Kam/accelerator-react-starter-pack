@@ -195,6 +195,7 @@ const enum UserActivity {
   Scroll = 'scroll',
   Keydown = 'keydown',
   Mousedown = 'mousedown',
+  Hidden = 'hidden',
 }
 
 const enum UserForm {

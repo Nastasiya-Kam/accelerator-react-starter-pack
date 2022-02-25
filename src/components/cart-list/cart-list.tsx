@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { UserActivity } from '../../const';
 import { getGuitarsInCart } from '../../store/cart-data/selectors';
 import { GuitarCart } from '../../types/guitars';
 import { getGuitarType, numberWithSpaces } from '../../utils/utils';
@@ -13,7 +14,7 @@ function CartList({onGuitarClick, onDeleteClick}: Props): JSX.Element {
   const guitarsInCart = useSelector(getGuitarsInCart);
 
   const handleDeleteClick = (guitar: GuitarCart) => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = UserActivity.Hidden;
     onGuitarClick(guitar);
     onDeleteClick(true);
   };

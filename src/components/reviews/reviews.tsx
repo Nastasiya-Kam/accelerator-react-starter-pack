@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ratingSize, RENDER_COMMENTS_COUNT } from '../../const';
+import { ratingSize, RENDER_COMMENTS_COUNT, UserActivity } from '../../const';
 import { getCommentsSortedByDate } from '../../store/guitar-data/selectors';
 import Rating from '../rating/rating';
 import ReviewMore from '../review-more/review-more';
@@ -21,7 +21,7 @@ function Reviews({onClick}: Props): JSX.Element {
 
   const handleLeaveReviewClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = UserActivity.Hidden;
     onClick(true);
   };
 

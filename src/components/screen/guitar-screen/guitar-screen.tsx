@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoute, DEFAULT_PAGE, ratingSize, ReplacedPart, ScreenTab } from '../../../const';
+import { AppRoute, DEFAULT_PAGE, ratingSize, ReplacedPart, ScreenTab, UserActivity } from '../../../const';
 import { fetchGuitarAction } from '../../../store/api-actions';
 import { getCommentsCount, getGuitar, getGuitarLoadingDataStatus, getGuitarLoadingError, getGuitarLoadingStatus } from '../../../store/guitar-data/selectors';
 import { GuitarId } from '../../../types/guitars';
@@ -53,7 +53,7 @@ function GuitarScreen({id}: Props): JSX.Element {
 
   const handleAddToCardClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = UserActivity.Hidden;
     setIsCartAddOpened(true);
   };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute, PaginationPage, PAGINATION_STEP, ratingSize, ReplacedPart } from '../../../const';
+import { AppRoute, PaginationPage, PAGINATION_STEP, ratingSize, ReplacedPart, UserActivity } from '../../../const';
 import { setCurrentPage, setFilterMaxPrice, setFilterMinPrice, setFilterStrings, setFilterTypes, setFirstPage, setLastPage, setOrder, setSorting } from '../../../store/action';
 import { fetchFilterAction, fetchPageAction } from '../../../store/api-actions';
 import { getStatusLoadingError, getGuitars, getLoadingDataStatus, getLoadingStatus } from '../../../store/guitars-data/selectors';
@@ -133,7 +133,7 @@ function CatalogScreen({currentPage}: Props): JSX.Element {
   const handleAddToCartClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>, guitar: Guitar) => {
     evt.preventDefault();
 
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = UserActivity.Hidden;
     setPickedGuitar(guitar);
     setIsCartAddOpened(true);
   };
