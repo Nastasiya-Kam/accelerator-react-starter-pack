@@ -1,5 +1,5 @@
 import { makeFakeGuitars } from '../../utils/mocks';
-import { loadGuitarsData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from '../action';
+import { isLoading, isLoadingError, loadGuitarsData, setFirstMaxPrice, setFirstMinPrice, setPageCount } from '../action';
 import { guitarsData } from './guitars-data';
 
 const mockGuitars = makeFakeGuitars();
@@ -33,5 +33,15 @@ describe('Reducer: guitars-data', () => {
   it('should set all page count', () => {
     expect(guitarsData(state, setPageCount(3)))
       .toEqual({...state, pageCount: 3});
+  });
+
+  it('should set isLoading', () => {
+    expect(guitarsData(state, isLoading(true)))
+      .toEqual({...state, isLoading: true});
+  });
+
+  it('should set isLoadingError', () => {
+    expect(guitarsData(state, isLoadingError(true)))
+      .toEqual({...state, isLoadingError: true});
   });
 });

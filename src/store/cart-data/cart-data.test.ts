@@ -1,5 +1,5 @@
 import { makeFakeGuitarCart, makeFakeGuitarsCart } from '../../utils/mocks';
-import { addToCart, loadCartData, loadDiscount } from '../action';
+import { addToCart, loadCartData, loadCoupon, loadDiscount } from '../action';
 import { cartData } from './cart-data';
 
 const mockGuitars = makeFakeGuitarsCart(3);
@@ -40,5 +40,18 @@ describe('Reducer: cart-data', () => {
 
     expect(cartData(state, loadDiscount(discount)))
       .toEqual({...state, discount: discount});
+  });
+
+  it('should load coupon', () => {
+    const state = {
+      guitarsInCart: [],
+      discount: 0,
+      coupon: '',
+    };
+
+    const coupon = 'coupon';
+
+    expect(cartData(state, loadCoupon(coupon)))
+      .toEqual({...state, coupon: coupon});
   });
 });

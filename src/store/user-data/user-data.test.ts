@@ -12,7 +12,8 @@ import {
   prevFirstPage,
   prevLastPage,
   nextFirstPage,
-  nextLastPage
+  nextLastPage,
+  loadSearchingGuitars
 } from '../action';
 import { userData } from './user-data';
 
@@ -99,5 +100,10 @@ describe('Reducer: user-data', () => {
   it('should set next the last page', () => {
     expect(userData(state, nextLastPage()))
       .toEqual({...state, lastPage: 15});
+  });
+
+  it('should set searching guitars', () => {
+    expect(userData(state, loadSearchingGuitars([])))
+      .toEqual({...state, searchingGuitars: []});
   });
 });

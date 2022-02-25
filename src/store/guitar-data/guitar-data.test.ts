@@ -1,5 +1,5 @@
 import { makeFakeGuitar } from '../../utils/mocks';
-import { loadGuitarData } from '../action';
+import { isGuitarLoading, isGuitarLoadingError, loadGuitarData } from '../action';
 import { guitarData } from './guitar-data';
 
 const mockGuitar = makeFakeGuitar();
@@ -15,5 +15,15 @@ describe('Reducer: guitars-data', () => {
   it('should loaded guitar', () => {
     expect(guitarData(state, loadGuitarData(mockGuitar)))
       .toEqual({...state, guitar: mockGuitar, isDataLoaded: true, isGuitarLoading: false, isGuitarLoadingError: false});
+  });
+
+  it('should set isGuitarLoading', () => {
+    expect(guitarData(state, isGuitarLoading(true)))
+      .toEqual({...state, isGuitarLoading: true});
+  });
+
+  it('should set isGuitarLoadingError', () => {
+    expect(guitarData(state, isGuitarLoadingError(true)))
+      .toEqual({...state, isGuitarLoadingError: true});
   });
 });
