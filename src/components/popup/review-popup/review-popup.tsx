@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { KeyCode, RATINGS, UserActivity, UserForm } from '../../../const';
+import { KeyCode, NAMING_RATINGS, UserActivity, UserForm } from '../../../const';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
 import { postCommentAction } from '../../../store/api-actions';
 import { getGuitarName } from '../../../store/guitar-data/selectors';
@@ -152,7 +152,7 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
                   <span className="form-review__label form-review__label--required">Ваша Оценка</span>
                   <div className="rate rate--reverse">
                     {
-                      RATINGS.map((item) => {
+                      NAMING_RATINGS.map((item) => {
                         const key = `rating-${item.rate}`;
 
                         return (

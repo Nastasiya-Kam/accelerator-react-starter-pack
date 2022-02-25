@@ -1,4 +1,4 @@
-const RATING = [ 1, 2, 3, 4, 5 ];
+const RATINGS = [ 1, 2, 3, 4, 5 ];
 const HEADER_MENUS = [ 'Каталог', 'Где купить?', 'О компании' ];
 const FOOTER_MENUS = [ 'Где купить?', 'Блог', 'Вопрос - ответ', 'Возврат', 'Сервис-центры' ];
 const ERROR_RESPONSE = 404;
@@ -11,7 +11,7 @@ const enum KeyCode {
   Space = 32,
 }
 
-const socials = [
+const SOCIALS = [
   {
     name: 'facebook',
     href: 'https://www.facebook.com/',
@@ -183,7 +183,7 @@ const RENDER_COMMENTS_COUNT = 3;
 const HUNDRED_PERCENT = 100;
 const DEFAULT_DISCOUNT = 0;
 
-const RATINGS = [
+const NAMING_RATINGS = [
   {rate: 5, title: 'Отлично'},
   {rate: 4, title: 'Хорошо'},
   {rate: 3, title: 'Нормально'},
@@ -210,18 +210,17 @@ const enum UserForm {
 const enum Count {
   Min = 1,
   Max = 99,
-  Unvalid = 0,
 }
 
 export {
-  RATING,
+  RATINGS,
   HEADER_MENUS,
   FOOTER_MENUS,
   ERROR_RESPONSE,
   HEADER_TOTAL_COUNT,
   EMPTY_CART,
   KeyCode,
-  socials,
+  SOCIALS,
   ErrorMessage,
   ratingSize,
   guitarType,
@@ -247,7 +246,7 @@ export {
   RENDER_COMMENTS_COUNT,
   HUNDRED_PERCENT,
   DEFAULT_DISCOUNT,
-  RATINGS,
+  NAMING_RATINGS,
   UserActivity,
   UserForm,
   Count

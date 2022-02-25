@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, FOOTER_MENUS, socials } from '../../const';
+import { AppRoute, FOOTER_MENUS, SOCIALS } from '../../const';
 
 type Props = {
   isMain: boolean,
@@ -15,7 +15,7 @@ function Footer({isMain}: Props):JSX.Element {
         <div className="socials footer__socials">
           <ul className="socials__list">
             {
-              socials.map((social) => {
+              SOCIALS.map((social) => {
                 const key = `social-${social.name}`;
 
                 return (

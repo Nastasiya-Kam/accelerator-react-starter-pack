@@ -1,4 +1,4 @@
-import { RATING } from '../../const';
+import { RATINGS } from '../../const';
 
 type Props = {
   width: number,
@@ -10,7 +10,7 @@ function Rating({width, height, count}: Props): JSX.Element {
   return (
     <>
       {
-        RATING.map((item) => {
+        RATINGS.map((item) => {
           const keyRating = `rating-star-${item}`;
 
           return (
