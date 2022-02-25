@@ -20,6 +20,7 @@ function CartItemQuantity({guitarId, count, onClick, onDeleteClick}: Props):JSX.
 
   const handleDecreaseClick = () => {
     if (count === Count.Min) {
+      document.body.style.overflow = 'hidden';
       onDeleteClick(true);
       onClick(guitar);
       return;
