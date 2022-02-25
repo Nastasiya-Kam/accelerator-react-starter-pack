@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, DEFAULT_PAGE, ratingSize, ReplacedPart, ScreenTab } from '../../../const';
@@ -35,6 +35,14 @@ function GuitarScreen({id}: Props): JSX.Element {
   const [isCartAddOpened, setIsCartAddOpened] = useState<boolean>(false);
   const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current !== null) {
+      window.scrollTo(0, containerRef.current.offsetTop);
+    }
+  }, []);
+
   useEffect(() => {
     dispatch(fetchGuitarAction(id));
   }, [id, dispatch]);
@@ -61,7 +69,7 @@ function GuitarScreen({id}: Props): JSX.Element {
           (!isLoading && guitar)
             &&
             <div className="container">
-              <h1 className="page-content__title title title--bigger" data-testid="main-title">{guitar.name}</h1>
+              <h1 className="page-content__title title title--bigger" data-testid="main-title" ref={containerRef}>{guitar.name}</h1>
               <ul className="breadcrumbs page-content__breadcrumbs">
                 <li className="breadcrumbs__item"><Link className="link" to={AppRoute.Root}>Главная</Link></li>
                 <li className="breadcrumbs__item"><Link className="link" to={AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`)}>Каталог</Link></li>
