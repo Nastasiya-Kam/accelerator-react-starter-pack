@@ -6,23 +6,37 @@ import { getCartSumm } from '../../utils/cart';
 import { NameSpace } from '../root-reducer';
 
 const getGuitarsInCart = (state: State): GuitarsCart => state[NameSpace.Cart].guitarsInCart;
-const getCountGuitarsInCart = (state: State): number => state[NameSpace.Cart].guitarsInCart.reduce((previousValue, currentValue) => previousValue + currentValue.count, 0);
-const getSummOfGuitarsInCart = (state: State): number => getCartSumm(state[NameSpace.Cart].guitarsInCart);
 const getDiscount = (state: State): number => state[NameSpace.Cart].discount;
 const getCurrentCoupon = (state: State): string => state[NameSpace.Cart].coupon;
 
-const getGuitarById = (id: GuitarId) => (state: State): GuitarCart => {
-  const index = state[NameSpace.Cart].guitarsInCart.findIndex((element) => element.id === id);
-  return state[NameSpace.Cart].guitarsInCart[index];
-};
+const getCountGuitarsInCart = createSelector(
+  [ getGuitarsInCart ],
+  (guitarsInCart): number => guitarsInCart.reduce((previousValue, currentValue) => previousValue + currentValue.count, 0),
+);
 
-const getCurrentGuitarCount = (id: GuitarId) => (state: State): number => {
-  const index = state[NameSpace.Cart].guitarsInCart.findIndex((element) => element.id === id);
-  if (index === -1) {
-    return 0;
-  }
-  return state[NameSpace.Cart].guitarsInCart[index].count;
-};
+const getSummOfGuitarsInCart = createSelector(
+  [ getGuitarsInCart ],
+  (guitarsInCart): number => getCartSumm(guitarsInCart),
+);
+
+const getGuitarById  = (id: GuitarId) => createSelector(
+  [ getGuitarsInCart ],
+  (guitarsInCart): GuitarCart => {
+    const index = guitarsInCart.findIndex((element) => element.id === id);
+    return guitarsInCart[index];
+  },
+);
+
+const getCurrentGuitarCount  = (id: GuitarId) => createSelector(
+  [ getGuitarsInCart ],
+  (guitarsInCart): number => {
+    const index = guitarsInCart.findIndex((element) => element.id === id);
+    if (index === -1) {
+      return 0;
+    }
+    return guitarsInCart[index].count;
+  },
+);
 
 const getDiscountSumm = createSelector(
   [ getSummOfGuitarsInCart, getDiscount ],
@@ -31,9 +45,9 @@ const getDiscountSumm = createSelector(
 
 export {
   getGuitarsInCart,
+  getCurrentCoupon,
   getCountGuitarsInCart,
   getSummOfGuitarsInCart,
-  getCurrentCoupon,
   getGuitarById,
   getCurrentGuitarCount,
   getDiscountSumm

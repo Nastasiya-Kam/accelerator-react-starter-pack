@@ -1,25 +1,7 @@
+import { createSelector } from 'reselect';
 import { State } from '../../types/state';
 import { getSortingTemplate, getUserFilter } from '../../utils/filter';
 import { NameSpace } from '../root-reducer';
-
-const getFilter = (state: State): string => getUserFilter(
-  state[NameSpace.User].minPrice,
-  state[NameSpace.User].maxPrice,
-  state[NameSpace.User].types,
-  state[NameSpace.User].strings,
-  getSortingTemplate(state[NameSpace.User].sorting, state[NameSpace.User].order),
-);
-
-const checkIsFilter = (state: State): boolean => {
-  if (state[NameSpace.User].minPrice === ''
-    && state[NameSpace.User].maxPrice === ''
-    && state[NameSpace.User].types.length === 0
-    && state[NameSpace.User].strings.length === 0) {
-    return false;
-  }
-
-  return true;
-};
 
 const getMinPrice = (state: State): string => state[NameSpace.User].minPrice;
 const getMaxPrice = (state: State): string => state[NameSpace.User].maxPrice;
@@ -33,8 +15,23 @@ const getFirstPage = (state: State): number => state[NameSpace.User].firstPage;
 const getLastPage = (state: State): number => state[NameSpace.User].lastPage;
 const getSearchingGuitars = (state: State) => state[NameSpace.User].searchingGuitars;
 
+const getFilter = createSelector(
+  [ getMinPrice, getMaxPrice, getFilterTypes, getFilterStrings, getSorting, getOrder ],
+  (minPrice, maxPrice, types, strings, sorting, order): string => getUserFilter(minPrice, maxPrice, types, strings, getSortingTemplate(sorting, order)),
+);
+
+const checkIsFilter = createSelector(
+  [ getMinPrice, getMaxPrice, getFilterTypes, getFilterStrings ],
+  (minPrice, maxPrice, types, strings): boolean => {
+    if (minPrice === '' && maxPrice === '' && types.length === 0 && strings.length === 0) {
+      return false;
+    }
+
+    return true;
+  },
+);
+
 export {
-  getFilter,
   getMinPrice,
   getMaxPrice,
   getFilterTypes,
@@ -42,9 +39,10 @@ export {
   getSorting,
   getOrder,
   getCurrentPage,
-  checkIsFilter,
   getCurrentPageCount,
   getFirstPage,
   getLastPage,
-  getSearchingGuitars
+  getSearchingGuitars,
+  getFilter,
+  checkIsFilter
 };

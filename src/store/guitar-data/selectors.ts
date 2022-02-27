@@ -6,24 +6,37 @@ import { sort } from '../../utils/utils';
 import { NameSpace } from '../root-reducer';
 
 const getGuitar = (state: State): Guitar | null => state[NameSpace.Guitar].guitar;
-const getGuitarName = (state: State): string | undefined => state[NameSpace.Guitar].guitar?.name;
 const getGuitarLoadingStatus = (state: State): boolean => state[NameSpace.Guitar].isGuitarLoading;
 const getGuitarLoadingDataStatus = (state: State): boolean => state[NameSpace.Guitar].isDataLoaded;
 const getGuitarLoadingError = (state: State): boolean => state[NameSpace.Guitar].isGuitarLoadingError;
-const getComments = (state: State): Comments | undefined => state[NameSpace.Guitar].guitar?.comments;
+
+const getGuitarName  = createSelector(
+  [ getGuitar ],
+  (guitar): string | undefined => guitar?.name,
+);
+
+const getComments  = createSelector(
+  [ getGuitar ],
+  (guitar): Comments | undefined => guitar?.comments,
+);
+
+const getCommentsCount  = createSelector(
+  [ getGuitar ],
+  (guitar): number | undefined => guitar?.comments.length,
+);
+
 const getCommentsSortedByDate  = createSelector(
   [ getComments ],
   (comments) => comments?.slice().sort(sort),
 );
-const getCommentsCount = (state: State): number | undefined => state[NameSpace.Guitar].guitar?.comments.length;
 
 export {
   getGuitar,
-  getGuitarName,
   getGuitarLoadingStatus,
   getGuitarLoadingDataStatus,
   getGuitarLoadingError,
+  getGuitarName,
   getComments,
-  getCommentsSortedByDate,
-  getCommentsCount
+  getCommentsCount,
+  getCommentsSortedByDate
 };
