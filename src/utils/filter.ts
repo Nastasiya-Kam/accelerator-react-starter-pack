@@ -1,4 +1,4 @@
-import { Filter, Param } from '../const';
+import { Filter, Param, STRINGS, TYPE_GUITAR_NAMES } from '../const';
 import { getIndex } from './utils';
 
 const getCurrentItemsRange = (page: number): string => {
@@ -43,9 +43,14 @@ const collectItems = (currentItems: string[], item: string): string[] => {
   return [...currentItems, item];
 };
 
+const getCurrentTypes = (types: string[]): boolean[] => TYPE_GUITAR_NAMES.map((name) => types.includes(name));
+const getCurrentStrings = (strings: string[]): boolean[] => STRINGS.map((stringCount) => strings.includes(String(stringCount)));
+
 export {
   getCurrentItemsRange,
   getUserFilter,
   getSortingTemplate,
-  collectItems
+  collectItems,
+  getCurrentTypes,
+  getCurrentStrings
 };

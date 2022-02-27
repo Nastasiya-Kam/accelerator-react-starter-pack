@@ -2,10 +2,10 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import browserHistory from '../../browser-history';
-import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, STRINGS_COUNT, TYPES_COUNT, TYPE_GUITARS, Filter as FilterParams, TYPE_GUITAR_NAMES } from '../../const';
+import { AppRoute, DEFAULT_PAGE, PaginationPage, ReplacedPart, STRINGS, TYPE_GUITARS, Filter as FilterParams, TYPE_GUITAR_NAMES } from '../../const';
 import { setCurrentPage, setFilterStrings, setFilterTypes, setFirstPage, setLastPage } from '../../store/action';
 import { getFilterTypes, getFilterStrings } from '../../store/user-data/selectors';
-import { collectItems } from '../../utils/filter';
+import { collectItems, getCurrentStrings, getCurrentTypes } from '../../utils/filter';
 import FilterPrice from '../filter-price/filter-price';
 
 function Filter():JSX.Element {
@@ -15,12 +15,18 @@ function Filter():JSX.Element {
   const userTypes = useSelector(getFilterTypes);
   const userStrings = useSelector(getFilterStrings);
 
-  const [types, setTypes] = useState<boolean[]>(new Array(TYPES_COUNT).fill(false));
-  const [strings, setStrings] = useState<boolean[]>(new Array(STRINGS_COUNT).fill(false));
+  const [types, setTypes] = useState<boolean[]>(getCurrentTypes(userTypes));
+  const [strings, setStrings] = useState<boolean[]>(getCurrentStrings(userStrings));
   const [availiableStrings, setAvailableStrings] = useState<number[]>(STRINGS);
   const [availiableTypes, setAvailableTypes] = useState<string[]>(TYPE_GUITAR_NAMES);
 
   const dispatch = useDispatch();
+
+  //* ФИЛЬТР ТИПОВ *//
+
+  useEffect(() => {
+    setTypes(getCurrentTypes(userTypes));
+  }, [ userTypes ]);
 
   useEffect(() => {
     if (!types.some((type) => type)) {
@@ -38,6 +44,19 @@ function Filter():JSX.Element {
 
     setAvailableStrings(includingStrings);
   }, [types]);
+
+  const handleTypeChange = (items: string[]) => {
+    searchParams.delete(FilterParams.Type);
+    items.map((item: string) => searchParams.append(FilterParams.Type, item));
+
+    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${searchParams.toString()}`));
+  };
+
+  //* ФИЛЬТР СТРУН *//
+
+  useEffect(() => {
+    setStrings(getCurrentStrings(userStrings));
+  }, [ userStrings ]);
 
   useEffect(() => {
     if (!strings.some((string) => string)) {
@@ -60,19 +79,14 @@ function Filter():JSX.Element {
     setAvailableTypes(includingTypes);
   }, [strings]);
 
-  const handleTypeChange = (items: string[]) => {
-    searchParams.delete(FilterParams.Type);
-    items.map((item: string) => searchParams.append(FilterParams.Type, item));
-
-    browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${searchParams.toString()}`));
-  };
-
   const handleStringCountChange = (items: string[]) => {
     searchParams.delete(FilterParams.StringCount);
     items.map((item: string) => searchParams.append(FilterParams.StringCount, item));
 
     browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}/?${searchParams.toString()}`));
   };
+
+  //* ОБЩЕЕ *//
 
   const handleInputChange = () => {
     dispatch(setFirstPage(PaginationPage.First));
