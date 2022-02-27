@@ -1,7 +1,8 @@
 import FocusTrap from 'focus-trap-react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import browserHistory from '../../../browser-history';
-import { AppRoute, DEFAULT_PAGE, KeyCode, ReplacedPart, UserActivity } from '../../../const';
+import { AppRoute, DEFAULT_PAGE, ReplacedPart, UserActivity } from '../../../const';
+import { useEscKeyDown } from '../../../hooks/use-esc-key-down';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
 import ButtonCross from '../../button-cross/button-cross';
 
@@ -14,6 +15,7 @@ function SuccessAddPopup({onClick, isCatalogPage}: Props):JSX.Element {
   const wrapperRef = useRef(null);
 
   useOutsideClicker(wrapperRef, onClick);
+  useEscKeyDown(onClick);
 
   const handleCloseClick = () => {
     onClick(false);
@@ -33,18 +35,6 @@ function SuccessAddPopup({onClick, isCatalogPage}: Props):JSX.Element {
       browserHistory.push(AppRoute.CatalogPage.replace(ReplacedPart.Page, `page_${DEFAULT_PAGE}`));
     }
   };
-
-  const handleEscKeyDown = useCallback((evt) => {
-    if(evt.keyCode === KeyCode.Escape) {
-      document.body.style.overflow = UserActivity.Scroll;
-      onClick(false);
-    }
-  }, [ onClick ]);
-
-  useEffect(() => {
-    document.addEventListener(UserActivity.Keydown, handleEscKeyDown);
-    return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
-  }, [ handleEscKeyDown ]);
 
   return (
     <FocusTrap>

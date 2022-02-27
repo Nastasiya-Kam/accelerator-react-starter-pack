@@ -1,6 +1,6 @@
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { KeyCode, NAMING_RATINGS, UserActivity, UserForm } from '../../../const';
+import { NAMING_RATINGS, UserForm } from '../../../const';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
 import { postCommentAction } from '../../../store/api-actions';
 import { getGuitarName } from '../../../store/guitar-data/selectors';
@@ -9,6 +9,7 @@ import { GuitarId } from '../../../types/guitars';
 import ButtonCross from '../../button-cross/button-cross';
 import FocusTrap from 'focus-trap-react';
 import { checkValidRating, checkValidText } from '../../../utils/utils';
+import { useEscKeyDown } from '../../../hooks/use-esc-key-down';
 
 type Props = {
   guitarId: GuitarId,
@@ -39,16 +40,12 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
 
   const wrapperRef = useRef(null);
 
+  useOutsideClicker(wrapperRef, onClick);
+  useEscKeyDown(onClick);
+
   const handleCloseClick = () => {
     onClick(false);
   };
-
-  const handleEscKeyDown = useCallback((evt) => {
-    if(evt.keyCode === KeyCode.Escape) {
-      document.body.style.overflow = UserActivity.Scroll;
-      onClick(false);
-    }
-  }, [ onClick ]);
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const userRating = Number(evt.target.value);
@@ -119,19 +116,12 @@ function ReviewPopup({guitarId, onClick, isSuccess}: Props): JSX.Element {
   };
 
   useEffect(() => {
-    document.addEventListener(UserActivity.Keydown, handleEscKeyDown);
-    return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
-  }, [ handleEscKeyDown ]);
-
-  useEffect(() => {
     if (isValidName && isValidComment && isValidAdvantage && isValidDisadvantage && isValidRating) {
       setFormValid(true);
     } else {
       setFormValid(false);
     }
   }, [isValidName, isValidComment, isValidAdvantage, isValidDisadvantage, isValidRating]);
-
-  useOutsideClicker(wrapperRef, onClick);
 
   return (
     <FocusTrap>

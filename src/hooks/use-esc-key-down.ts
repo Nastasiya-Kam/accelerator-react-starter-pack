@@ -1,13 +1,15 @@
 import { useCallback, useEffect } from 'react';
 import { KeyCode, UserActivity } from '../const';
 
-const useEscKeyDown = (onClick: (a: boolean) => void) => {
+const useEscKeyDown = (onClick: (a: boolean) => void, isScrollBlocked = true) => {
   const handleEscKeyDown = useCallback((evt) => {
     if(evt.keyCode === KeyCode.Escape) {
-      document.body.style.overflow = UserActivity.Scroll;
+      if (isScrollBlocked) {
+        document.body.style.overflow = UserActivity.Scroll;
+      }
       onClick(false);
     }
-  }, [ onClick ]);
+  }, [ onClick, isScrollBlocked ]);
 
   useEffect(() => {
     document.addEventListener(UserActivity.Keydown, handleEscKeyDown);

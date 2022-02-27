@@ -1,9 +1,10 @@
-import { FormEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import browserHistory from '../../browser-history';
 import { AppRoute, DEFAULT_PAGE, EMPTY_CART, HEADER_MENUS, KeyCode, ReplacedPart, UserActivity } from '../../const';
+import { useEscKeyDown } from '../../hooks/use-esc-key-down';
 import { fetchSearchingAction } from '../../store/api-actions';
 import { getCountGuitarsInCart } from '../../store/cart-data/selectors';
 import { getSearchingGuitars } from '../../store/user-data/selectors';
@@ -22,6 +23,8 @@ function Header({isMain}: Props):JSX.Element {
 
   const dispatch = useDispatch();
 
+  useEscKeyDown(setIsSearching, false);
+
   const handleSearchChange = (evt: FormEvent<HTMLInputElement>) => {
     setSearch(evt.currentTarget.value);
     setIsSearching(true);
@@ -33,17 +36,6 @@ function Header({isMain}: Props):JSX.Element {
       browserHistory.push(AppRoute.GuitarPage.replace(ReplacedPart.GuitarId, String(id)));
     }
   };
-
-  const handleEscKeyDown = useCallback((evt) => {
-    if(evt.keyCode === KeyCode.Escape) {
-      setIsSearching(false);
-    }
-  }, [ setIsSearching ]);
-
-  useEffect(() => {
-    document.addEventListener(UserActivity.Keydown, handleEscKeyDown);
-    return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
-  }, [ handleEscKeyDown ]);
 
   useEffect(() => {
     const handleOutsideClick = (evt: any) => {
