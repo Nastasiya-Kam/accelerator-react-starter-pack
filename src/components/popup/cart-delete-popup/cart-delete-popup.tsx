@@ -1,7 +1,8 @@
 import FocusTrap from 'focus-trap-react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { KeyCode, UserActivity } from '../../../const';
+import { UserActivity } from '../../../const';
+import { useEscKeyDown } from '../../../hooks/use-esc-key-down';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
 import { deleteGuitar } from '../../../store/action';
 import { Guitar, GuitarCart } from '../../../types/guitars';
@@ -17,6 +18,9 @@ function CartDeletePopup({guitar, onClick}: Props):JSX.Element {
   const wrapperRef = useRef(null);
   const dispatch = useDispatch();
 
+  useOutsideClicker(wrapperRef, onClick);
+  useEscKeyDown(onClick);
+
   const handleDeleteClick = () => {
     dispatch(deleteGuitar(guitar.id));
     document.body.style.overflow = UserActivity.Scroll;
@@ -27,20 +31,6 @@ function CartDeletePopup({guitar, onClick}: Props):JSX.Element {
     document.body.style.overflow = UserActivity.Scroll;
     onClick(false);
   };
-
-  const handleEscKeyDown = useCallback((evt) => {
-    if(evt.keyCode === KeyCode.Escape) {
-      document.body.style.overflow = UserActivity.Scroll;
-      onClick(false);
-    }
-  }, [ onClick ]);
-
-  useEffect(() => {
-    document.addEventListener(UserActivity.Keydown, handleEscKeyDown);
-    return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
-  }, [ handleEscKeyDown ]);
-
-  useOutsideClicker(wrapperRef, onClick);
 
   return (
     <FocusTrap>

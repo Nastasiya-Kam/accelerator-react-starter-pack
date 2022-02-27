@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { KeyCode, UserActivity } from '../../../const';
+import { useRef } from 'react';
 import { useOutsideClicker } from '../../../hooks/use-outside-clicker';
 import ButtonCross from '../../button-cross/button-cross';
 import FocusTrap from 'focus-trap-react';
+import { useEscKeyDown } from '../../../hooks/use-esc-key-down';
 
 type Props = {
   onClick: (a: boolean) => void,
@@ -12,22 +12,11 @@ function SuccessReviewPopup({onClick}: Props): JSX.Element {
   const wrapperRef = useRef(null);
 
   useOutsideClicker(wrapperRef, onClick);
+  useEscKeyDown(onClick);
 
   const handleCloseClick = () => {
     onClick(false);
   };
-
-  const handleEscKeyDown = useCallback((evt) => {
-    if(evt.keyCode === KeyCode.Escape) {
-      document.body.style.overflow = UserActivity.Scroll;
-      onClick(false);
-    }
-  }, [ onClick ]);
-
-  useEffect(() => {
-    document.addEventListener(UserActivity.Keydown, handleEscKeyDown);
-    return () => document.removeEventListener(UserActivity.Keydown, handleEscKeyDown);
-  }, [ handleEscKeyDown ]);
 
   return (
     <FocusTrap>
